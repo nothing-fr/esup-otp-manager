@@ -1,0 +1,90 @@
+#administration.content-unit(hidden='true')
+  #google_authenticator_method.method(hidden='true')
+    h1.page-header Code temporaire (TOTP)
+    .row
+      p
+        | Activer cette méthode d'authentification : oui
+        span#google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
+        |  non
+        span#google_authenticator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
+      p
+        | Activer le transport SMS : oui
+        span#google_authenticator_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#google_authenticator_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+      p
+        | Activer le transport Mail : oui
+        span#google_authenticator_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#google_authenticator_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+  #simple_generator_method.method(hidden='true')
+    h1.page-header Simple Code
+    .row
+      p
+        | Activer cette méthode d'authentification : oui
+        span#simple_generator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
+        |  non
+        span#simple_generator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
+      p
+        | Activer le transport SMS : oui
+        span#simple_generator_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#simple_generator_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+      p
+        | Activer le transport Mail : oui
+        span#simple_generator_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#simple_generator_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+  #bypass_method.method(hidden='true')
+    h1.page-header Bypass
+    .row
+      p
+        | Activer cette méthode d'authentification : oui
+        span#bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
+        |  non
+        span#bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
+      p
+        | Activer le transport SMS : oui
+        span#bypass_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#bypass_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+      p
+        | Activer le transport Mail : oui
+        span#bypass_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#bypass_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+  #matrix_method.method(hidden='true')
+    h1.page-header Grille
+    .row
+      p
+        | Activer cette méthode d'authentification : oui
+        span#matrix_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
+        |  non
+        span#matrix_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
+      p
+        | Activer le transport SMS : oui
+        span#matrix_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#matrix_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+      p
+        | Activer le transport Mail : oui
+        span#google_authenticator_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        |  non
+        span#google_authenticator_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+#users.content-unit(hidden='true')
+  | Nom d'utilisateur:
+  input#userInput(type='text')
+  button(onclick='get_user();') Valider
+  #userInfo(hidden='true')
+    #google_authenticator_admin
+      h1.page-header Code Temporaire
+    #simple_generator_admin
+      h1.page-header Simple Code
+    #bypass_admin
+      h1.page-header Bypass
+      button(onclick='') Générer nouveaux codes
+      button(onclick='') Supprimer les codes
+    #matrix_admin
+      h1.page-header Grille
+      button(onclick='') Générer nouvelle grille
+      button(onclick='') Supprimer la grille

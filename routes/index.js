@@ -22,6 +22,10 @@ function routing() {
         res.render('dashboard', { title: 'Esup Otp Manager : Preferences' });
     });
 
+    router.get('/admin', function(req, res) {
+        res.render('adminDashboard', { title: 'Esup Otp Manager : Admin' });
+    });
+
     router.get('/login', function(req, res, next) {
         passport.authenticate('cas', function(err, user, info) {
             if (err) {
@@ -40,7 +44,6 @@ function routing() {
                     console.log(err);
                     return next(err);
                 }
-                console.log(req.session);
                 req.session.messages = '';
                 return res.redirect('/preferences');
             });

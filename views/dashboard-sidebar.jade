@@ -1,11 +1,9 @@
-.col-sm-3.col-md-2.sidebar
-    ul.nav.nav-sidebar
-        label Méthodes
-        li.active
-            a(href='#') Code temporaire
-        li
-            a(href='#') Simple code
-        li
-            a(href='#') Bypass
-        li
-            a(href='#') Matrix
+ul.nav.nav-sidebar
+  li#google_authenticator_method_li(onclick='navClick(this);')
+    a Code temporaire
+  li#simple_generator_method_li(onclick='navClick(this);')
+    a Simple code
+  li#bypass_method_li(onclick='navClick(this);')
+    a Bypass
+  li#matrix_method_li(onclick='navClick(this);')
+    a Matrix

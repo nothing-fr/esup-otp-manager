@@ -1,11 +1,54 @@
-.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-	h1.page-header Code temporaire (TOTP)
-	.row
-		p
-			| Activer cette méthode d'authentification : oui 
-			input(type='radio', name='activate', checked='')
-			|  non 
-			input(type='radio', name='activate')
-		h2 QrCode
-		p Scannez ce code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone)
-		img(src='http://www.toolzik.com/templates/toolzik/images/add-on/qrcode_img_toolzik_code_zoom.png', alt="qrcode")
+#google_authenticator_method.content-unit.method(hidden='true')
+  h1.page-header Code temporaire (TOTP)
+  .row
+    p
+      | Activer cette méthode d'authentification : oui
+      span#google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
+      |  non
+      span#google_authenticator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+    h2 QrCode
+    p
+      | Appuyez sur le bouton, puis scannez le code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone) ou entrez le code directement dans l'application
+    button(onclick="$('#qrCode').toggle()") QrCode
+    #qrCode(hidden='true')
+      #secret
+#simple_generator_method.content-unit.method(hidden='true')
+  h1.page-header Simple Code
+  .row
+    p
+      | Activer cette méthode d'authentification : oui
+      span#simple_generator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
+      |  non
+      span#simple_generator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+#bypass_method.content-unit.method(hidden='true')
+  h1.page-header Bypass
+  .row
+    p
+      | Activer cette méthode d'authentification : oui
+      span#bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
+      |  non
+      span#bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+#matrix_method.content-unit.method(hidden='true')
+  h1.page-header Grille
+  .row
+    p
+      | Activer cette méthode d'authentification : oui
+      span#matrix_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
+      |  non
+      span#matrix_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+#transport_preference(hidden='true')
+  h1.page-header Transport
+  .row
+    | Sms:
+    label#sms_label
+    #change_sms_form(hidden='true')
+      input#sms_input(type='text')
+      button#change_sms_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
+    button#modify_sms_btn(onclick="$('#change_sms_form').show(); $('#'+this.id).hide();") Modifier
+    br
+    |  Mail:
+    label#mail_label
+    #change_mail_form(hidden='true')
+      input#mail_input(type='text')
+      button#change_mail_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
+    button#modify_mail_btn(onclick="$('#change_mail_form').show(); $('#'+this.id).hide();") Modifier

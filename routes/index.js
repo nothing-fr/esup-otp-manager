@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require(process.cwd() + '/controllers/mongoose');
+
+var properties = require(process.cwd() + '/properties/properties');
+
 var passport;
 
 var UserModel;
@@ -37,7 +40,7 @@ function routing() {
                     console.log(err);
                     return next(err);
                 }
-                console.log(user);
+                console.log(req.session);
                 req.session.messages = '';
                 return res.redirect('/preferences');
             });
@@ -65,11 +68,7 @@ module.exports = function(_passport) {
         });
     });
 
-    passport.use(new(require('passport-cas').Strategy)({
-        version: 'CAS1.0',
-        ssoBaseURL: 'https://cas-test.univ-paris1.fr/cas',
-        serverBaseURL: 'http://localhost:4000/'
-    }, function(login, done) {
+    passport.use(new(require('passport-cas').Strategy)(properties.esup.CAS, function(login, done) {
         UserModel.findOne({ uid: login }, function(err, user) {
             if (err) {
                 console.log(err);

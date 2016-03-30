@@ -1,10 +1,12 @@
 var express = require('express');
+var expressSession = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var properties = require(process.cwd() + '/properties/properties');
 
 var app = express();
 
@@ -20,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(expressSession({secret: properties.esup.session_secret_key}));
 app.use(passport.initialize());
 app.use(passport.session()); 
 var routes = require('./routes/index');

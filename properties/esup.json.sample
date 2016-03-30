@@ -1,0 +1,32 @@
+{
+    "port": XXXXXXXX,
+    "CAS": {
+        "version": "CAS1.0",
+        "ssoBaseURL": "https://XXXXX.fr/cas",
+        "serverBaseURL": "http://XXXXXX/"
+    },
+    "api_url": "mongodb",
+    "userDb": "ldap",
+    "ldap": {
+        "uri": "ldap://X.X.X.X",
+        "baseDn": "dc=univ,dc=fr",
+        "adminDn": "cn=admin,dc=univ,dc=fr",
+        "password": "changeit",
+        "transport": {
+            "mail": "mail",
+            "sms": "mobile"
+        }
+    },
+    "mysql": {
+        "host": "X.X.X.X",
+        "user": "xxxx",
+        "password": "changeit",
+        "database": "test",
+        "userTable": "User",
+        "transport": {
+            "mail": "mail",
+            "sms": "mobile"
+        }
+    },
+    "dev": {}
+}

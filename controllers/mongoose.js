@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 exports.initialize = function(callback) {
-    mongoose.connect('mongodb://localhost/test_otp', function(error) {
+    mongoose.connect('mongodb://localhost/test-otp', function(error) {
         if (error) {
             console.log(error);
         } else {
@@ -25,14 +25,56 @@ function initiatilize_user_model(mongoose) {
         },
         simple_generator: {
             code: String,
-            validity_time: Number
+            validity_time: Number,
+            active: {
+                type: Boolean,
+                default: false
+            },
+            transport: {
+                sms: {
+                    type: Boolean,
+                    default: false
+                },
+                mail: {
+                    type: Boolean,
+                    default: false
+                },
+            }
         },
         bypass: {
-            codes: Array
+            codes: Array,
+            active: {
+                type: Boolean,
+                default: false
+            },
+            transport: {
+                sms: {
+                    type: Boolean,
+                    default: false
+                },
+                mail: {
+                    type: Boolean,
+                    default: false
+                },
+            }
         },
         google_authenticator: {
             secret: Object,
-            window: Number
+            window: Number,
+            active: {
+                type: Boolean,
+                default: false
+            },
+            transport: {
+                sms: {
+                    type: Boolean,
+                    default: false
+                },
+                mail: {
+                    type: Boolean,
+                    default: false
+                },
+            }
         },
     });
 

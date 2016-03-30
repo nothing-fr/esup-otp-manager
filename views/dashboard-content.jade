@@ -1,3 +1,11 @@
 .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-	h1.page-header Google Authenticator
+	h1.page-header Code temporaire (TOTP)
 	.row
+		p
+			| Activer cette méthode d'authentification : oui 
+			input(type='radio', name='activate', checked='')
+			|  non 
+			input(type='radio', name='activate')
+		h2 QrCode
+		p Scannez ce code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone)
+		img(src='http://www.toolzik.com/templates/toolzik/images/add-on/qrcode_img_toolzik_code_zoom.png', alt="qrcode")

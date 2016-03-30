@@ -131,3 +131,11 @@ body {
     display: inline-block;
     border-radius: 50%;
 }
+
+.glyphicon:hover{
+    color: lightblue;
+}
+
+.glyphicon:active{
+    color: tomato;
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Esup Otp Manager : Préférences</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../public/stylesheets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="../public/javascripts/esup-otp-manager.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">Otp Manager</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Se déconnecter</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li id="google_authenticator_method_li" onclick="navClick(this);"><a>Code temporaire</a></li>
+                    <li id="simple_generator_method_li" onclick="navClick(this);"><a>Simple code</a></li>
+                    <li id="bypass_method_li" onclick="navClick(this);"><a>Bypass</a></li>
+                    <li id="matrix_method_li" onclick="navClick(this);"><a>Matrix</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div id="google_authenticator_method" class="content-unit method" hidden="true">
+                    <h1 class="page-header">Code temporaire (TOTP)</h1>
+                    <div class="row">
+                        <p>Activer cette méthode d'authentification : oui
+                            <span id="google_authenticator_activate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="activate_method(this);"></span> non
+                            <span id="google_authenticator_deactivate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="deactivate_method(this);"></span>
+                        </p>
+                        <h2>QrCode</h2>
+                        <p>Appuyez sur le bouton, puis scannez le code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone) ou entrez le code directement dans l'application</p>
+                        <button onclick="$('#qrCode').toggle()">QrCode</button>
+                        <div id="qrCode" hidden="true">
+                            <div id="secret"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="simple_generator_method" class="content-unit method" hidden="true">
+                    <h1 class="page-header">Simple Code</h1>
+                    <div class="row">
+                        <p>Activer cette méthode d'authentification : oui
+                            <span id="simple_generator_activate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="activate_method(this);"></span> non
+                            <span id="simple_generator_deactivate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="deactivate_method(this);"></span>
+                        </p>
+                    </div>
+                </div>
+                <div id="bypass_method" class="content-unit method" hidden="true">
+                    <h1 class="page-header">Bypass</h1>
+                    <div class="row">
+                        <p>Activer cette méthode d'authentification : oui
+                            <span id="bypass_activate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="activate_method(this);"></span> non
+                            <span id="bypass_deactivate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="deactivate_method(this);"></span>
+                        </p>
+                    </div>
+                </div>
+                <div id="matrix_method" class="content-unit method" hidden="true">
+                    <h1 class="page-header">Grille</h1>
+                    <div class="row">
+                        <p>Activer cette méthode d'authentification : oui
+                            <span id="matrix_activate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="activate_method(this);"></span> non
+                            <span id="matrix_deactivate" class="glyphicon glyphicon-unchecked" aria-hidden="true" onclick="deactivate_method(this);"></span>
+                        </p>
+                    </div>
+                </div>
+                <div id="transport_preference" hidden="true">
+                    <h1 class="page-header">Transport</h1>
+                    <div class="row">
+                        Sms:
+                        <label id='sms_label'></label>
+                        <div id='change_sms_form' hidden="true">
+                            <input type="text" id="sms_input">
+                            <button id='change_sms_btn' onclick="change_transport(this.id.split('_')[1]);">Valider</button>
+                        </div>
+                        <button id='modify_sms_btn' onclick="$('#change_sms_form').show(); $('#'+this.id).hide();">Modifier</button>
+                        <br> Mail:
+                        <label id='mail_label'></label>
+                        <div id='change_mail_form' hidden="true">
+                            <input type="text" id="mail_input">
+                            <button id='change_mail_btn' onclick="change_transport(this.id.split('_')[1]);">Valider</button>
+                        </div>
+                        <button id='modify_mail_btn' onclick="$('#change_mail_form').show(); $('#'+this.id).hide();">Modifier</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    init();
+    </script>
+</body>
+
+</html>

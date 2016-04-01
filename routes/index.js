@@ -5,8 +5,8 @@ var request = require('request');
 var properties = require(process.cwd() + '/properties/properties');
 
 var TwinBcrypt = require('twin-bcrypt');
-var hash = TwinBcrypt.hashSync(properties.esup.secret_salt, TwinBcrypt.genSalt(12));
-hash = hash.replace(/\//g, "%2F");
+var api_hash = TwinBcrypt.hashSync(properties.esup.secret_salt, TwinBcrypt.genSalt(12));
+api_hash = api_hash.replace(/\//g, "%2F");
 
 var passport;
 
@@ -38,7 +38,6 @@ function routing() {
             }
 
             if (!user) {
-                // req.session.messages = info.message;
                 console.log(info.message);
                 return res.redirect('/');
             }
@@ -61,35 +60,42 @@ function routing() {
 
     //API
     router.get('/api/available_transports', function(req, res) {
-        request({
-            'url': 'http://localhost:3000/available_transports/' +'/'+req.session.passport.user+'/'+  TwinBcrypt.hashSync(req.session.passport.user+properties.esup.salt, TwinBcrypt.genSalt(12)).replace(/\//g, "%2F")
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
+        var user_hash;
+        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(12), function(hash) {
+            user_hash = hash.replace(/\//g, "%2F");
+            request({
+                'url': 'http://localhost:3000/available_transports/' + '/' + req.session.passport.user + '/' + user_hash
+            }, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    res.send(body);
+                } else res.send({
+                    "code": "Error",
+                    "message": error
+                });
             });
-        });
+        })
     });
 
     router.get('/api/activate_methods', function(req, res) {
-        request({
-            'url': 'http://localhost:3000/activate_methods/'+req.session.passport.user+'/'+  TwinBcrypt.hashSync(req.session.passport.user+properties.esup.salt, TwinBcrypt.genSalt(12)).replace(/\//g, "%2F")
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
+        var user_hash;
+        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(12), function(hash) {
+            user_hash = hash.replace(/\//g, "%2F");
+            request({
+                'url': 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + user_hash
+            }, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    res.send(body);
+                } else res.send({
+                    "code": "Error",
+                    "message": error
+                });
             });
-        });
+        })
     });
 
     router.get('/api/methods', function(req, res) {
-        console.log('http://localhost:3000/methods/' +  hash);
         request({
-            'url': 'http://localhost:3000/methods/' +  hash
+            'url': 'http://localhost:3000/methods/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -102,7 +108,7 @@ function routing() {
 
     router.get('/api/generate/:method', function(req, res) {
         request({
-            'url': 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + hash
+            'url': 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -115,7 +121,7 @@ function routing() {
 
     router.get('/api/secret/:method', function(req, res) {
         request({
-            'url': 'http://localhost:3000/secret/' + req.params.method + '/' + req.session.passport.user + '/' + hash
+            'url': 'http://localhost:3000/secret/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -129,7 +135,7 @@ function routing() {
     router.put('/api/:method/activate', function(req, res) {
         request({
             'method': 'PUT',
-            'url': 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user + '/' + hash
+            'url': 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -143,7 +149,7 @@ function routing() {
     router.put('/api/:method/deactivate', function(req, res) {
         request({
             'method': 'PUT',
-            'url': 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user + '/' + hash
+            'url': 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -157,7 +163,7 @@ function routing() {
     router.put('/api/transport/:transport/:new_transport', function(req, res) {
         request({
             'method': 'PUT',
-            'url': 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user + '/' + req.params.new_transport + '/' + hash
+            'url': 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user + '/' + req.params.new_transport + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -170,7 +176,7 @@ function routing() {
 
     router.get('/api/admin/user/:uid', function(req, res) {
         request({
-            'url': 'http://localhost:3000/admin/user/' + req.params.uid + '/' + hash
+            'url': 'http://localhost:3000/admin/user/' + req.params.uid + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -184,7 +190,7 @@ function routing() {
     router.put('/api/admin/:method/activate', function(req, res) {
         request({
             'method': 'PUT',
-            'url': 'http://localhost:3000/admin/activate/' + req.params.method + '/' + hash
+            'url': 'http://localhost:3000/admin/activate/' + req.params.method + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -198,7 +204,7 @@ function routing() {
     router.put('/api/admin/:method/deactivate', function(req, res) {
         request({
             'method': 'PUT',
-            'url': 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + hash
+            'url': 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -212,7 +218,7 @@ function routing() {
     router.put('/api/admin/:method/:transport/activate', function(req, res) {
         request({
             'method': 'PUT',
-            'url': 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + hash
+            'url': 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);
@@ -226,7 +232,7 @@ function routing() {
     router.put('/api/admin/:method/:transport/deactivate', function(req, res) {
         request({
             'method': 'PUT',
-            'url': 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + hash
+            'url': 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + api_hash
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.send(body);

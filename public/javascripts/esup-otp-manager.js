@@ -34,7 +34,7 @@ function resetMethods() {
 function get_methods() {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://localhost:3000/methods', true);
+        req.open('GET', 'http://localhost:4000/api/methods', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -67,7 +67,7 @@ function get_methods() {
 function get_methods_admin() {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://localhost:3000/methods', true);
+        req.open('GET', 'http://localhost:4000/api/methods', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -117,7 +117,7 @@ function get_methods_admin() {
 function get_user_methods() {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://localhost:3000/activate_methods/' + uid, true);
+        req.open('GET', 'http://localhost:4000/api/activate_methods', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -147,7 +147,7 @@ function get_user_methods() {
 function get_user() {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://localhost:3000/admin/user/' + uid, true);
+        req.open('GET', 'http://localhost:4000/api/admin/user/' + uid, true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -170,7 +170,7 @@ function get_user() {
 function get_qrCode() {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://localhost:3000/secret/google_authenticator/' + uid, true);
+        req.open('GET', 'http://localhost:4000/api/secret/google_authenticator', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -195,7 +195,7 @@ function get_qrCode() {
 function get_transports() {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://localhost:3000/available_transports/' + uid, true);
+        req.open('GET', 'http://localhost:4000/api/available_transports', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -216,10 +216,11 @@ function get_transports() {
     }
 }
 
+
 function activate_method_admin(element) {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('PUT', 'http://localhost:3000/admin/activate/' + element.id.split('_activate')[0], true);
+        req.open('PUT', 'http://localhost:4000/api/admin/'+ element.id.split('_activate')[0]+'/activate' , true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -242,7 +243,7 @@ function activate_method_admin(element) {
 function deactivate_method_admin(element) {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('PUT', 'http://localhost:3000/admin/deactivate/' + element.id.split('_deactivate')[0], true);
+        req.open('PUT', 'http://localhost:4000/api/admin/' + element.id.split('_deactivate')[0] + '/deactivate', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -265,7 +266,7 @@ function deactivate_method_admin(element) {
 function activate_method_transport(element) {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('PUT', 'http://localhost:3000/admin/activate/' + element.id.split('_activate')[0] + '/' + element.id.split('_activate_')[1].split('_transport')[0], true);
+        req.open('PUT', 'http://localhost:4000/api/admin/' + element.id.split('_activate')[0] + '/' + element.id.split('_activate_')[1].split('_transport')[0]+'/activate', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -288,7 +289,7 @@ function activate_method_transport(element) {
 function deactivate_method_transport(element) {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('PUT', 'http://localhost:3000/admin/deactivate/' + element.id.split('_deactivate')[0] + '/' + element.id.split('_deactivate_')[1].split('_transport')[0], true);
+        req.open('PUT', 'http://localhost:4000/api/admin/' + element.id.split('_deactivate')[0] + '/' + element.id.split('_deactivate_')[1].split('_transport')[0]+'/deactivate', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -311,7 +312,7 @@ function deactivate_method_transport(element) {
 function activate_method(element) {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('PUT', 'http://localhost:3000/activate/' + element.id.split('_activate')[0] + '/' + uid, true);
+        req.open('PUT', 'http://localhost:4000/api/' + element.id.split('_activate')[0] + '/activate', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -334,7 +335,7 @@ function activate_method(element) {
 function deactivate_method(element) {
     if (!busy) {
         var req = new XMLHttpRequest();
-        req.open('PUT', 'http://localhost:3000/deactivate/' + element.id.split('_deactivate')[0] + '/' + uid, true);
+        req.open('PUT', 'http://localhost:4000/api/' + element.id.split('_deactivate')[0] + '/deactivate', true);
         req.onerror = function(e) {};
         req.onreadystatechange = function(aEvt) {
             if (req.readyState == 4) {
@@ -362,7 +363,7 @@ function change_transport(transport) {
     if (reg.test(new_transport)) {
         if (!busy) {
             var req = new XMLHttpRequest();
-            req.open('PUT', 'http://localhost:3000/transport/' + transport + '/' + uid + '/' + new_transport, true);
+            req.open('PUT', 'http://localhost:4000/api/transport/' + transport + '/' + new_transport, true);
             req.onerror = function(e) {};
             req.onreadystatechange = function(aEvt) {
                 if (req.readyState == 4) {

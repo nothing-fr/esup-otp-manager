@@ -61,7 +61,7 @@ function routing() {
     //API
     router.get('/api/available_transports', function(req, res) {
         var user_hash;
-        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(12), function(hash) {
+        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(4), function(hash) {
             user_hash = hash.replace(/\//g, "%2F");
             request({
                 'url': 'http://localhost:3000/available_transports/' + '/' + req.session.passport.user + '/' + user_hash
@@ -78,7 +78,7 @@ function routing() {
 
     router.get('/api/activate_methods', function(req, res) {
         var user_hash;
-        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(12), function(hash) {
+        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(4), function(hash) {
             user_hash = hash.replace(/\//g, "%2F");
             request({
                 'url': 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + user_hash

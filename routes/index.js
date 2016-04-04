@@ -16,6 +16,18 @@ mongoose.initialize(function() {
     UserModel = mongoose.UserModel;
 });
 
+function requesting(req, res, opts) {
+    request(opts, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.send(body);
+        } else res.send({
+            "code": "Error",
+            "message": error
+        });
+    });
+}
+
+
 
 function routing() {
     router.get('/', function(req, res) {
@@ -63,16 +75,9 @@ function routing() {
         var user_hash;
         TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(4), function(hash) {
             user_hash = hash.replace(/\//g, "%2F");
-            request({
-                'url': 'http://localhost:3000/available_transports/' + '/' + req.session.passport.user + '/' + user_hash
-            }, function(error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    res.send(body);
-                } else res.send({
-                    "code": "Error",
-                    "message": error
-                });
-            });
+            var opts = {};
+            opts.url = 'http://localhost:3000/available_transports/' + '/' + req.session.passport.user + '/' + user_hash;
+            requesting(req, res, opts);
         })
     });
 
@@ -80,167 +85,84 @@ function routing() {
         var user_hash;
         TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(4), function(hash) {
             user_hash = hash.replace(/\//g, "%2F");
-            request({
-                'url': 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + user_hash
-            }, function(error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    res.send(body);
-                } else res.send({
-                    "code": "Error",
-                    "message": error
-                });
-            });
+            var opts = {};
+            opts.url = 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + user_hash;
+            requesting(req, res, opts);
         })
     });
 
     router.get('/api/methods', function(req, res) {
-        request({
-            'url': 'http://localhost:3000/methods/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.url = 'http://localhost:3000/methods/' + api_hash
+        requesting(req, res, opts);
     });
 
     router.get('/api/generate/:method', function(req, res) {
-        request({
-            'url': 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.get('/api/secret/:method', function(req, res) {
-        request({
-            'url': 'http://localhost:3000/secret/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.url = 'http://localhost:3000/secret/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.put('/api/:method/activate', function(req, res) {
-        request({
-            'method': 'PUT',
-            'url': 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.put('/api/:method/deactivate', function(req, res) {
-        request({
-            'method': 'PUT',
-            'url': 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.put('/api/transport/:transport/:new_transport', function(req, res) {
-        request({
-            'method': 'PUT',
-            'url': 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user + '/' + req.params.new_transport + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user + '/' + req.params.new_transport + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.get('/api/admin/user/:uid', function(req, res) {
-        request({
-            'url': 'http://localhost:3000/admin/user/' + req.params.uid + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/admin/user/' + req.params.uid + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/activate', function(req, res) {
-        request({
-            'method': 'PUT',
-            'url': 'http://localhost:3000/admin/activate/' + req.params.method + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/deactivate', function(req, res) {
-        request({
-            'method': 'PUT',
-            'url': 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/:transport/activate', function(req, res) {
-        request({
-            'method': 'PUT',
-            'url': 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + api_hash;
+        requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/:transport/deactivate', function(req, res) {
-        request({
-            'method': 'PUT',
-            'url': 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + api_hash
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            } else res.send({
-                "code": "Error",
-                "message": error
-            });
-        });
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + api_hash;
+        requesting(req, res, opts);
     });
 }
 

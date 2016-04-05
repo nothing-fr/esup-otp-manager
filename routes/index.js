@@ -17,6 +17,8 @@ mongoose.initialize(function() {
 });
 
 function requesting(req, res, opts) {
+    console.log("requesting api");
+    console.log(opts.method +':'+ opts.url);
     request(opts, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             res.send(body);
@@ -132,7 +134,6 @@ function routing() {
 
     router.get('/api/admin/user/:uid', function(req, res) {
         var opts = {};
-        opts.method = 'PUT';
         opts.url = 'http://localhost:3000/admin/user/' + req.params.uid + '/' + api_hash;
         requesting(req, res, opts);
     });

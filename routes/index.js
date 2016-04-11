@@ -4,8 +4,8 @@ var mongoose = require(process.cwd() + '/controllers/mongoose');
 var request = require('request');
 var properties = require(process.cwd() + '/properties/properties');
 
-var TwinBcrypt = require('twin-bcrypt');
-var api_hash = TwinBcrypt.hashSync(properties.esup.secret_salt, TwinBcrypt.genSalt(12));
+
+var api_hash = "changeit";
 api_hash = api_hash.replace(/\//g, "%2F");
 
 var passport;
@@ -74,23 +74,19 @@ function routing() {
 
     //API
     router.get('/api/available_transports', function(req, res) {
-        var user_hash;
-        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(4), function(hash) {
-            user_hash = hash.replace(/\//g, "%2F");
-            var opts = {};
-            opts.url = 'http://localhost:3000/available_transports/' + '/' + req.session.passport.user + '/' + user_hash;
-            requesting(req, res, opts);
-        })
+        var user_hash = 'changeit';
+        user_hash = hash.replace(/\//g, "%2F");
+        var opts = {};
+        opts.url = 'http://localhost:3000/available_transports/' + '/' + req.session.passport.user + '/' + user_hash;
+        requesting(req, res, opts);
     });
 
     router.get('/api/activate_methods', function(req, res) {
-        var user_hash;
-        TwinBcrypt.hash(req.session.passport.user + properties.esup.salt, TwinBcrypt.genSalt(4), function(hash) {
-            user_hash = hash.replace(/\//g, "%2F");
-            var opts = {};
-            opts.url = 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + user_hash;
-            requesting(req, res, opts);
-        })
+        var user_hash = 'changeit';
+        user_hash = hash.replace(/\//g, "%2F");
+        var opts = {};
+        opts.url = 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + user_hash;
+        requesting(req, res, opts);
     });
 
     router.get('/api/methods', function(req, res) {

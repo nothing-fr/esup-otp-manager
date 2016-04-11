@@ -71,18 +71,14 @@ function routing() {
 
     //API
     router.get('/api/available_transports', function(req, res) {
-        var user_hash = 'changeit';
-        user_hash = user_hash.replace(/\//g, "%2F");
         var opts = {};
-        opts.url = 'http://localhost:3000/available_transports/' + req.session.passport.user + '/' + user_hash;
+        opts.url = 'http://localhost:3000/available_transports/' + req.session.passport.user + '/' + utils.get_hash(req.session.passport.user);
         requesting(req, res, opts);
     });
 
     router.get('/api/activate_methods', function(req, res) {
-        var user_hash = 'changeit';
-        user_hash = user_hash.replace(/\//g, "%2F");
         var opts = {};
-        opts.url = 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + user_hash;
+        opts.url = 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + utils.get_hash(req.session.passport.user);
         requesting(req, res, opts);
     });
 

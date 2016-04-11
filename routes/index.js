@@ -26,18 +26,46 @@ function requesting(req, res, opts) {
     });
 }
 
+function isAuthenticated(req, res) {
+    if (req.session.passport) {
+        if (req.session.passport.user) {
+            return true;
+        }
+    }
+    return false;
+}
 
+function isUser(req, res, next) {
+    if (isAuthenticated) return next();
+    res.redirect('/login');
+}
+
+function isManager(req, res, next) {
+    if (isAuthenticated) {
+        if (utils.is_manager(req.session.passport.user))
+            return next();
+    }
+    res.redirect('/login');
+}
+
+function isAdmin(req, res, next) {
+    if (isAuthenticated) {
+        if(utils.is_admin(req.session.passport.user))
+            return next();
+    }
+    res.redirect('/login');
+}
 
 function routing() {
     router.get('/', function(req, res) {
         res.render('index', { title: 'Esup Otp Manager' });
     });
 
-    router.get('/preferences', function(req, res) {
+    router.get('/preferences', isUser, function(req, res) {
         res.render('dashboard', { title: 'Esup Otp Manager : Preferences' });
     });
 
-    router.get('/admin', function(req, res) {
+    router.get('/admin', isAdmin, function(req, res) {
         res.render('adminDashboard', { title: 'Esup Otp Manager : Admin' });
     });
 

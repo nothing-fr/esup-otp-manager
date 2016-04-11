@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require(process.cwd() + '/controllers/mongoose');
 var request = require('request');
 var properties = require(process.cwd() + '/properties/properties');
-var speakeasy = require('speakeasy');
+var utils = require(process.cwd() + '/services/utils');
 
 var passport;
 
@@ -88,74 +88,74 @@ function routing() {
 
     router.get('/api/methods', function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/methods/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'})
+        opts.url = 'http://localhost:3000/methods/' + utils.get_api_password()
         requesting(req, res, opts);
     });
 
     router.get('/api/generate/:method', function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.get('/api/secret/:method', function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/secret/' + req.params.method + '/' + req.session.passport.user + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/secret/' + req.params.method + '/' + req.session.passport.user + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.put('/api/:method/activate', function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.put('/api/:method/deactivate', function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.put('/api/transport/:transport/:new_transport', function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user + '/' + req.params.new_transport + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user + '/' + req.params.new_transport + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.get('/api/admin/user/:uid', function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/admin/user/' + req.params.uid + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/admin/user/' + req.params.uid + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/activate', function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/deactivate', function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/:transport/activate', function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/:transport/deactivate', function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + speakeasy.totp({secret: properties.esup.api_secret.base32,encoding: 'base32'});
+        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + utils.get_api_password();
         requesting(req, res, opts);
     });
 }

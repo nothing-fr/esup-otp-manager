@@ -1,4 +1,4 @@
-uid="";
+uid = "";
 
 function init_admin() {
     get_methods_admin();
@@ -49,7 +49,7 @@ function request(opts, callback, next) {
 
 
 function get_methods() {
-    request({method: 'GET', url: 'http://localhost:4000/api/methods'}, function(response) {
+    request({ method: 'GET', url: 'http://localhost:4000/api/methods' }, function(response) {
         if (response.code == "Ok") {
             $('.method').each(function() {
                 if (!response.methods[this.id.split('_method')[0]] || !response.methods[this.id.split('_method')[0]].activate) {
@@ -126,32 +126,46 @@ function get_user_methods() {
 function get_user() {
     if (document.getElementById('userInput').value != '') {
         uid = document.getElementById('userInput').value;
-        request({ method: 'GET', url: 'http://localhost:4000/api/admin/user/' +  uid}, function(response) {
+        request({ method: 'GET', url: 'http://localhost:4000/api/admin/user/' + uid }, function(response) {
             if (response.code == "Ok") {
                 show_user(response.user);
                 $('#userInfo').show();
             } else {
                 console.log(response.message);
-                uid="";
+                uid = "";
                 $('#userInfo').hide();
             }
         });
     }
 }
 
-function show_user(user){
-    if(user.google_authenticator)show_google_authenticator_infos(user.google_authenticator);
+function show_user(user) {
+    if (user.google_authenticator) show_google_authenticator_infos(user.google_authenticator);
     else $("#google_authenticator_admin").hide();
-    if(user.simple_generator)show_simple_generator_infos(user.simple_generator);
+    if (user.simple_generator) show_simple_generator_infos(user.simple_generator);
     else $("#simple_generator_admin").hide();
-    if(user.bypass)show_bypass_infos(user.bypass);
+    if (user.bypass) show_bypass_infos(user.bypass);
     else $("#bypass_admin").hide();
 }
 
-function show_bypass_infos(data){
-    $("#available_code").html("Code restants : "+JSON.stringify(data.available_code));
-    $("#used_code").html("Code utilisés : "+JSON.stringify(data.used_code));
-    $("#bypass_admin").show();
+function show_google_authenticator_infos(data) {
+    if (data.active) {
+        $("#google_authenticator_admin").show();
+    }
+}
+
+function show_simple_generator_infos(data) {
+    if (data.active) {
+        $("#simple_generator_admin").show();
+    }
+}
+
+function show_bypass_infos(data) {
+    if (data.active) {
+        $("#available_code").html("Code restants : " + JSON.stringify(data.available_code));
+        $("#used_code").html("Code utilisés : " + JSON.stringify(data.used_code));
+        $("#bypass_admin").show();
+    }
 }
 
 
@@ -263,10 +277,21 @@ function generate_bypass() {
     request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/bypass/' + uid }, function(response) {
         if (response.code == "Ok") {
             var codes = JSON.stringify(response.codes);
-            codes = codes.replace('["','<ul><li>');
-            codes = codes.replace(/","/g,'</li><li>');
-            codes = codes.replace('"]','</li></ul>');
-            $("#bypass_codes").html("Codes : "+codes);
+            codes = codes.replace('["', '<ul><li>');
+            codes = codes.replace(/","/g, '</li><li>');
+            codes = codes.replace('"]', '</li></ul>');
+            $("#bypass_codes").html("Codes : " + codes);
+        } else {
+            console.log(response.message);
+        }
+    });
+}
+
+function generate_google_authenticator() {
+    request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/google_authenticator/' + uid }, function(response) {
+        if (response.code == "Ok") {
+            $('#google_authenticator_qrCode').append(response.qrCode);
+            $('#google_authenticator_secret').append(response.message);
         } else {
             console.log(response.message);
         }

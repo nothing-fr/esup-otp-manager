@@ -1,4 +1,4 @@
-var uid = 'john';
+uid="";
 
 function init_admin() {
     get_methods_admin();
@@ -124,13 +124,34 @@ function get_user_methods() {
 
 
 function get_user() {
-    request({ method: 'GET', url: 'http://localhost:4000/api/admin/user/' + uid }, function(response) {
-        if (response.code == "Ok") {
-            $('#userInfo').show();
-        } else {
-            console.log(response.message);
-        }
-    });
+    if (document.getElementById('userInput').value != '') {
+        uid = document.getElementById('userInput').value;
+        request({ method: 'GET', url: 'http://localhost:4000/api/admin/user/' +  uid}, function(response) {
+            if (response.code == "Ok") {
+                show_user(response.user);
+                $('#userInfo').show();
+            } else {
+                console.log(response.message);
+                uid="";
+                $('#userInfo').hide();
+            }
+        });
+    }
+}
+
+function show_user(user){
+    if(user.google_authenticator)show_google_authenticator_infos(user.google_authenticator);
+    else $("#google_authenticator_admin").hide();
+    if(user.simple_generator)show_simple_generator_infos(user.simple_generator);
+    else $("#simple_generator_admin").hide();
+    if(user.bypass)show_bypass_infos(user.bypass);
+    else $("#bypass_admin").hide();
+}
+
+function show_bypass_infos(data){
+    $("#available_code").html("Code restants : "+JSON.stringify(data.available_code));
+    $("#used_code").html("Code utilisés : "+JSON.stringify(data.used_code));
+    $("#bypass_admin").show();
 }
 
 
@@ -238,6 +259,19 @@ function change_transport(transport) {
     }
 }
 
+function generate_bypass() {
+    request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/bypass/' + uid }, function(response) {
+        if (response.code == "Ok") {
+            var codes = JSON.stringify(response.codes);
+            codes = codes.replace('["','<ul><li>');
+            codes = codes.replace(/","/g,'</li><li>');
+            codes = codes.replace('"]','</li></ul>');
+            $("#bypass_codes").html("Codes : "+codes);
+        } else {
+            console.log(response.message);
+        }
+    });
+}
 
 function check_method(method) {
     $("#" + method + "_activate").addClass("glyphicon-check");

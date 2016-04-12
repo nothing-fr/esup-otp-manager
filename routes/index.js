@@ -40,18 +40,26 @@ function isUser(req, res, next) {
     res.redirect('/login');
 }
 
+function isManagerOrAdmin(req, res, next) {
+    if (isAuthenticated) {
+        if (utils.is_manager(req.session.passport.user) || utils.is_admin(req.session.passport.user))return next();
+        res.redirect('/forbidden');
+    }
+    res.redirect('/login');
+}
+
 function isManager(req, res, next) {
     if (isAuthenticated) {
-        if (utils.is_manager(req.session.passport.user))
-            return next();
+        if (utils.is_manager(req.session.passport.user))return next();
+        res.redirect('/forbidden');
     }
     res.redirect('/login');
 }
 
 function isAdmin(req, res, next) {
     if (isAuthenticated) {
-        if(utils.is_admin(req.session.passport.user))
-            return next();
+        if(utils.is_admin(req.session.passport.user))return next();
+        res.redirect('/forbidden');
     }
     res.redirect('/login');
 }
@@ -61,12 +69,20 @@ function routing() {
         res.render('index', { title: 'Esup Otp Manager' });
     });
 
+    router.get('/forbidden', isUser, function(req, res) {
+        res.render('forbidden', { title: 'Esup Otp Manager' });
+    });
+
     router.get('/preferences', isUser, function(req, res) {
         res.render('dashboard', { title: 'Esup Otp Manager : Preferences' });
     });
 
     router.get('/admin', isAdmin, function(req, res) {
         res.render('adminDashboard', { title: 'Esup Otp Manager : Admin' });
+    });
+
+    router.get('/manager', isManagerOrAdmin, function(req, res) {
+        res.render('managerDashboard', { title: 'Esup Otp Manager : Manager' });
     });
 
     router.get('/login', function(req, res, next) {
@@ -98,25 +114,25 @@ function routing() {
     });
 
     //API
-    router.get('/api/available_transports', function(req, res) {
+    router.get('/api/available_transports', isUser, function(req, res) {
         var opts = {};
         opts.url = 'http://localhost:3000/available_transports/' + req.session.passport.user + '/' + utils.get_hash(req.session.passport.user);
         requesting(req, res, opts);
     });
 
-    router.get('/api/activate_methods', function(req, res) {
+    router.get('/api/activate_methods', isUser, function(req, res) {
         var opts = {};
         opts.url = 'http://localhost:3000/activate_methods/' + req.session.passport.user + '/' + utils.get_hash(req.session.passport.user);
         requesting(req, res, opts);
     });
 
-    router.get('/api/methods', function(req, res) {
+    router.get('/api/methods', isUser, function(req, res) {
         var opts = {};
         opts.url = 'http://localhost:3000/methods/' + properties.esup.api_password
         requesting(req, res, opts);
     });
 
-    router.get('/api/generate/:method', function(req, res) {
+    router.get('/api/generate/:method', isUser, function(req, res) {
         var opts = {};
         opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + properties.esup.api_password;
         requesting(req, res, opts);
@@ -128,58 +144,72 @@ function routing() {
         requesting(req, res, opts);
     });
 
-    router.put('/api/:method/activate', function(req, res) {
+    router.put('/api/:method/activate', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
         opts.url = 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.put('/api/:method/deactivate', function(req, res) {
+    router.put('/api/:method/deactivate', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
         opts.url = 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.put('/api/transport/:transport/:new_transport', function(req, res) {
+    router.put('/api/transport/:transport/:new_transport', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
         opts.url = 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user + '/' + req.params.new_transport + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.get('/api/admin/user/:uid', function(req, res) {
+    router.post('/api/generate/:method', isUser, function(req, res) {
+        var opts = {};
+        opts.method = 'POST';
+        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user + '/' + properties.esup.api_password;
+        requesting(req, res, opts);
+    });
+
+    router.get('/api/admin/user/:uid', isAdmin, function(req, res) {
         var opts = {};
         opts.url = 'http://localhost:3000/admin/user/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.put('/api/admin/:method/activate', function(req, res) {
+    router.put('/api/admin/:method/activate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
         opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.put('/api/admin/:method/deactivate', function(req, res) {
+    router.put('/api/admin/:method/deactivate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
         opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.put('/api/admin/:method/:transport/activate', function(req, res) {
+    router.put('/api/admin/:method/:transport/activate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
         opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.put('/api/admin/:method/:transport/deactivate', function(req, res) {
+    router.put('/api/admin/:method/:transport/deactivate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
         opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + properties.esup.api_password;
+        requesting(req, res, opts);
+    });
+
+    router.post('/api/admin/generate/:method/:uid', isManagerOrAdmin, function(req, res) {
+        var opts = {};
+        opts.method = 'POST';
+        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 }

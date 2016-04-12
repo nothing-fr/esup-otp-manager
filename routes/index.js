@@ -16,6 +16,7 @@ mongoose.initialize(function() {
 function requesting(req, res, opts) {
     console.log("requesting api");
     console.log(opts.method +':'+ opts.url);
+    console.log(req.session.passport);
     request(opts, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             res.send(body);
@@ -40,17 +41,9 @@ function isUser(req, res, next) {
     res.redirect('/login');
 }
 
-function isManagerOrAdmin(req, res, next) {
-    if (isAuthenticated) {
-        if (utils.is_manager(req.session.passport.user) || utils.is_admin(req.session.passport.user))return next();
-        res.redirect('/forbidden');
-    }
-    res.redirect('/login');
-}
-
 function isManager(req, res, next) {
     if (isAuthenticated) {
-        if (utils.is_manager(req.session.passport.user))return next();
+        if (utils.is_manager(req.session.passport.user.uid) || utils.is_admin(req.session.passport.user.uid))return next();
         res.redirect('/forbidden');
     }
     res.redirect('/login');
@@ -58,7 +51,7 @@ function isManager(req, res, next) {
 
 function isAdmin(req, res, next) {
     if (isAuthenticated) {
-        if(utils.is_admin(req.session.passport.user))return next();
+        if(utils.is_admin(req.session.passport.user.uid))return next();
         res.redirect('/forbidden');
     }
     res.redirect('/login');
@@ -81,7 +74,7 @@ function routing() {
         res.render('adminDashboard', { title: 'Esup Otp Manager : Admin' });
     });
 
-    router.get('/manager', isManagerOrAdmin, function(req, res) {
+    router.get('/manager', isManager, function(req, res) {
         res.render('managerDashboard', { title: 'Esup Otp Manager : Manager' });
     });
 
@@ -206,7 +199,7 @@ function routing() {
         requesting(req, res, opts);
     });
 
-    router.post('/api/admin/generate/:method/:uid', isManagerOrAdmin, function(req, res) {
+    router.post('/api/admin/generate/:method/:uid', isManager, function(req, res) {
         var opts = {};
         opts.method = 'POST';
         opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
@@ -219,12 +212,17 @@ module.exports = function(_passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        done(null, user.uid);
+        var _user = {};
+        _user.uid=user.uid;
+        if(utils.is_admin(user.uid))_user.role="admin";
+        else if(utils.is_manager(user.uid))_user.role="manager";
+        else _user.role="user";
+        done(null, _user);
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(uid, done) {
-        UserModel.findOne({ uid: uid }, function(err, user) {
+    passport.deserializeUser(function(user, done) {
+        UserModel.findOne({ uid: user.uid }, function(err, user) {
             done(err, user);
         });
     });

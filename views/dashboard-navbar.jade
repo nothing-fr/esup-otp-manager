@@ -10,6 +10,12 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         #navbar.navbar-collapse.collapse
             ul.nav.navbar-nav.navbar-right
                 li
-                    a(href='#') Préférences
+                    a(href='/preferences') Préférences
+                if session.passport.user.role=='admin' || session.passport.user.role=='manager'
+                    li
+                        a(href='/manager') Manager
+                if session.passport.user.role=='admin'
+                    li
+                        a(href='/admin') Admin
                 li
                     a(href='/logout') Se déconnecter

@@ -25,6 +25,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({secret: properties.esup.session_secret_key}));
 app.use(passport.initialize());
 app.use(passport.session()); 
+
+app.use(function(req,res,next){
+    res.locals.session = req.session;
+    next();
+});
+
 var routes = require('./routes/index');
 app.use('/', routes(passport));
 

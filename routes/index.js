@@ -1,17 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require(process.cwd() + '/controllers/mongoose');
 var request = require('request');
 var properties = require(process.cwd() + '/properties/properties');
 var utils = require(process.cwd() + '/services/utils');
 
 var passport;
-
-var UserModel;
-
-mongoose.initialize(function() {
-    UserModel = mongoose.UserModel;
-});
 
 function requesting(req, res, opts) {
     console.log("requesting api");
@@ -229,9 +222,7 @@ module.exports = function(_passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(user, done) {
-        UserModel.findOne({ uid: user.uid }, function(err, user) {
-            done(err, user);
-        });
+            done(null, user);
     });
 
     passport.use(new(require('passport-cas').Strategy)(properties.esup.CAS, function(login, done) {

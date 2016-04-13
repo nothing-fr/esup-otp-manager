@@ -1,32 +1,15 @@
 {
-    "port": XXXXXXXX,
+    "port": XXXX,
     "CAS": {
         "version": "CAS1.0",
-        "ssoBaseURL": "https://XXXXX.fr/cas",
-        "serverBaseURL": "http://XXXXXX/"
+        "ssoBaseURL": "https://cas.org/cas",
+        "serverBaseURL": "http://url_manager/"
     },
-    "api_url": "mongodb",
-    "userDb": "ldap",
-    "ldap": {
-        "uri": "ldap://X.X.X.X",
-        "baseDn": "dc=univ,dc=fr",
-        "adminDn": "cn=admin,dc=univ,dc=fr",
-        "password": "changeit",
-        "transport": {
-            "mail": "mail",
-            "sms": "mobile"
-        }
-    },
-    "mysql": {
-        "host": "X.X.X.X",
-        "user": "xxxx",
-        "password": "changeit",
-        "database": "test",
-        "userTable": "User",
-        "transport": {
-            "mail": "mail",
-            "sms": "mobile"
-        }
-    },
+    "api_url": "http://url_api",
+    "api_password":"XXXXXXXXXXXXXXXXXXXXXXXX",
+    "users_secret":"XXXXXXXXXXXXXXXXXXXXXXXX",
+    "session_secret_key": "dev-otp",
+    "admins": ["barrywhite"],
+    "managers": ["milesdavis","louisarmstrong"],
     "dev": {}
 }

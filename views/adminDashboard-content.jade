@@ -79,6 +79,10 @@
     #google_authenticator_admin
       h1.page-header Code Temporaire
       p
+      | Activer cette méthode d'authentification : oui
+      span#google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      |  non
+      span#google_authenticator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
       #google_authenticator_qrCode
       #google_authenticator_secret
       button(onclick='generate_google_authenticator();') Générer nouveau QrCode
@@ -86,8 +90,17 @@
     #simple_generator_admin
       h1.page-header Simple Code
       p
+      | Activer cette méthode d'authentification : oui
+      span#simple_generator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      |  non
+      span#simple_generator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
     #bypass_admin
       h1.page-header Bypass
+      p
+      | Activer cette méthode d'authentification : oui
+      span#bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      |  non
+      span#bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
       p#available_code
       p#used_code
       p#bypass_codes

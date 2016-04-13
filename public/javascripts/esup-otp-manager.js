@@ -231,6 +231,16 @@ function deactivate_method_admin(element) {
     });
 }
 
+function activate_method_user_admin(element) {
+    alert('TODO...');
+}
+
+
+function deactivate_method_user_admin(element) {
+    alert('TODO...');
+}
+
+
 function activate_method_transport(element) {
     request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + element.id.split('_activate')[0] + '/' + element.id.split('_activate_')[1].split('_transport')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {

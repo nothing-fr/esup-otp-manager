@@ -125,6 +125,7 @@ function get_user_methods() {
 
 function get_user() {
     if (document.getElementById('userInput').value != '') {
+        remove_user_infos();
         uid = document.getElementById('userInput').value;
         request({ method: 'GET', url: 'http://localhost:4000/api/admin/user/' + uid }, function(response) {
             if (response.code == "Ok") {
@@ -140,23 +141,20 @@ function get_user() {
 }
 
 function show_user(user) {
-    if (user.google_authenticator) show_google_authenticator_infos(user.google_authenticator);
-    else $("#google_authenticator_admin").hide();
-    if (user.simple_generator) show_simple_generator_infos(user.simple_generator);
-    else $("#simple_generator_admin").hide();
-    if (user.bypass) show_bypass_infos(user.bypass);
-    else $("#bypass_admin").hide();
+    show_google_authenticator_infos(user.google_authenticator);
+    show_simple_generator_infos(user.simple_generator);
+    show_bypass_infos(user.bypass);
 }
 
 function show_google_authenticator_infos(data) {
     if (data.active) {
-        $("#google_authenticator_admin").show();
+    
     }
 }
 
 function show_simple_generator_infos(data) {
     if (data.active) {
-        $("#simple_generator_admin").show();
+
     }
 }
 
@@ -164,16 +162,36 @@ function show_bypass_infos(data) {
     if (data.active) {
         $("#available_code").html("Code restants : " + JSON.stringify(data.available_code));
         $("#used_code").html("Code utilisés : " + JSON.stringify(data.used_code));
-        $("#bypass_admin").show();
     }
+}
+
+function remove_user_infos() {
+    remove_bypass_infos();
+    remove_google_authenticator_infos();
+    remove_simple_generator_infos();
+}
+
+function remove_google_authenticator_infos() {
+    $('#google_authenticator_qrCode').empty()
+    $('#google_authenticator_secret').empty();
+}
+
+function remove_bypass_infos() {
+    $("#available_code").empty('');
+    $("#used_code").empty('');   
+    $("#bypass_codes").empty('');   
+}
+
+function remove_simple_generator_infos() {
+    
 }
 
 
 function get_qrCode() {
     request({ method: 'GET', url: 'http://localhost:4000/api/secret/google_authenticator' }, function(response) {
         if (response.code == "Ok") {
-            $('#qrCode').append(response.qrCode);
-            $('#secret').append(response.message);
+            $('#qrCode').html(response.qrCode);
+            $('#secret').html(response.message);
         } else {
             console.log(response.message);
         }
@@ -290,6 +308,7 @@ function generate_bypass() {
 function delete_bypass_codes() {
     request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/bypass/' + uid }, function(response) {
         if (response.code == "Ok") {
+            get_user();
             console.log(response.message);
         } else {
             console.log(response.message);
@@ -300,6 +319,7 @@ function delete_bypass_codes() {
 function delete_google_authenticator_secret() {
     request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/google_authenticator/' + uid }, function(response) {
         if (response.code == "Ok") {
+            get_user();
             console.log(response.message);
         } else {
             console.log(response.message);

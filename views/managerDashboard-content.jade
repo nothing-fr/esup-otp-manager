@@ -7,9 +7,9 @@
       h1.page-header Code Temporaire
       p
       #google_authenticator_qrCode
-        #google_authenticator_secret
+      #google_authenticator_secret
       button(onclick='generate_google_authenticator();') Générer nouveau QrCode
-      button(onclick='') Supprimer le QrCode
+      button(onclick='delete_google_authenticator_secret();') Supprimer le QrCode
     #simple_generator_admin
       h1.page-header Simple Code
       p
@@ -19,7 +19,7 @@
       p#used_code
       p#bypass_codes
       button(onclick='generate_bypass();') Générer nouveaux codes
-      button(onclick='') Supprimer les codes
+      button(onclick='delete_bypass_codes();') Supprimer les codes
     #matrix_admin
       h1.page-header Grille
       p

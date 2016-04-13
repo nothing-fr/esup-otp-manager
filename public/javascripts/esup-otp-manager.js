@@ -287,6 +287,26 @@ function generate_bypass() {
     });
 }
 
+function delete_bypass_codes() {
+    request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/bypass/' + uid }, function(response) {
+        if (response.code == "Ok") {
+            console.log(response.message);
+        } else {
+            console.log(response.message);
+        }
+    });
+}
+
+function delete_google_authenticator_secret() {
+    request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/google_authenticator/' + uid }, function(response) {
+        if (response.code == "Ok") {
+            console.log(response.message);
+        } else {
+            console.log(response.message);
+        }
+    });
+}
+
 function generate_google_authenticator() {
     request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/google_authenticator/' + uid }, function(response) {
         if (response.code == "Ok") {

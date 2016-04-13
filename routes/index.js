@@ -205,6 +205,13 @@ function routing() {
         opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
+
+    router.delete('/api/admin/delete_method_secret/:method/:uid', isManager, function(req, res) {
+        var opts = {};
+        opts.method = 'DELETE';
+        opts.url = 'http://localhost:3000/admin/delete_method_secret/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
+        requesting(req, res, opts);
+    });
 }
 
 module.exports = function(_passport) {

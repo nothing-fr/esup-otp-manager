@@ -6,7 +6,10 @@
     #google_authenticator_admin
       h1.page-header Code Temporaire
       p
-      p#google_authenticator_qrCode
+      #google_authenticator_qrCode
+        #google_authenticator_secret
+      button(onclick='generate_google_authenticator();') Générer nouveau QrCode
+      button(onclick='') Supprimer le QrCode
     #simple_generator_admin
       h1.page-header Simple Code
       p

@@ -226,17 +226,7 @@ module.exports = function(_passport) {
     });
 
     passport.use(new(require('passport-cas').Strategy)(properties.esup.CAS, function(login, done) {
-        UserModel.findOne({ uid: login }, function(err, user) {
-            if (err) {
-                console.log(err);
-                return done(err);
-            }
-            if (!user) {
-                console.log('Unknown user');
-                return done(null, false, { message: 'Unknown user' });
-            }
-            return done(null, user);
-        });
+        return done(null, {uid:login});
     }));
 
     routing();

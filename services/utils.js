@@ -2,7 +2,10 @@ var properties = require(process.cwd() + '/properties/properties');
 var CryptoJS = require('crypto-js');
 
 exports.get_hash = function(uid) {
-    return CryptoJS.SHA256(CryptoJS.MD5(properties.esup.users_secret).toString()+uid).toString();
+    var d = new Date();
+    var present_salt = d.getDay().toString()+d.getHours().toString();
+    present_hash = CryptoJS.SHA256(CryptoJS.MD5(properties.esup.users_secret).toString()+uid+present_salt).toString();  
+    return present_hash;
 }
 
 exports.is_admin = function(uid){

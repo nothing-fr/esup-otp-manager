@@ -30,12 +30,12 @@ function isAuthenticated(req, res) {
 }
 
 function isUser(req, res, next) {
-    if (isAuthenticated) return next();
+    if (isAuthenticated(req, res)) return next();
     res.redirect('/login');
 }
 
 function isManager(req, res, next) {
-    if (isAuthenticated) {
+    if (isAuthenticated(req, res)) {
         if (utils.is_manager(req.session.passport.user.uid) || utils.is_admin(req.session.passport.user.uid))return next();
         res.redirect('/forbidden');
     }
@@ -43,7 +43,7 @@ function isManager(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-    if (isAuthenticated) {
+    if (isAuthenticated(req, res)) {
         if(utils.is_admin(req.session.passport.user.uid))return next();
         res.redirect('/forbidden');
     }

@@ -148,20 +148,33 @@ function show_user(user) {
 
 function show_google_authenticator_infos(data) {
     if (data.active) {
-    
+    admin_check_method("google_authenticator");
+    manager_check_method("google_authenticator");
+    }else {
+        admin_uncheck_method("google_authenticator");
+        manager_uncheck_method("google_authenticator");
     }
 }
 
 function show_simple_generator_infos(data) {
     if (data.active) {
-
+        admin_check_method("simple_generator");
+        manager_check_method("simple_generator");
+    }else {
+        admin_uncheck_method("simple_generator");
+        manager_uncheck_method("simple_generator");
     }
 }
 
 function show_bypass_infos(data) {
     if (data.active) {
+        admin_check_method("bypass");
+        manager_check_method("bypass");
         $("#available_code").html("Code restants : " + JSON.stringify(data.available_code));
         $("#used_code").html("Code utilisés : " + JSON.stringify(data.used_code));
+    }else {
+        admin_uncheck_method("bypass");
+        manager_uncheck_method("bypass");
     }
 }
 
@@ -340,6 +353,8 @@ function delete_google_authenticator_secret() {
 function generate_google_authenticator() {
     request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/google_authenticator/' + uid }, function(response) {
         if (response.code == "Ok") {
+            $('#google_authenticator_qrCode').empty();
+            $('#google_authenticator_secret').empty();
             $('#google_authenticator_qrCode').append(response.qrCode);
             $('#google_authenticator_secret').append(response.message);
         } else {
@@ -374,4 +389,32 @@ function uncheck_method_transport(method, transport) {
     $("#" + method + "_activate_" + transport + '_transport').removeClass("glyphicon-check");
     $("#" + method + "_deactivate_" + transport + '_transport').addClass("glyphicon-check");
     $("#" + method + "_deactivate_" + transport + '_transport').removeClass("glyphicon-unchecked");
+}
+
+function admin_check_method(method) {
+    $("#admin_" + method + "_activate").addClass("glyphicon-check");
+    $("#admin_" + method + "_activate").removeClass("glyphicon-unchecked");
+    $("#admin_" + method + "_deactivate").addClass("glyphicon-unchecked");
+    $("#admin_" + method + "_deactivate").removeClass("glyphicon-check");
+}
+
+function admin_uncheck_method(method) {
+    $("#admin_" + method + "_activate").addClass("glyphicon-unchecked");
+    $("#admin_" + method + "_activate").removeClass("glyphicon-check");
+    $("#admin_" + method + "_deactivate").addClass("glyphicon-check");
+    $("#admin_" + method + "_deactivate").removeClass("glyphicon-unchecked");
+}
+
+function manager_check_method(method) {
+    $("#manager_" + method + "_activate").addClass("glyphicon-check");
+    $("#manager_" + method + "_activate").removeClass("glyphicon-unchecked");
+    $("#manager_" + method + "_deactivate").addClass("glyphicon-unchecked");
+    $("#manager_" + method + "_deactivate").removeClass("glyphicon-check");
+}
+
+function manager_uncheck_method(method) {
+    $("#manager_" + method + "_activate").addClass("glyphicon-unchecked");
+    $("#manager_" + method + "_activate").removeClass("glyphicon-check");
+    $("#manager_" + method + "_deactivate").addClass("glyphicon-check");
+    $("#manager_" + method + "_deactivate").removeClass("glyphicon-unchecked");
 }

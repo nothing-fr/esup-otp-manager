@@ -52,24 +52,40 @@ function isAdmin(req, res, next) {
 
 function routing() {
     router.get('/', function(req, res) {
-        res.render('index', { title: 'Esup Otp Manager' });
+        res.render('index', {
+            title: 'Esup Otp Manager'
+        });
     });
 
     router.get('/forbidden', isUser, function(req, res) {
-        res.render('forbidden', { title: 'Esup Otp Manager' });
+        res.render('forbidden', {
+            title: 'Esup Otp Manager',
+            user: req.session.passport.user
+        });
     });
 
     router.get('/preferences', isUser, function(req, res) {
-        res.render('dashboard', { title: 'Esup Otp Manager : Preferences' });
+        console.log(req.session.passport.user);
+        res.render('dashboard', {
+            title: 'Esup Otp Manager : Preferences',
+            user: req.session.passport.user
+        });
     });
 
     router.get('/admin', isAdmin, function(req, res) {
-        res.render('adminDashboard', { title: 'Esup Otp Manager : Admin' });
+        res.render('adminDashboard', {
+            title: 'Esup Otp Manager : Admin',
+            user: req.session.passport.user
+        });
     });
 
     router.get('/manager', isManager, function(req, res) {
-        res.render('managerDashboard', { title: 'Esup Otp Manager : Manager' });
+        res.render('managerDashboard', {
+            title: 'Esup Otp Manager : Manager',
+            user: req.session.passport.user
+        });
     });
+
 
     router.get('/login', function(req, res, next) {
         passport.authenticate('cas', function(err, user, info) {
@@ -158,9 +174,23 @@ function routing() {
         requesting(req, res, opts);
     });
 
-    router.get('/api/admin/user/:uid', isAdmin, function(req, res) {
+    router.get('/api/admin/user/:uid', isManager, function(req, res) {
         var opts = {};
         opts.url = 'http://localhost:3000/admin/user/' + req.params.uid + '/' + properties.esup.api_password;
+        requesting(req, res, opts);
+    });
+
+    router.put('/api/admin/:uid/:method/activate', isManager, function(req, res) {
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/activate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
+        requesting(req, res, opts);
+    });
+
+    router.put('/api/admin/:uid/:method/deactivate', isManager, function(req, res) {
+        var opts = {};
+        opts.method = 'PUT';
+        opts.url = 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
         requesting(req, res, opts);
     });
 

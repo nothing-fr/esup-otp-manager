@@ -2,6 +2,8 @@
   h1.page-header Code temporaire (TOTP)
   .row
     p
+      | Méthode permettant de générer des codes uniques de 6 chiffres
+    p
       | Activer cette méthode d'authentification : oui
       span#google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
       |  non
@@ -16,6 +18,8 @@
   h1.page-header Simple Code
   .row
     p
+      | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
+    p
       | Activer cette méthode d'authentification : oui
       span#simple_generator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
       |  non
@@ -23,6 +27,8 @@
 #bypass_method.content-unit.method(hidden='true')
   h1.page-header Bypass
   .row
+    p
+      | Méthode permettant de générer une liste de codes aléatoire à usage unique
     p
       | Activer cette méthode d'authentification : oui
       span#bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')

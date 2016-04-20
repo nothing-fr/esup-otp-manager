@@ -118,121 +118,121 @@ function routing() {
     //API
     router.get('/api/available_transports', isUser, function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/available_transports/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
+        opts.url = properties.esup.api_url+'available_transports/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
         requesting(req, res, opts);
     });
 
     router.get('/api/activate_methods', isUser, function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/activate_methods/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
+        opts.url = properties.esup.api_url+'activate_methods/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
         requesting(req, res, opts);
     });
 
     router.get('/api/methods', isUser, function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/methods/' + properties.esup.api_password
+        opts.url = properties.esup.api_url+'methods/' + properties.esup.api_password
         requesting(req, res, opts);
     });
 
     router.get('/api/generate/:method', isUser, function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'generate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.get('/api/secret/:method', function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/secret/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'secret/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/:method/activate', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/activate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'activate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/:method/deactivate', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'deactivate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/transport/:transport/:new_transport', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/transport/' + req.params.transport + '/' + req.session.passport.user.uid + '/' + req.params.new_transport + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'transport/' + req.params.transport + '/' + req.session.passport.user.uid + '/' + req.params.new_transport + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.post('/api/generate/:method', isUser, function(req, res) {
         var opts = {};
         opts.method = 'POST';
-        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'generate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.get('/api/admin/user/:uid', isManager, function(req, res) {
         var opts = {};
-        opts.url = 'http://localhost:3000/admin/user/' + req.params.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/user/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:uid/:method/activate', isManager, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/activate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
+        opts.url = properties.esup.api_url+'activate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:uid/:method/deactivate', isManager, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/deactivate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
+        opts.url = properties.esup.api_url+'deactivate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/activate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/activate/' + req.params.method + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/deactivate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/deactivate/' + req.params.method + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/:transport/activate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/activate/' + req.params.method + '/' + req.params.transport + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/activate/' + req.params.method + '/' + req.params.transport + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/:transport/deactivate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = 'http://localhost:3000/admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/deactivate/' + req.params.method + '/' + req.params.transport + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.post('/api/admin/generate/:method/:uid', isManager, function(req, res) {
         var opts = {};
         opts.method = 'POST';
-        opts.url = 'http://localhost:3000/generate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'generate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.delete('/api/admin/delete_method_secret/:method/:uid', isManager, function(req, res) {
         var opts = {};
         opts.method = 'DELETE';
-        opts.url = 'http://localhost:3000/admin/delete_method_secret/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/delete_method_secret/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 }

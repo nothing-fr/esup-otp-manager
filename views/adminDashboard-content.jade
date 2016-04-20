@@ -1,6 +1,6 @@
 #administration.content-unit(hidden='true')
   #totp_method.method(hidden='true')
-    h1.page-header Code temporaire (TOTP)
+    h1.page-header Code à usage unique (TOTP)
     .row
       p
         | Activer cette méthode d'authentification : oui
@@ -18,7 +18,7 @@
         |  non
         span#totp_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
   #random_code_method.method(hidden='true')
-    h1.page-header Simple Code
+    h1.page-header Code aléatoire
     .row
       p
         | Activer cette méthode d'authentification : oui
@@ -36,7 +36,7 @@
         |  non
         span#random_code_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
   #bypass_method.method(hidden='true')
-    h1.page-header Bypass
+    h1.page-header Codes de secours
     .row
       p
         | Activer cette méthode d'authentification : oui
@@ -77,7 +77,7 @@
   button(onclick='get_user();') Valider
   #userInfo(hidden='true')
     #totp_admin
-      h1.page-header Code Temporaire
+      h1.page-header Code à usage unique (TOTP)
       p
       | Méthode permettant de générer des codes uniques de 6 chiffres
       p
@@ -90,7 +90,7 @@
       button(onclick='generate_totp();') Générer nouveau QrCode
       button(onclick='delete_totp_secret();') Supprimer le QrCode
     #random_code_admin
-      h1.page-header Simple Code
+      h1.page-header Code aléatoire
       p
       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
       p
@@ -99,7 +99,7 @@
       |  non
       span#admin_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
     #bypass_admin
-      h1.page-header Bypass
+      h1.page-header Codes de secours
       p
       | Méthode permettant de générer une liste de codes aléatoire à usage unique
       p

@@ -3,8 +3,8 @@
   input#userInput(type='text')
   button(onclick='get_user();') Valider
   #userInfo(hidden='true')
-    #totp_admin
-      h1.page-header Code Temporaire
+    #totp_manager
+      h1.page-header Code à usage unique (TOTP)
       p
       | Méthode permettant de générer des codes uniques de 6 chiffres
       p
@@ -16,8 +16,8 @@
       #totp_secret
       button(onclick='generate_totp();') Générer nouveau QrCode
       button(onclick='delete_totp_secret();') Supprimer le QrCode
-    #random_code_admin
-      h1.page-header Simple Code
+    #random_code_manager
+      h1.page-header Code Aléatoire
       p
       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
       p
@@ -25,8 +25,8 @@
       span#manager_random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
       |  non
       span#manager_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
-    #bypass_admin
-      h1.page-header Bypass
+    #bypass_manager
+      h1.page-header Codes de secours
       p
       | Méthode permettant de générer une liste de codes aléatoire à usage unique
       p
@@ -39,8 +39,13 @@
       p#bypass_codes
       button(onclick='generate_bypass();') Générer nouveaux codes
       button(onclick='delete_bypass_codes();') Supprimer les codes
-    #matrix_admin
+    #matrix_manager
       h1.page-header Grille
       p
       button(onclick='') Générer nouvelle grille
       button(onclick='') Supprimer la grille
+div(hidden='true')
+  #totp_method.method(hidden='true')
+  #random_code_method.method(hidden='true')
+  #bypass_method.method(hidden='true')
+  #matrix_method.method(hidden='true')

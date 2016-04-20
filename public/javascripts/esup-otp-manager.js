@@ -1,6 +1,7 @@
 uid = "";
 
 function init_admin() {
+    console.log("function init_admin() {");
     get_methods_admin();
 }
 
@@ -49,7 +50,7 @@ function request(opts, callback, next) {
 
 
 function get_methods() {
-    request({ method: 'GET', url: 'http://localhost:4000/api/methods' }, function(response) {
+    request({ method: 'GET', url: '/api/methods' }, function(response) {
         if (response.code == "Ok") {
             $('.method').each(function() {
                 if (!response.methods[this.id.split('_method')[0]] || !response.methods[this.id.split('_method')[0]].activate) {
@@ -69,13 +70,14 @@ function get_methods() {
 
 
 function get_methods_admin() {
-    request({ method: 'GET', url: 'http://localhost:4000/api/methods' }, function(response) {
+    request({ method: 'GET', url: '/api/methods' }, function(response) {
         if (response.code == "Ok") {
             $('.method').each(function() {
                 var method = this.id.split('_method')[0];
                 if (!response.methods[method]) {
                     this.remove();
                     $('#' + this.id.split('_method')[0] + '_admin').remove();
+                    $('#' + this.id.split('_method')[0] + '_manager').remove();
                 } else {
                     if (response.methods[method].activate) {
                         check_method(method);
@@ -107,7 +109,7 @@ function get_methods_admin() {
 
 
 function get_user_methods() {
-    request({ method: 'GET', url: 'http://localhost:4000/api/activate_methods' }, function(response) {
+    request({ method: 'GET', url: '/api/activate_methods' }, function(response) {
         if (response.code == "Ok") {
             for (method in response.methods) {
                 if (response.methods[method]) {
@@ -127,7 +129,7 @@ function get_user() {
     if (document.getElementById('userInput').value != '') {
         remove_user_infos();
         uid = document.getElementById('userInput').value;
-        request({ method: 'GET', url: 'http://localhost:4000/api/admin/user/' + uid }, function(response) {
+        request({ method: 'GET', url: '/api/admin/user/' + uid }, function(response) {
             if (response.code == "Ok") {
                 show_user(response.user);
                 $('#userInfo').show();
@@ -201,7 +203,7 @@ function remove_random_code_infos() {
 
 
 function get_qrCode() {
-    request({ method: 'GET', url: 'http://localhost:4000/api/secret/totp' }, function(response) {
+    request({ method: 'GET', url: '/api/secret/totp' }, function(response) {
         if (response.code == "Ok") {
             $('#qrCode').html(response.qrCode);
             $('#secret').html(response.message);
@@ -213,7 +215,7 @@ function get_qrCode() {
 
 
 function get_transports() {
-    request({ method: 'GET', url: 'http://localhost:4000/api/available_transports' }, function(response) {
+    request({ method: 'GET', url: '/api/available_transports' }, function(response) {
         if (response.code == "Ok") {
             $('#sms_label').text(response.transports_list.sms);
             $('#mail_label').text(response.transports_list.mail);
@@ -224,7 +226,7 @@ function get_transports() {
 }
 
 function activate_method_admin(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             check_method(element.id.split('_activate')[0]);
         } else {
@@ -235,7 +237,7 @@ function activate_method_admin(element) {
 
 
 function deactivate_method_admin(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + element.id.split('_deactivate')[0] + '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_deactivate')[0] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             uncheck_method(element.id.split('_deactivate')[0]);
         } else {
@@ -245,7 +247,7 @@ function deactivate_method_admin(element) {
 }
 
 function activate_method_user_admin(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + uid +'/'+ element.id.split('_activate').split('admin_')[0] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate').split('admin_')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             admin_check_method(element.id.split('_activate')[0]);
         } else {
@@ -256,7 +258,7 @@ function activate_method_user_admin(element) {
 
 
 function deactivate_method_user_admin(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + uid +'/'+ element.id.split('_deactivate')[1] + '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_deactivate')[1] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             admin_uncheck_method(element.id.split('_deactivate')[0]);
         } else {
@@ -267,7 +269,7 @@ function deactivate_method_user_admin(element) {
 
 
 function activate_method_transport(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + element.id.split('_activate')[0] + '/' + element.id.split('_activate_')[1].split('_transport')[0] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_activate')[0] + '/' + element.id.split('_activate_')[1].split('_transport')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             check_method_transport(element.id.split('_activate')[0], element.id.split('_activate_')[1].split('_transport')[0]);
         } else {
@@ -278,7 +280,7 @@ function activate_method_transport(element) {
 
 
 function deactivate_method_transport(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + element.id.split('_deactivate')[0] + '/' + element.id.split('_deactivate_')[1].split('_transport')[0] + '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_deactivate')[0] + '/' + element.id.split('_deactivate_')[1].split('_transport')[0] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             uncheck_method_transport(element.id.split('_deactivate')[0], element.id.split('_deactivate_')[1].split('_transport')[0]);
         } else {
@@ -289,7 +291,7 @@ function deactivate_method_transport(element) {
 
 
 function activate_method(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             check_method(element.id.split('_activate')[0]);
         } else {
@@ -300,7 +302,7 @@ function activate_method(element) {
 
 
 function deactivate_method(element) {
-    request({ method: 'PUT', url: 'http://localhost:4000/api/' + element.id.split('_deactivate')[0] + '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/' + element.id.split('_deactivate')[0] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             uncheck_method(element.id.split('_deactivate')[0]);
         } else {
@@ -315,7 +317,7 @@ function change_transport(transport) {
     if (transport == 'sms') reg = new RegExp("^0[6-7]([-. ]?[0-9]{2}){4}$");
     else reg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     if (reg.test(new_transport)) {
-        request({ method: 'PUT', url: 'http://localhost:4000/api/transport/' + transport + '/' + new_transport }, function(response) {
+        request({ method: 'PUT', url: '/api/transport/' + transport + '/' + new_transport }, function(response) {
             if (response.code == "Ok") {
                 $('#change_' + transport + '_form').hide();
                 $('#modify_' + transport + '_btn').show();
@@ -327,7 +329,7 @@ function change_transport(transport) {
 }
 
 function generate_bypass() {
-    request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/bypass/' + uid }, function(response) {
+    request({ method: 'POST', url: '/api/admin/generate/bypass/' + uid }, function(response) {
         if (response.code == "Ok") {
             var codes = JSON.stringify(response.codes);
             codes = codes.replace('["', '<ul><li>');
@@ -341,7 +343,7 @@ function generate_bypass() {
 }
 
 function delete_bypass_codes() {
-    request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/bypass/' + uid }, function(response) {
+    request({ method: 'DELETE', url: '/api/admin/delete_method_secret/bypass/' + uid }, function(response) {
         if (response.code == "Ok") {
             get_user();
             console.log(response.message);
@@ -352,7 +354,7 @@ function delete_bypass_codes() {
 }
 
 function delete_totp_secret() {
-    request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/totp/' + uid }, function(response) {
+    request({ method: 'DELETE', url: '/api/admin/delete_method_secret/totp/' + uid }, function(response) {
         if (response.code == "Ok") {
             get_user();
             console.log(response.message);
@@ -363,7 +365,7 @@ function delete_totp_secret() {
 }
 
 function generate_totp() {
-    request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/totp/' + uid }, function(response) {
+    request({ method: 'POST', url: '/api/admin/generate/totp/' + uid }, function(response) {
         if (response.code == "Ok") {
             $('#totp_qrCode').empty();
             $('#totp_secret').empty();

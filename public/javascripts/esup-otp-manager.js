@@ -245,12 +245,24 @@ function deactivate_method_admin(element) {
 }
 
 function activate_method_user_admin(element) {
-    alert('TODO...');
+    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + uid +'/'+ element.id.split('_activate').split('admin_')[0] + '/activate' }, function(response) {
+        if (response.code == "Ok") {
+            admin_check_method(element.id.split('_activate')[0]);
+        } else {
+            console.log(response.message);
+        }
+    });
 }
 
 
 function deactivate_method_user_admin(element) {
-    alert('TODO...');
+    request({ method: 'PUT', url: 'http://localhost:4000/api/admin/' + uid +'/'+ element.id.split('_deactivate')[1] + '/deactivate' }, function(response) {
+        if (response.code == "Ok") {
+            admin_uncheck_method(element.id.split('_deactivate')[0]);
+        } else {
+            console.log(response.message);
+        }
+    });
 }
 
 

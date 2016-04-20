@@ -141,18 +141,18 @@ function get_user() {
 }
 
 function show_user(user) {
-    show_google_authenticator_infos(user.google_authenticator);
+    show_totp_infos(user.totp);
     show_simple_generator_infos(user.simple_generator);
     show_bypass_infos(user.bypass);
 }
 
-function show_google_authenticator_infos(data) {
+function show_totp_infos(data) {
     if (data.active) {
-    admin_check_method("google_authenticator");
-    manager_check_method("google_authenticator");
+    admin_check_method("totp");
+    manager_check_method("totp");
     }else {
-        admin_uncheck_method("google_authenticator");
-        manager_uncheck_method("google_authenticator");
+        admin_uncheck_method("totp");
+        manager_uncheck_method("totp");
     }
 }
 
@@ -180,13 +180,13 @@ function show_bypass_infos(data) {
 
 function remove_user_infos() {
     remove_bypass_infos();
-    remove_google_authenticator_infos();
+    remove_totp_infos();
     remove_simple_generator_infos();
 }
 
-function remove_google_authenticator_infos() {
-    $('#google_authenticator_qrCode').empty()
-    $('#google_authenticator_secret').empty();
+function remove_totp_infos() {
+    $('#totp_qrCode').empty()
+    $('#totp_secret').empty();
 }
 
 function remove_bypass_infos() {
@@ -201,7 +201,7 @@ function remove_simple_generator_infos() {
 
 
 function get_qrCode() {
-    request({ method: 'GET', url: 'http://localhost:4000/api/secret/google_authenticator' }, function(response) {
+    request({ method: 'GET', url: 'http://localhost:4000/api/secret/totp' }, function(response) {
         if (response.code == "Ok") {
             $('#qrCode').html(response.qrCode);
             $('#secret').html(response.message);
@@ -351,8 +351,8 @@ function delete_bypass_codes() {
     });
 }
 
-function delete_google_authenticator_secret() {
-    request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/google_authenticator/' + uid }, function(response) {
+function delete_totp_secret() {
+    request({ method: 'DELETE', url: 'http://localhost:4000/api/admin/delete_method_secret/totp/' + uid }, function(response) {
         if (response.code == "Ok") {
             get_user();
             console.log(response.message);
@@ -362,13 +362,13 @@ function delete_google_authenticator_secret() {
     });
 }
 
-function generate_google_authenticator() {
-    request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/google_authenticator/' + uid }, function(response) {
+function generate_totp() {
+    request({ method: 'POST', url: 'http://localhost:4000/api/admin/generate/totp/' + uid }, function(response) {
         if (response.code == "Ok") {
-            $('#google_authenticator_qrCode').empty();
-            $('#google_authenticator_secret').empty();
-            $('#google_authenticator_qrCode').append(response.qrCode);
-            $('#google_authenticator_secret').append(response.message);
+            $('#totp_qrCode').empty();
+            $('#totp_secret').empty();
+            $('#totp_qrCode').append(response.qrCode);
+            $('#totp_secret').append(response.message);
         } else {
             console.log(response.message);
         }

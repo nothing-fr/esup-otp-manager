@@ -1,13 +1,13 @@
-#google_authenticator_method.content-unit.method(hidden='true')
+#totp_method.content-unit.method(hidden='true')
   h1.page-header Code temporaire (TOTP)
   .row
     p
       | Méthode permettant de générer des codes uniques de 6 chiffres
     p
       | Activer cette méthode d'authentification : oui
-      span#google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
+      span#totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
       |  non
-      span#google_authenticator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+      span#totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
     h2 QrCode
     p
       | Appuyez sur le bouton, puis scannez le code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone) ou entrez le code directement dans l'application

@@ -1,22 +1,22 @@
 #administration.content-unit(hidden='true')
-  #google_authenticator_method.method(hidden='true')
+  #totp_method.method(hidden='true')
     h1.page-header Code temporaire (TOTP)
     .row
       p
         | Activer cette méthode d'authentification : oui
-        span#google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
+        span#totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
         |  non
-        span#google_authenticator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
+        span#totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
       p
         | Activer le transport SMS : oui
-        span#google_authenticator_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        span#totp_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
         |  non
-        span#google_authenticator_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+        span#totp_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
       p
         | Activer le transport Mail : oui
-        span#google_authenticator_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        span#totp_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
         |  non
-        span#google_authenticator_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+        span#totp_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
   #simple_generator_method.method(hidden='true')
     h1.page-header Simple Code
     .row
@@ -68,27 +68,27 @@
         span#matrix_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
       p
         | Activer le transport Mail : oui
-        span#google_authenticator_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        span#totp_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
         |  non
-        span#google_authenticator_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+        span#totp_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
 #users.content-unit(hidden='true')
   | Nom d'utilisateur:
   input#userInput(type='text')
   button(onclick='get_user();') Valider
   #userInfo(hidden='true')
-    #google_authenticator_admin
+    #totp_admin
       h1.page-header Code Temporaire
       p
       | Méthode permettant de générer des codes uniques de 6 chiffres
       p
       | Activer cette méthode d'authentification : oui
-      span#admin_google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      span#admin_totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
       |  non
-      span#admin_google_authenticator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
-      #google_authenticator_qrCode
-      #google_authenticator_secret
-      button(onclick='generate_google_authenticator();') Générer nouveau QrCode
-      button(onclick='delete_google_authenticator_secret();') Supprimer le QrCode
+      span#admin_totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+      #totp_qrCode
+      #totp_secret
+      button(onclick='generate_totp();') Générer nouveau QrCode
+      button(onclick='delete_totp_secret();') Supprimer le QrCode
     #simple_generator_admin
       h1.page-header Simple Code
       p

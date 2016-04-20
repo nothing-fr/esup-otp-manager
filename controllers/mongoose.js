@@ -58,7 +58,7 @@ function initiatilize_user_model(mongoose) {
                 },
             }
         },
-        google_authenticator: {
+        totp: {
             secret: Object,
             window: Number,
             active: {

@@ -3,19 +3,19 @@
   input#userInput(type='text')
   button(onclick='get_user();') Valider
   #userInfo(hidden='true')
-    #google_authenticator_admin
+    #totp_admin
       h1.page-header Code Temporaire
       p
       | Méthode permettant de générer des codes uniques de 6 chiffres
       p
       | Activer cette méthode d'authentification : oui
-      span#manager_google_authenticator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      span#manager_totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
       |  non
-      span#manager_google_authenticator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
-      #google_authenticator_qrCode
-      #google_authenticator_secret
-      button(onclick='generate_google_authenticator();') Générer nouveau QrCode
-      button(onclick='delete_google_authenticator_secret();') Supprimer le QrCode
+      span#manager_totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+      #totp_qrCode
+      #totp_secret
+      button(onclick='generate_totp();') Générer nouveau QrCode
+      button(onclick='delete_totp_secret();') Supprimer le QrCode
     #simple_generator_admin
       h1.page-header Simple Code
       p

@@ -9,9 +9,9 @@
       | Méthode permettant de générer des codes uniques de 6 chiffres
       p
       | Activer cette méthode d'authentification : oui
-      span#manager_totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      span#manager_totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_manager(this);')
       |  non
-      span#manager_totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+      span#manager_totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
       #totp_qrCode
       #totp_secret
       button(onclick='generate_totp();') Générer nouveau QrCode
@@ -22,18 +22,18 @@
       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
       p
       | Activer cette méthode d'authentification : oui
-      span#manager_random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      span#manager_random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_manager(this);')
       |  non
-      span#manager_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+      span#manager_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
     #bypass_manager
       h1.page-header Codes de secours
       p
       | Méthode permettant de générer une liste de codes aléatoire à usage unique
       p
       | Activer cette méthode d'authentification : oui
-      span#manager_bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      span#manager_bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_manager(this);')
       |  non
-      span#manager_bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+      span#manager_bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
       p#available_code
       p#used_code
       p#bypass_codes

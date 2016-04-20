@@ -183,14 +183,14 @@ function routing() {
     router.put('/api/admin/:uid/:method/activate', isManager, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'activate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
+        opts.url = properties.esup.api_url+'activate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:uid/:method/deactivate', isManager, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'deactivate/' + req.params.method + '/' + req.params.uid + '/' +  utils.get_hash(req.params.uid);
+        opts.url = properties.esup.api_url+'deactivate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 

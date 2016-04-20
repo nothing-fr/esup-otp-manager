@@ -1,7 +1,6 @@
 uid = "";
 
 function init_admin() {
-    console.log("function init_admin() {");
     get_methods_admin();
 }
 
@@ -247,26 +246,44 @@ function deactivate_method_admin(element) {
 }
 
 function activate_method_user_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate').split('admin_')[0] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate')[0].split('admin_')[1] + '/activate' }, function(response) {
         if (response.code == "Ok") {
-            admin_check_method(element.id.split('_activate')[0]);
+            get_user();
         } else {
             console.log(response.message);
         }
     });
 }
-
 
 function deactivate_method_user_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_deactivate')[1] + '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_deactivate')[0].split('admin_')[1]+ '/deactivate' }, function(response) {
         if (response.code == "Ok") {
-            admin_uncheck_method(element.id.split('_deactivate')[0]);
+            get_user();
         } else {
             console.log(response.message);
         }
     });
 }
 
+function deactivate_method_user_manager(element) {
+    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_deactivate')[0].split('manager_')[1]+ '/deactivate' }, function(response) {
+        if (response.code == "Ok") {
+            get_user();
+        } else {
+            console.log(response.message);
+        }
+    });
+}
+
+function activate_method_user_manager(element) {
+    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate')[0].split('manager_')[1] + '/activate' }, function(response) {
+        if (response.code == "Ok") {
+            get_user();
+        } else {
+            console.log(response.message);
+        }
+    });
+}
 
 function activate_method_transport(element) {
     request({ method: 'PUT', url: '/api/admin/' + element.id.split('_activate')[0] + '/' + element.id.split('_activate_')[1].split('_transport')[0] + '/activate' }, function(response) {

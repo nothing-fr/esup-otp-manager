@@ -14,16 +14,16 @@
     button(onclick="$('#qrCode').toggle();$('#secret').toggle();") QrCode
     #qrCode(hidden='true')
     #secret(hidden='true')
-#simple_generator_method.content-unit.method(hidden='true')
+#random_code_method.content-unit.method(hidden='true')
   h1.page-header Simple Code
   .row
     p
       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
     p
       | Activer cette méthode d'authentification : oui
-      span#simple_generator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
+      span#random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
       |  non
-      span#simple_generator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+      span#random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
 #bypass_method.content-unit.method(hidden='true')
   h1.page-header Bypass
   .row

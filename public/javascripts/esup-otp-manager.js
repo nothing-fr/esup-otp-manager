@@ -142,7 +142,7 @@ function get_user() {
 
 function show_user(user) {
     show_totp_infos(user.totp);
-    show_simple_generator_infos(user.simple_generator);
+    show_random_code_infos(user.random_code);
     show_bypass_infos(user.bypass);
 }
 
@@ -156,13 +156,13 @@ function show_totp_infos(data) {
     }
 }
 
-function show_simple_generator_infos(data) {
+function show_random_code_infos(data) {
     if (data.active) {
-        admin_check_method("simple_generator");
-        manager_check_method("simple_generator");
+        admin_check_method("random_code");
+        manager_check_method("random_code");
     }else {
-        admin_uncheck_method("simple_generator");
-        manager_uncheck_method("simple_generator");
+        admin_uncheck_method("random_code");
+        manager_uncheck_method("random_code");
     }
 }
 
@@ -181,7 +181,7 @@ function show_bypass_infos(data) {
 function remove_user_infos() {
     remove_bypass_infos();
     remove_totp_infos();
-    remove_simple_generator_infos();
+    remove_random_code_infos();
 }
 
 function remove_totp_infos() {
@@ -195,7 +195,7 @@ function remove_bypass_infos() {
     $("#bypass_codes").empty('');   
 }
 
-function remove_simple_generator_infos() {
+function remove_random_code_infos() {
     
 }
 

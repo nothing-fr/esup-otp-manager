@@ -23,7 +23,7 @@ function initiatilize_user_model(mongoose) {
             required: true,
             unique: true
         },
-        simple_generator: {
+        random_code: {
             code: String,
             validity_time: Number,
             active: {

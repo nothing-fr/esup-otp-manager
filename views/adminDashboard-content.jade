@@ -17,24 +17,24 @@
         span#totp_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
         |  non
         span#totp_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
-  #simple_generator_method.method(hidden='true')
+  #random_code_method.method(hidden='true')
     h1.page-header Simple Code
     .row
       p
         | Activer cette méthode d'authentification : oui
-        span#simple_generator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
+        span#random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
         |  non
-        span#simple_generator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
+        span#random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
       p
         | Activer le transport SMS : oui
-        span#simple_generator_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        span#random_code_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
         |  non
-        span#simple_generator_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+        span#random_code_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
       p
         | Activer le transport Mail : oui
-        span#simple_generator_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
+        span#random_code_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
         |  non
-        span#simple_generator_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+        span#random_code_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
   #bypass_method.method(hidden='true')
     h1.page-header Bypass
     .row
@@ -89,15 +89,15 @@
       #totp_secret
       button(onclick='generate_totp();') Générer nouveau QrCode
       button(onclick='delete_totp_secret();') Supprimer le QrCode
-    #simple_generator_admin
+    #random_code_admin
       h1.page-header Simple Code
       p
       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
       p
       | Activer cette méthode d'authentification : oui
-      span#admin_simple_generator_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
+      span#admin_random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
       |  non
-      span#admin_simple_generator_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+      span#admin_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
     #bypass_admin
       h1.page-header Bypass
       p

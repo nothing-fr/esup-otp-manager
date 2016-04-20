@@ -7,12 +7,13 @@
 var app = require('../server/app');
 var debug = require('debug')('esup-otp-manager:server');
 var http = require('http');
+var properties = require(process.cwd() + '/properties/properties');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '4000');
+var port = normalizePort(properties.esup.port || process.env.PORT || '4000');
 app.set('port', port);
 
 /**

@@ -360,6 +360,20 @@ function change_transport(transport) {
 }
 
 function generate_bypass() {
+    request({ method: 'POST', url: '/api/generate/bypass'}, function(response) {
+        if (response.code == "Ok") {
+            var codes = JSON.stringify(response.codes);
+            codes = codes.replace('["', '<ul><li>');
+            codes = codes.replace(/","/g, '</li><li>');
+            codes = codes.replace('"]', '</li></ul>');
+            $("#bypass_codes").html("Codes : " + codes);
+        } else {
+            console.log(response.message);
+        }
+    });
+}
+
+function admin_generate_bypass() {
     request({ method: 'POST', url: '/api/admin/generate/bypass/' + uid }, function(response) {
         if (response.code == "Ok") {
             var codes = JSON.stringify(response.codes);

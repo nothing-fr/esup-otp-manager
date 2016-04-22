@@ -373,7 +373,7 @@ function generate_bypass() {
     });
 }
 
-function delete_bypass_codes() {
+function admin_delete_bypass_codes() {
     request({ method: 'DELETE', url: '/api/admin/delete_method_secret/bypass/' + uid }, function(response) {
         if (response.code == "Ok") {
             get_user();
@@ -384,7 +384,7 @@ function delete_bypass_codes() {
     });
 }
 
-function delete_totp_secret() {
+function admin_delete_totp_secret() {
     request({ method: 'DELETE', url: '/api/admin/delete_method_secret/totp/' + uid }, function(response) {
         if (response.code == "Ok") {
             get_user();
@@ -396,6 +396,21 @@ function delete_totp_secret() {
 }
 
 function generate_totp() {
+    request({ method: 'POST', url: '/api/generate/totp' }, function(response) {
+        if (response.code == "Ok") {
+            $('#qrCode').empty();
+            $('#secret').empty();
+            $('#qrCode').append(response.qrCode);
+            $('#secret').append(response.message);
+            $('#qrCode').show();
+            $('#secret').show();
+        } else {
+            console.log(response.message);
+        }
+    });
+}
+
+function admin_generate_totp() {
     request({ method: 'POST', url: '/api/admin/generate/totp/' + uid }, function(response) {
         if (response.code == "Ok") {
             $('#totp_qrCode').empty();

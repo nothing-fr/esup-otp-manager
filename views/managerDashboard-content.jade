@@ -14,8 +14,8 @@
       span#manager_totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
       #totp_qrCode
       #totp_secret
-      button(onclick='generate_totp();') Générer nouveau QrCode
-      button(onclick='delete_totp_secret();') Supprimer le QrCode
+      button(onclick='admin_generate_totp();') Générer nouveau QrCode
+      button(onclick='admin_delete_totp_secret();') Supprimer le QrCode
     #random_code_manager
       h1.page-header Code Aléatoire
       p
@@ -37,8 +37,8 @@
       p#available_code
       p#used_code
       p#bypass_codes
-      button(onclick='generate_bypass();') Générer nouveaux codes
-      button(onclick='delete_bypass_codes();') Supprimer les codes
+      button(onclick='admin_generate_bypass();') Générer nouveaux codes
+      button(onclick='admin_delete_bypass_codes();') Supprimer les codes
     #matrix_manager
       h1.page-header Grille
       p

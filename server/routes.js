@@ -136,7 +136,7 @@ function routing() {
 
     router.get('/api/generate/:method', isUser, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'generate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/generate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
@@ -170,7 +170,7 @@ function routing() {
     router.post('/api/generate/:method', isUser, function(req, res) {
         var opts = {};
         opts.method = 'POST';
-        opts.url = properties.esup.api_url+'generate/' + req.params.method + '/' + req.session.passport.user.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/user/'+ req.session.passport.user.uid + '/method/' + req.params.method + '/secret/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
@@ -225,7 +225,7 @@ function routing() {
     router.post('/api/admin/generate/:method/:uid', isManager, function(req, res) {
         var opts = {};
         opts.method = 'POST';
-        opts.url = properties.esup.api_url+'generate/' + req.params.method + '/' + req.params.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/user/'+ req.params.uid + '/method/' + req.params.method + '/secret/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 

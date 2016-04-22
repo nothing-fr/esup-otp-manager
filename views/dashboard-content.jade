@@ -45,16 +45,18 @@
 #transport_preference(hidden='true')
   h1.page-header Transport
   .row
-    | Sms:
-    label#sms_label
-    #change_sms_form(hidden='true')
-      input#sms_input(type='text')
-      button#change_sms_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
-    button#modify_sms_btn(onclick="$('#change_sms_form').show(); $('#'+this.id).hide();") Modifier
+    #sms_transport
+      | Sms: 
+      label#sms_label
+      #change_sms_form(hidden='true')
+        input#sms_input(type='text')
+        button#change_sms_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
+      button#modify_sms_btn(onclick="$('#change_sms_form').show(); $('#'+this.id).hide();") Modifier
     br
-    |  Mail:
-    label#mail_label
-    #change_mail_form(hidden='true')
-      input#mail_input(type='text')
-      button#change_mail_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
-    button#modify_mail_btn(onclick="$('#change_mail_form').show(); $('#'+this.id).hide();") Modifier
+    #mail_transport
+      |  Mail:
+      label#mail_label
+      #change_mail_form(hidden='true')
+        input#mail_input(type='text')
+        button#change_mail_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
+      button#modify_mail_btn(onclick="$('#change_mail_form').show(); $('#'+this.id).hide();") Modifier

@@ -1,5 +1,5 @@
 uid = "";
-
+methods = {};
 function init_admin() {
     get_methods_admin();
 }
@@ -10,9 +10,22 @@ function init() {
 
 function navClick(link) {
     reset();
-    $('#transport_preference').show();
+    refresh_transports(link);
     $(link).addClass('active');
     $('#' + link.id.split('_li')[0]).show();
+}
+
+function refresh_transports(link){
+    if(methods[link.id.split('_method_li')[0]]){
+        '#transport_preference'
+        if(methods[link.id.split('_method_li')[0]].sms || methods[link.id.split('_method_li')[0]].mail){
+                $('#transport_preference').show();
+                if(methods[link.id.split('_method_li')[0]].sms)$('#sms_transport').show();
+                else $('#sms_transport').hide();
+                if(methods[link.id.split('_method_li')[0]].mail)$('#mail_transport').show();
+                else $('#mail_transport').hide();
+        }else $('#transport_preference').hide();
+    }
 }
 
 function reset() {
@@ -51,6 +64,7 @@ function request(opts, callback, next) {
 function get_methods() {
     request({ method: 'GET', url: '/api/methods' }, function(response) {
         if (response.code == "Ok") {
+            methods = response.methods;
             $('.method').each(function() {
                 if (!response.methods[this.id.split('_method')[0]] || !response.methods[this.id.split('_method')[0]].activate) {
                     this.remove();
@@ -286,7 +300,7 @@ function activate_method_user_manager(element) {
 }
 
 function activate_method_transport(element) {
-    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_activate')[0] + '/' + element.id.split('_activate_')[1].split('_transport')[0] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_activate')[0] + '/transport/' + element.id.split('_activate_')[1].split('_transport')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             check_method_transport(element.id.split('_activate')[0], element.id.split('_activate_')[1].split('_transport')[0]);
         } else {
@@ -297,7 +311,7 @@ function activate_method_transport(element) {
 
 
 function deactivate_method_transport(element) {
-    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_deactivate')[0] + '/' + element.id.split('_deactivate_')[1].split('_transport')[0] + '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_deactivate')[0] + '/transport/' + element.id.split('_deactivate_')[1].split('_transport')[0] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             uncheck_method_transport(element.id.split('_deactivate')[0], element.id.split('_deactivate_')[1].split('_transport')[0]);
         } else {

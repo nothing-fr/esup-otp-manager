@@ -43,16 +43,6 @@
         span#bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
         |  non
         span#bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
-      p
-        | Activer le transport SMS : oui
-        span#bypass_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-        |  non
-        span#bypass_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
-      p
-        | Activer le transport Mail : oui
-        span#bypass_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-        |  non
-        span#bypass_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
   #matrix_method.method(hidden='true')
     h1.page-header Grille
     .row
@@ -61,16 +51,6 @@
         span#matrix_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_admin(this);')
         |  non
         span#matrix_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_admin(this);')
-      p
-        | Activer le transport SMS : oui
-        span#matrix_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-        |  non
-        span#matrix_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
-      p
-        | Activer le transport Mail : oui
-        span#totp_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-        |  non
-        span#totp_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
 #users.content-unit(hidden='true')
   | Nom d'utilisateur:
   input#userInput(type='text')

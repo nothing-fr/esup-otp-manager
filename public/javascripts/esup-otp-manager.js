@@ -367,7 +367,9 @@ function generate_bypass() {
             codes = codes.replace(/","/g, '</li><li>');
             codes = codes.replace('"]', '</li></ul>');
             $("#bypass_codes").html("Codes : " + codes);
+            $("#bypass_codes").show();
         } else {
+            $("#bypass_codes").hide();
             console.log(response.message);
         }
     });

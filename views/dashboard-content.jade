@@ -35,6 +35,8 @@
       span#bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
       |  non
       span#bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+    #bypass_codes(hidden='true')
+    button(onclick='generate_bypass();') Générer nouveaux codes
 #matrix_method.content-unit.method(hidden='true')
   h1.page-header Grille
   .row

@@ -134,12 +134,6 @@ function routing() {
         requesting(req, res, opts);
     });
 
-    router.post('/api/generate/:method', isUser, function(req, res) {
-        var opts = {};
-        opts.url = properties.esup.api_url+'protected/user/' + req.session.passport.user.uid+'/method/'+ req.params.method + '/secret/' + properties.esup.api_password;
-        requesting(req, res, opts);
-    });
-
     router.get('/api/secret/:method', isUser, function(req, res) {
         var opts = {};
         opts.url = properties.esup.api_url+'protected/user/'+req.session.passport.user.uid+'/method/'+req.params.method+'/secret/'+ properties.esup.api_password;

@@ -78,7 +78,7 @@ function get_methods() {
             });
             console.log(response.message);
         }
-    }, get_user_methods);
+    }, get_user_infos);
 }
 
 
@@ -121,16 +121,18 @@ function get_methods_admin() {
 }
 
 
-function get_user_methods() {
-    request({ method: 'GET', url: '/api/activate_methods' }, function(response) {
+function get_user_infos() {
+    request({ method: 'GET', url: '/api/user' }, function(response) {
         if (response.code == "Ok") {
-            for (method in response.methods) {
-                if (response.methods[method]) {
+            for (method in response.user.methods) {
+                if (response.user.methods[method]) {
                     check_method(method);
                 } else {
                     uncheck_method(method);
                 }
             }
+            $('#sms_label').text(response.user.transports.sms);
+            $('#mail_label').text(response.user.transports.mail);
         } else {
             console.log(response.message);
         }
@@ -220,18 +222,6 @@ function get_qrCode() {
         if (response.code == "Ok") {
             $('#qrCode').html(response.qrCode);
             $('#secret').html(response.message);
-        } else {
-            console.log(response.message);
-        }
-    }, get_transports);
-}
-
-
-function get_transports() {
-    request({ method: 'GET', url: '/api/available_transports' }, function(response) {
-        if (response.code == "Ok") {
-            $('#sms_label').text(response.transports_list.sms);
-            $('#mail_label').text(response.transports_list.mail);
         } else {
             console.log(response.message);
         }

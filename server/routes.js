@@ -116,15 +116,9 @@ function routing() {
     });
 
     //API
-    router.get('/api/available_transports', isUser, function(req, res) {
+    router.get('/api/user', isUser, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'available_transports/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
-        requesting(req, res, opts);
-    });
-
-    router.get('/api/activate_methods', isUser, function(req, res) {
-        var opts = {};
-        opts.url = properties.esup.api_url+'activate_methods/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
+        opts.url = properties.esup.api_url+'user/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
         requesting(req, res, opts);
     });
 

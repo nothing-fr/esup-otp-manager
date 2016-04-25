@@ -3,7 +3,7 @@ var CryptoJS = require('crypto-js');
 
 exports.get_hash = function(uid) {
     var d = new Date();
-    var present_salt = d.getDay().toString()+d.getHours().toString();
+    var present_salt = d.getUTCDate().toString()+d.getHours().toString();
     present_hash = CryptoJS.SHA256(CryptoJS.MD5(properties.esup.users_secret).toString()+uid+present_salt).toString();  
     return present_hash;
 }

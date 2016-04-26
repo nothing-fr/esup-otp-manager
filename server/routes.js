@@ -122,6 +122,12 @@ function routing() {
         requesting(req, res, opts);
     });
 
+    router.get('/api/transport/:transport/test', isUser, function(req, res) {
+        var opts = {};
+        opts.url = properties.esup.api_url+'protected/user/' + req.session.passport.user.uid + '/transport/'+ req.params.transport+'/test/'+ properties.esup.api_password;
+        requesting(req, res, opts);
+    });
+
     router.get('/api/methods', isUser, function(req, res) {
         var opts = {};
         opts.url = properties.esup.api_url+'protected/method/' + properties.esup.api_password

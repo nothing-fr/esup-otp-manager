@@ -59,7 +59,15 @@ function request(opts, callback, next) {
     req.send(null);
 }
 
+function test_transport(transport) {
+    request({ method: 'GET', url: '/api/transport/'+transport+'/test' }, function(response) {
+        if (response.code == "Ok") {
 
+        } else {
+            console.log(response.message);
+        }
+    });
+}
 
 function get_methods() {
     request({ method: 'GET', url: '/api/methods' }, function(response) {

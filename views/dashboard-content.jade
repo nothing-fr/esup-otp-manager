@@ -55,6 +55,7 @@
         input#sms_input(type='text')
         button#change_sms_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
       button#modify_sms_btn(onclick="$('#change_sms_form').show(); $('#'+this.id).hide();") Modifier
+      button#test_sms_btn(onclick="test_transport('sms');") Vérifier
     br
     #mail_transport
       |  Mail:
@@ -63,3 +64,4 @@
         input#mail_input(type='text')
         button#change_mail_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
       button#modify_mail_btn(onclick="$('#change_mail_form').show(); $('#'+this.id).hide();") Modifier
+      button#test_mail_btn(onclick="test_transport('mail');") Vérifier

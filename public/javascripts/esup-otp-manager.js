@@ -353,7 +353,7 @@ function change_transport(transport) {
             } else {
                 console.log(response.message);
             }
-        }, get_transports);
+        }, get_user_infos);
     }
 }
 

@@ -139,6 +139,8 @@ function get_user_infos() {
                     uncheck_method(method);
                 }
             }
+            $('#sms_label').empty();
+            $('#mail_label').empty();
             $('#sms_label').text(response.user.transports.sms);
             $('#mail_label').text(response.user.transports.mail);
         } else {
@@ -356,6 +358,17 @@ function change_transport(transport) {
         }, get_user_infos);
     }
 }
+
+function delete_transport(transport) {
+    request({ method: 'DELETE', url: '/api/transport/' + transport }, function(response) {
+        if (response.code == "Ok") {
+            
+        } else {
+            console.log(response.message);
+        }
+    }, get_user_infos);
+}
+
 
 function generate_bypass() {
     request({ method: 'POST', url: '/api/generate/bypass'}, function(response) {

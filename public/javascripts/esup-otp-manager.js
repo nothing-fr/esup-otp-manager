@@ -18,11 +18,11 @@ function navClick(link) {
 function refresh_transports(link){
     if(methods[link.id.split('_method_li')[0]]){
         '#transport_preference'
-        if(methods[link.id.split('_method_li')[0]].sms || methods[link.id.split('_method_li')[0]].mail){
+        if(methods[link.id.split('_method_li')[0]].transports.indexOf("sms")>=0 || methods[link.id.split('_method_li')[0]].transports.indexOf("mail")>=0){
                 $('#transport_preference').show();
-                if(methods[link.id.split('_method_li')[0]].sms)$('#sms_transport').show();
+                if(methods[link.id.split('_method_li')[0]].transports.indexOf("sms")>=0)$('#sms_transport').show();
                 else $('#sms_transport').hide();
-                if(methods[link.id.split('_method_li')[0]].mail)$('#mail_transport').show();
+                if(methods[link.id.split('_method_li')[0]].transports.indexOf("mail")>=0)$('#mail_transport').show();
                 else $('#mail_transport').hide();
         }else $('#transport_preference').hide();
     }
@@ -105,12 +105,12 @@ function get_methods_admin() {
                     } else {
                         uncheck_method(method);
                     }
-                    if (response.methods[method].sms) {
+                    if (response.methods[method].transports.indexOf("sms")>=0) {
                         check_method_transport(method, 'sms');
                     } else {
                         uncheck_method_transport(method, 'sms');
                     }
-                    if (response.methods[method].mail) {
+                    if (response.methods[method].transports.indexOf("mail")>=0) {
                         check_method_transport(method, 'mail');
                     } else {
                         uncheck_method_transport(method, 'mail');

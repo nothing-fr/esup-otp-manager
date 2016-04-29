@@ -133,7 +133,7 @@ function get_user_infos() {
     request({ method: 'GET', url: '/api/user' }, function(response) {
         if (response.code == "Ok") {
             for (method in response.user.methods) {
-                if (response.user.methods[method]) {
+                if (response.user.methods[method].active) {
                     check_method(method);
                 } else {
                     uncheck_method(method);

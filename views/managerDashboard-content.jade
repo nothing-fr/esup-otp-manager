@@ -4,7 +4,7 @@
   button(onclick='get_user();') Valider
   #userInfo(hidden='true')
     #totp_manager
-      h1.page-header Code à usage unique (TOTP)
+      h1.page-header #{messages.api.totp}
       p
       | Méthode permettant de générer des codes uniques de 6 chiffres
       p
@@ -17,7 +17,7 @@
       button(onclick='admin_generate_totp();') Générer nouveau QrCode
       button(onclick='admin_delete_totp_secret();') Supprimer le QrCode
     #random_code_manager
-      h1.page-header Code Aléatoire
+      h1.page-header #{messages.api.random_code}
       p
       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
       p
@@ -26,7 +26,7 @@
       |  non
       span#manager_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
     #bypass_manager
-      h1.page-header Codes de secours
+      h1.page-header #{messages.api.bypass}
       p
       | Méthode permettant de générer une liste de codes aléatoire à usage unique
       p
@@ -40,7 +40,7 @@
       button(onclick='admin_generate_bypass();') Générer nouveaux codes
       button(onclick='admin_delete_bypass_codes();') Supprimer les codes
     #matrix_manager
-      h1.page-header Grille
+      h1.page-header #{messages.api.matrix}
       p
       button(onclick='') Générer nouvelle grille
       button(onclick='') Supprimer la grille

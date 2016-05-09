@@ -7,7 +7,7 @@
 var app = require('../server/app');
 var debug = require('debug')('esup-otp-manager:server');
 var http = require('http');
-var properties = require(process.cwd() + '/properties/properties');
+var properties = require(__dirname + '/../properties/properties');
 
 /**
  * Get port from environment and store in Express.

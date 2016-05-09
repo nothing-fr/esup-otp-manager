@@ -1,0 +1,22 @@
+{
+    "success": {
+        "valid_credentials": "Identifiants valides",
+        "transports_found": "Liste de rtansports trouvée",
+        "methods_found": "Méthodes trouvées",
+        "update": "Mis à jour réussie"
+    },
+    "error": {
+        "invalid_credentials": "Identifiants invalides",
+        "user_not_found": "Utilisateur non trouvé",
+        "transport_not_found": "Transport non trouvé",
+        "method_not_found": "Méthode non trouvée",
+        "unvailable_method_operation": "Cette opération est invalide pour la méthode sélectionnée",
+        "unvailable_method_transport": "Ce transport est invalide pour la méthode sélectionnée"
+    },
+    "api":{
+        "totp":"Code temporaire",
+        "random_code":"Code à usage unique",
+        "bypass": "Code de secours",
+        "matrix": "Grille d'authentification"
+    }
+}

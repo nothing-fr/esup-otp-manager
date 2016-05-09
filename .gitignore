@@ -1,7 +1,6 @@
 node_modules/
 .DS_Store
 esup.json
-messages.json
 html/
 twin-bcrypt.min.js
 npm-debug.log

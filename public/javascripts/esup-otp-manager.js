@@ -263,6 +263,10 @@ function activate_method_user_admin(element) {
     request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate')[0].split('admin_')[1] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             get_user();
+            switch(element.id.split('_activate')[0].split('admin_')[1]){
+                case 'totp': admin_generate_totp();break;
+                case 'bypass': admin_generate_bypass();break;
+            }
         } else {
             console.log(response.message);
         }
@@ -293,6 +297,10 @@ function activate_method_user_manager(element) {
     request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate')[0].split('manager_')[1] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             get_user();
+            switch(element.id.split('_activate')[0].split('manager_')[1]){
+                case 'totp': admin_generate_totp();break;
+                case 'bypass': admin_generate_bypass();break;
+            }
         } else {
             console.log(response.message);
         }
@@ -325,6 +333,10 @@ function activate_method(element) {
     request({ method: 'PUT', url: '/api/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             check_method(element.id.split('_activate')[0]);
+            switch(element.id.split('_activate')[0]){
+                case 'totp': generate_totp();break;
+                case 'bypass': generate_bypass();break;
+            }
         } else {
             console.log(response.message);
         }

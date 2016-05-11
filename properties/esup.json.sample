@@ -1,5 +1,4 @@
 {
-    "port": XXXX,
     "CAS": {
         "version": "CAS1.0",
         "ssoBaseURL": "https://cas.org/cas",

@@ -36,6 +36,8 @@
       |  non
       span#bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
     #bypass_codes(hidden='true')
+    p#available_code
+    p#used_code
     button(onclick='generate_bypass();') Générer nouveaux codes
 #matrix_method.content-unit.method(hidden='true')
   h1.page-header #{messages.api.matrix}

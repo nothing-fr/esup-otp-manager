@@ -1,5 +1,6 @@
 uid = "";
 methods = {};
+
 function init_admin() {
     get_methods_admin();
 }
@@ -15,16 +16,16 @@ function navClick(link) {
     $('#' + link.id.split('_li')[0]).show();
 }
 
-function refresh_transports(link){
-    if(methods[link.id.split('_method_li')[0]]){
+function refresh_transports(link) {
+    if (methods[link.id.split('_method_li')[0]]) {
         '#transport_preference'
-        if(methods[link.id.split('_method_li')[0]].transports.indexOf("sms")>=0 || methods[link.id.split('_method_li')[0]].transports.indexOf("mail")>=0){
-                $('#transport_preference').show();
-                if(methods[link.id.split('_method_li')[0]].transports.indexOf("sms")>=0)$('#sms_transport').show();
-                else $('#sms_transport').hide();
-                if(methods[link.id.split('_method_li')[0]].transports.indexOf("mail")>=0)$('#mail_transport').show();
-                else $('#mail_transport').hide();
-        }else $('#transport_preference').hide();
+        if (methods[link.id.split('_method_li')[0]].transports.indexOf("sms") >= 0 || methods[link.id.split('_method_li')[0]].transports.indexOf("mail") >= 0) {
+            $('#transport_preference').show();
+            if (methods[link.id.split('_method_li')[0]].transports.indexOf("sms") >= 0) $('#sms_transport').show();
+            else $('#sms_transport').hide();
+            if (methods[link.id.split('_method_li')[0]].transports.indexOf("mail") >= 0) $('#mail_transport').show();
+            else $('#mail_transport').hide();
+        } else $('#transport_preference').hide();
     }
 }
 
@@ -60,7 +61,7 @@ function request(opts, callback, next) {
 }
 
 function test_transport(transport) {
-    request({ method: 'GET', url: '/api/transport/'+transport+'/test' }, function(response) {
+    request({ method: 'GET', url: '/api/transport/' + transport + '/test' }, function(response) {
         if (response.code == "Ok") {
 
         } else {
@@ -105,12 +106,12 @@ function get_methods_admin() {
                     } else {
                         uncheck_method(method);
                     }
-                    if (response.methods[method].transports.indexOf("sms")>=0) {
+                    if (response.methods[method].transports.indexOf("sms") >= 0) {
                         check_method_transport(method, 'sms');
                     } else {
                         uncheck_method_transport(method, 'sms');
                     }
-                    if (response.methods[method].transports.indexOf("mail")>=0) {
+                    if (response.methods[method].transports.indexOf("mail") >= 0) {
                         check_method_transport(method, 'mail');
                     } else {
                         uncheck_method_transport(method, 'mail');
@@ -129,9 +130,11 @@ function get_methods_admin() {
 }
 
 
-function get_user_infos() {
+function get_user_infos(callback) {
     request({ method: 'GET', url: '/api/user' }, function(response) {
         if (response.code == "Ok") {
+            $("#available_code").empty();
+            $("#used_code").empty();
             for (method in response.user.methods) {
                 if (response.user.methods[method].active) {
                     check_method(method);
@@ -139,10 +142,15 @@ function get_user_infos() {
                     uncheck_method(method);
                 }
             }
+            if (response.user.methods.bypass.active) {
+                $("#available_code").html("Code restants : " + JSON.stringify(response.user.methods.bypass.available_code));
+                $("#used_code").html("Code utilisés : " + JSON.stringify(response.user.methods.bypass.used_code));
+            }
             $('#sms_label').empty();
             $('#mail_label').empty();
             $('#sms_label').text(response.user.transports.sms);
             $('#mail_label').text(response.user.transports.mail);
+            if(typeof(callback)==="function")callback();
         } else {
             console.log(response.message);
         }
@@ -175,9 +183,9 @@ function show_user(user) {
 
 function show_totp_infos(data) {
     if (data.active) {
-    admin_check_method("totp");
-    manager_check_method("totp");
-    }else {
+        admin_check_method("totp");
+        manager_check_method("totp");
+    } else {
         admin_uncheck_method("totp");
         manager_uncheck_method("totp");
     }
@@ -187,7 +195,7 @@ function show_random_code_infos(data) {
     if (data.active) {
         admin_check_method("random_code");
         manager_check_method("random_code");
-    }else {
+    } else {
         admin_uncheck_method("random_code");
         manager_uncheck_method("random_code");
     }
@@ -199,7 +207,7 @@ function show_bypass_infos(data) {
         manager_check_method("bypass");
         $("#available_code").html("Code restants : " + JSON.stringify(data.available_code));
         $("#used_code").html("Code utilisés : " + JSON.stringify(data.used_code));
-    }else {
+    } else {
         admin_uncheck_method("bypass");
         manager_uncheck_method("bypass");
     }
@@ -218,12 +226,12 @@ function remove_totp_infos() {
 
 function remove_bypass_infos() {
     $("#available_code").empty('');
-    $("#used_code").empty('');   
-    $("#bypass_codes").empty('');   
+    $("#used_code").empty('');
+    $("#bypass_codes").empty('');
 }
 
 function remove_random_code_infos() {
-    
+
 }
 
 
@@ -260,12 +268,16 @@ function deactivate_method_admin(element) {
 }
 
 function activate_method_user_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate')[0].split('admin_')[1] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_activate')[0].split('admin_')[1] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             get_user();
-            switch(element.id.split('_activate')[0].split('admin_')[1]){
-                case 'totp': admin_generate_totp();break;
-                case 'bypass': admin_generate_bypass();break;
+            switch (element.id.split('_activate')[0].split('admin_')[1]) {
+                case 'totp':
+                    admin_generate_totp();
+                    break;
+                case 'bypass':
+                    admin_generate_bypass();
+                    break;
             }
         } else {
             console.log(response.message);
@@ -274,7 +286,7 @@ function activate_method_user_admin(element) {
 }
 
 function deactivate_method_user_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_deactivate')[0].split('admin_')[1]+ '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_deactivate')[0].split('admin_')[1] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             get_user();
         } else {
@@ -284,7 +296,7 @@ function deactivate_method_user_admin(element) {
 }
 
 function deactivate_method_user_manager(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_deactivate')[0].split('manager_')[1]+ '/deactivate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_deactivate')[0].split('manager_')[1] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             get_user();
         } else {
@@ -294,12 +306,16 @@ function deactivate_method_user_manager(element) {
 }
 
 function activate_method_user_manager(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid +'/'+ element.id.split('_activate')[0].split('manager_')[1] + '/activate' }, function(response) {
+    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_activate')[0].split('manager_')[1] + '/activate' }, function(response) {
         if (response.code == "Ok") {
             get_user();
-            switch(element.id.split('_activate')[0].split('manager_')[1]){
-                case 'totp': admin_generate_totp();break;
-                case 'bypass': admin_generate_bypass();break;
+            switch (element.id.split('_activate')[0].split('manager_')[1]) {
+                case 'totp':
+                    admin_generate_totp();
+                    break;
+                case 'bypass':
+                    admin_generate_bypass();
+                    break;
             }
         } else {
             console.log(response.message);
@@ -332,10 +348,15 @@ function deactivate_method_transport(element) {
 function activate_method(element) {
     request({ method: 'PUT', url: '/api/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
         if (response.code == "Ok") {
-            check_method(element.id.split('_activate')[0]);
-            switch(element.id.split('_activate')[0]){
-                case 'totp': generate_totp();break;
-                case 'bypass': generate_bypass();break;
+            get_user_infos();
+            switch (element.id.split('_activate')[0]) {
+                case 'totp':
+                    generate_totp();
+                    break;
+                case 'bypass':
+                    generate_bypass();
+                    break;
+                default: 
             }
         } else {
             console.log(response.message);
@@ -347,7 +368,8 @@ function activate_method(element) {
 function deactivate_method(element) {
     request({ method: 'PUT', url: '/api/' + element.id.split('_deactivate')[0] + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
-            uncheck_method(element.id.split('_deactivate')[0]);
+            get_user_infos();
+            $("#bypass_codes").hide();
         } else {
             console.log(response.message);
         }
@@ -374,7 +396,7 @@ function change_transport(transport) {
 function delete_transport(transport) {
     request({ method: 'DELETE', url: '/api/transport/' + transport }, function(response) {
         if (response.code == "Ok") {
-            
+
         } else {
             console.log(response.message);
         }
@@ -383,19 +405,23 @@ function delete_transport(transport) {
 
 
 function generate_bypass() {
-    request({ method: 'POST', url: '/api/generate/bypass'}, function(response) {
+    request({ method: 'POST', url: '/api/generate/bypass' }, function(response) {
         if (response.code == "Ok") {
-            var codes = JSON.stringify(response.codes);
-            codes = codes.replace('["', '<ul><li>');
-            codes = codes.replace(/","/g, '</li><li>');
-            codes = codes.replace('"]', '</li></ul>');
-            $("#bypass_codes").html("Codes : " + codes);
-            $("#bypass_codes").show();
+            show_bypass_codes(response);
         } else {
             $("#bypass_codes").hide();
             console.log(response.message);
         }
     });
+}
+
+function show_bypass_codes(response) {
+    var codes = JSON.stringify(response.codes);
+    codes = codes.replace('["', '<ul><li>');
+    codes = codes.replace(/","/g, '</li><li>');
+    codes = codes.replace('"]', '</li></ul>');
+    $("#bypass_codes").html("Codes : " + codes);
+    $("#bypass_codes").show();
 }
 
 function admin_generate_bypass() {

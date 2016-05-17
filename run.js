@@ -1,4 +1,4 @@
-var server = require(process.cwd() + '/server/server');
+var server = require('./server/server');
 
 process.on('SIGINT', function() {
     process.exit(0);

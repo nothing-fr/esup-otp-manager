@@ -136,3 +136,7 @@ body {
 .glyphicon:active{
     color: tomato;
 }
+/* custom */
+.method-content{
+    margin-bottom: 40px;
+}

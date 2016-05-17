@@ -1,6 +1,6 @@
 #totp_method.content-unit.method(hidden='true')
   h1.page-header #{messages.api.totp}
-  .row
+  .method-content
     p
       | Méthode permettant de générer des codes uniques de 6 chiffres
     p
@@ -17,7 +17,7 @@
     button(onclick='generate_totp();') Générer nouveau QrCode
 #random_code_method.content-unit.method(hidden='true')
   h1.page-header #{messages.api.random_code}
-  .row
+  .method-content
     p
       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
     p
@@ -27,7 +27,7 @@
       span#random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
 #bypass_method.content-unit.method(hidden='true')
   h1.page-header #{messages.api.bypass}
-  .row
+  .method-content
     p
       | Méthode permettant de générer une liste de codes aléatoire à usage unique
     p
@@ -39,7 +39,7 @@
     button(onclick='generate_bypass();') Générer nouveaux codes
 #matrix_method.content-unit.method(hidden='true')
   h1.page-header #{messages.api.matrix}
-  .row
+  .method-content
     p
       | Activer cette méthode d'authentification : oui
       span#matrix_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
@@ -47,7 +47,7 @@
       span#matrix_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
 #transport_preference(hidden='true')
   h1.page-header Transport
-  .row
+  .method-content
     #sms_transport
       | Sms: 
       label#sms_label

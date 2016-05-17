@@ -5,9 +5,9 @@ html
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/auto-complete.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
-    script(src='/javascripts/esup-otp-manager.js')
     meta(name='viewport', content='width=device-width, initial-scale=1')
   body
     
@@ -17,4 +17,6 @@ head
   style.
     body
   block content
-  
+  script(src='/javascripts/auto-complete.min.js')
+  script(src='/javascripts/esup-otp-manager.js')
+  block script

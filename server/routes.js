@@ -178,6 +178,12 @@ function routing() {
         requesting(req, res, opts);
     });
 
+    router.get('/api/admin/users', isManager, function(req, res) {
+        var opts={};
+        opts.url = properties.esup.api_url + 'protected/admin/user/' + properties.esup.api_password;
+        requesting(req, res, opts);
+    });
+
     router.get('/api/admin/user/:uid', isManager, function(req, res) {
         var opts = {};
         opts.url = properties.esup.api_url+'protected/admin/user/' + req.params.uid + '/' + properties.esup.api_password;

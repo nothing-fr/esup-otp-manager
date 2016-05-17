@@ -1,8 +1,28 @@
 uid = "";
 methods = {};
 
+var uids;
+
+var uid_complete;
+
+function autocomplete_uid() {
+    uid_complete = new autoComplete({
+        selector: '#userInput',
+        minChars: 1,
+        source: function(term, suggest) {
+            term = term.toLowerCase();
+            var choices = uids;
+            var suggestions = [];
+            for (i = 0; i < choices.length; i++)
+                if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+            suggest(suggestions);
+        }
+    });
+}
+
 function init_admin() {
     get_methods_admin();
+    get_uids();
 }
 
 function init() {
@@ -129,6 +149,14 @@ function get_methods_admin() {
     });
 }
 
+function get_uids(){
+    request({ method: 'GET', url: '/api/admin/users'}, function(response){
+        if (response.code) {
+            uids = response.uids;
+            autocomplete_uid();
+        }
+    });
+}
 
 function get_user_infos(callback) {
     request({ method: 'GET', url: '/api/user' }, function(response) {

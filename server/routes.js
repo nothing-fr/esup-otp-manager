@@ -121,128 +121,128 @@ function routing() {
     //API
     router.get('/api/user', isUser, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'user/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
+        opts.url = properties.esup.api_url+'users/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
         requesting(req, res, opts);
     });
 
     router.get('/api/transport/:transport/test', isUser, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'protected/user/' + req.session.passport.user.uid + '/transport/'+ req.params.transport+'/test/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/' + req.session.passport.user.uid + '/transports/'+ req.params.transport+'/test/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.get('/api/methods', isUser, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'protected/method/' + properties.esup.api_password
+        opts.url = properties.esup.api_url+'protected/methods/' + properties.esup.api_password
         requesting(req, res, opts);
     });
 
     router.get('/api/secret/:method', isUser, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'protected/user/'+req.session.passport.user.uid+'/method/'+req.params.method+'/secret/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/secret/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/:method/activate', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/user/'+req.session.passport.user.uid+'/method/'+req.params.method+'/activate/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/activate/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/:method/deactivate', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/user/'+req.session.passport.user.uid+'/method/'+req.params.method+'/deactivate/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/deactivate/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/transport/:transport/:new_transport', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/user/'+req.session.passport.user.uid+'/transport/'+req.params.transport+'/'+req.params.new_transport+'/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+req.session.passport.user.uid+'/transports/'+req.params.transport+'/'+req.params.new_transport+'/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.delete('/api/transport/:transport', isUser, function(req, res) {
         var opts = {};
         opts.method = 'DELETE';
-        opts.url = properties.esup.api_url+'protected/user/'+req.session.passport.user.uid+'/transport/'+req.params.transport+'/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+req.session.passport.user.uid+'/transports/'+req.params.transport+'/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.post('/api/generate/:method', isUser, function(req, res) {
         var opts = {};
         opts.method = 'POST';
-        opts.url = properties.esup.api_url+'protected/user/'+ req.session.passport.user.uid + '/method/' + req.params.method + '/secret/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+ req.session.passport.user.uid + '/methods/' + req.params.method + '/secret/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.get('/api/admin/users', isManager, function(req, res) {
         var opts={};
-        opts.url = properties.esup.api_url + 'protected/admin/user/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url + 'admin/users/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.get('/api/admin/user/:uid', isManager, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'protected/admin/user/' + req.params.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/users/' + req.params.uid + '/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:uid/:method/activate', isManager, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/user/'+ req.params.uid + '/method/' + req.params.method + '/activate/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/activate/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:uid/:method/deactivate', isManager, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/user/'+ req.params.uid + '/method/' + req.params.method + '/deactivate/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/deactivate/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/activate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/admin/method/' + req.params.method + '/activate/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/methods/' + req.params.method + '/activate/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/deactivate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/admin/method/' + req.params.method + '/deactivate/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/methods/' + req.params.method + '/deactivate/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/transport/:transport/activate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/admin/method/' + req.params.method + '/transport/'+req.params.transport+'/activate/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/methods/' + req.params.method + '/transports/'+req.params.transport+'/activate/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.put('/api/admin/:method/transport/:transport/deactivate', isAdmin, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/admin/method/' + req.params.method + '/transport/'+req.params.transport+'/deactivate/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/methods/' + req.params.method + '/transports/'+req.params.transport+'/deactivate/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.post('/api/admin/generate/:method/:uid', isManager, function(req, res) {
         var opts = {};
         opts.method = 'POST';
-        opts.url = properties.esup.api_url+'protected/user/'+ req.params.uid + '/method/' + req.params.method + '/secret/'  + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/secret/'  + properties.esup.api_password;
         requesting(req, res, opts);
     });
 
     router.delete('/api/admin/delete_method_secret/:method/:uid', isManager, function(req, res) {
         var opts = {};
         opts.method = 'DELETE';
-        opts.url = properties.esup.api_url+'protected/admin/user/'+req.params.uid +'/method/' + req.params.method+ '/secret/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'admin/users/'+req.params.uid +'/methods/' + req.params.method+ '/secret/' + properties.esup.api_password;
         requesting(req, res, opts);
     });
 }

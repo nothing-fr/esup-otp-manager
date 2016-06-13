@@ -55,13 +55,12 @@
         #totp_admin
             .method-content
                 h1.page-header #{messages.api.totp}
+                    span#admin_totp_activate_label.label.label-success(style="display: none;") Activée
+                    span#admin_totp_deactivate_label.label.label-danger(style="display: none;") Désactivée
                 p
                 | Méthode permettant de générer des codes uniques de 6 chiffres
-                p
-                | Activer cette méthode d'authentification : oui
-                span#admin_totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
-                |  non
-                span#admin_totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+                button#admin_totp_activate(onclick='activate_method_user_admin(this);',class='btn btn-success') Activer #{messages.api.totp}
+                button#admin_totp_deactivate(onclick='deactivate_method_user_admin(this);',class='btn btn-danger') Désactiver #{messages.api.totp}
                 #totp_qrCode
                 #totp_secret
                 button(onclick='admin_generate_totp();') Générer nouveau QrCode
@@ -69,23 +68,21 @@
         #random_code_admin
             .method-content
                 h1.page-header #{messages.api.random_code}
+                    span#admin_random_code_activate_label.label.label-success(style="display: none;") Activée
+                    span#admin_random_code_deactivate_label.label.label-danger(style="display: none;") Désactivée
                 p
                 | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
-                p
-                | Activer cette méthode d'authentification : oui
-                span#admin_random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
-                |  non
-                span#admin_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+                button#admin_random_code_activate(onclick='activate_method_user_admin(this);',class='btn btn-success') Activer #{messages.api.random_code}
+                button#admin_random_code_deactivate(onclick='deactivate_method_user_admin(this);',class='btn btn-danger') Désactiver #{messages.api.random_code}
         #bypass_admin
             .method-content
                 h1.page-header #{messages.api.bypass}
+                    span#admin_bypass_activate_label.label.label-success(style="display: none;") Activée
+                    span#admin_bypass_deactivate_label.label.label-danger(style="display: none;") Désactivée
                 p
                 | Méthode permettant de générer une liste de codes aléatoire à usage unique
-                p
-                | Activer cette méthode d'authentification : oui
-                span#admin_bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_admin(this);')
-                |  non
-                span#admin_bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_admin(this);')
+                button#admin_bypass_activate(onclick='activate_method_user_admin(this);',class='btn btn-success') Activer #{messages.api.bypass}
+                button#admin_bypass_deactivate(onclick='deactivate_method_user_admin(this);',class='btn btn-danger') Désactiver #{messages.api.bypass}
                 p#available_code
                 p#used_code
                 p#bypass_codes
@@ -94,6 +91,8 @@
         #matrix_admin
             .method-content
                 h1.page-header #{messages.api.matrix}
+                    span#admin_matrix_activate_label.label.label-success(style="display: none;") Activée
+                    span#admin_matrix_deactivate_label.label.label-danger(style="display: none;") Désactivée
                 p
                 button(onclick='') Générer nouvelle grille
                 button(onclick='') Supprimer la grille

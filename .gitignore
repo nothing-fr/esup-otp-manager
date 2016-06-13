@@ -6,3 +6,4 @@ twin-bcrypt.min.js
 npm-debug.log
 .buildpath
 .project
+.idea

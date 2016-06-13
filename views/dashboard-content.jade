@@ -1,71 +1,67 @@
 #totp_method.content-unit.method(hidden='true')
-  h1.page-header #{messages.api.totp}
-  .method-content
-    p
-      | Méthode permettant de générer des codes uniques de 6 chiffres
-    p
-      | Activer cette méthode d'authentification : oui
-      span#totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
-      |  non
-      span#totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
-    h2 QrCode
-    p
-      | Appuyez sur le bouton, puis scannez le code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone) ou entrez le code directement dans l'application
-    button(onclick="$('#qrCode').toggle();$('#secret').toggle();") QrCode
-    #qrCode(hidden='true')
-    #secret(hidden='true')
-    button(onclick='generate_totp();') Générer nouveau QrCode
+    h1.page-header #{messages.api.totp}
+        span#totp_activate_label.label.label-success(style="display: none;") Activée
+        span#totp_deactivate_label.label.label-danger(style="display: none;") Désactivée
+    .method-content
+        p
+            | Méthode permettant de générer des codes uniques de 6 chiffres
+        button#totp_activate(onclick='activate_method(this);',class='btn btn-success') Activer #{messages.api.totp}
+        button#totp_deactivate(onclick='deactivate_method(this);',class='btn btn-danger') Désactiver #{messages.api.totp}
+        h2 QrCode
+        p
+            | Appuyez sur le bouton, puis scannez le code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone) ou entrez le code directement dans l'application
+        button(onclick="$('#qrCode').toggle();$('#secret').toggle();",class='btn btn-secondary') QrCode
+        #qrCode(hidden='true')
+        #secret(hidden='true')
+        button(onclick='generate_totp();',class='btn btn-primary') Générer nouveau QrCode
 #random_code_method.content-unit.method(hidden='true')
-  h1.page-header #{messages.api.random_code}
-  .method-content
-    p
-      | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
-    p
-      | Activer cette méthode d'authentification : oui
-      span#random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
-      |  non
-      span#random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+    h1.page-header #{messages.api.random_code}
+        span#random_code_activate_label.label.label-success(style="display: none;") Activée
+        span#random_code_deactivate_label.label.label-danger(style="display: none;") Désactivée
+    .method-content
+        p
+            | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
+        button#random_code_activate(onclick='activate_method(this);',class='btn btn-success') Activer #{messages.api.random_code}
+        button#random_code_deactivate(onclick='deactivate_method(this);',class='btn btn-danger') Désactiver #{messages.api.random_code}
 #bypass_method.content-unit.method(hidden='true')
-  h1.page-header #{messages.api.bypass}
-  .method-content
-    p
-      | Méthode permettant de générer une liste de codes aléatoire à usage unique
-    p
-      | Activer cette méthode d'authentification : oui
-      span#bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
-      |  non
-      span#bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
-    #bypass_codes(hidden='true')
-    p#available_code
-    p#used_code
-    button(onclick='generate_bypass();') Générer nouveaux codes
+    h1.page-header #{messages.api.bypass}
+        span#bypass_activate_label.label.label-success(style="display: none;") Activée
+        span#bypass_deactivate_label.label.label-danger(style="display: none;") Désactivée
+    .method-content
+        p
+            | Méthode permettant de générer une liste de codes aléatoire à usage unique
+        button#bypass_activate(onclick='activate_method(this);',class='btn btn-success') Activer #{messages.api.bypass}
+        button#bypass_deactivate(onclick='deactivate_method(this);',class='btn btn-danger') Désactiver #{messages.api.bypass}
+        #bypass_codes(hidden='true')
+        p#available_code
+        p#used_code
+        button(onclick='generate_bypass();',class='btn btn-primary') Générer nouveaux codes
 #matrix_method.content-unit.method(hidden='true')
-  h1.page-header #{messages.api.matrix}
-  .method-content
-    p
-      | Activer cette méthode d'authentification : oui
-      span#matrix_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method(this);')
-      |  non
-      span#matrix_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method(this);')
+    h1.page-header #{messages.api.matrix}
+    .method-content
+        button#matrix_activate(onclick='activate_method(this);',class='btn btn-success') Activer #{messages.api.matrix}
+        button#matrix_deactivate(onclick='deactivate_method(this);',class='btn btn-danger') Désactiver #{messages.api.matrix}
 #transport_preference(hidden='true')
-  h1.page-header Transport
-  .method-content
-    #sms_transport
-      | Sms: 
-      label#sms_label
-      #change_sms_form(hidden='true')
-        input#sms_input(type='text')
-        button#change_sms_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
-      button#modify_sms_btn(onclick="$('#change_sms_form').show(); $('#'+this.id).hide();") Modifier
-      button#delete_sms_btn(onclick="delete_transport('sms');") Supprimer
-      button#test_sms_btn(onclick="test_transport('sms');") Vérifier
-    br
-    #mail_transport
-      |  Mail:
-      label#mail_label
-      #change_mail_form(hidden='true')
-        input#mail_input(type='text')
-        button#change_mail_btn(onclick="change_transport(this.id.split('_')[1]);") Valider
-      button#modify_mail_btn(onclick="$('#change_mail_form').show(); $('#'+this.id).hide();") Modifier
-      button#delete_mail_btn(onclick="delete_transport('mail');") Supprimer
-      button#test_mail_btn(onclick="test_transport('mail');") Vérifier
+    h1.page-header Transport
+    .method-content
+        #sms_transport
+            | Sms:
+            label#sms_label
+            #change_sms_form(hidden='true')
+                input#sms_input(type='text')
+                button#change_sms_btn(onclick="change_transport(this.id.split('_')[1]);",class='btn btn-success') Valider
+            br
+            button#modify_sms_btn(onclick="$('#change_sms_form').show(); $('#'+this.id).hide();",class='btn btn-primary') Modifier
+            button#delete_sms_btn(onclick="delete_transport('sms');",class='btn btn-danger') Supprimer
+            button#test_sms_btn(onclick="test_transport('sms');",class='btn btn-secondary') Vérifier
+        br
+        #mail_transport
+            |  Mail:
+            label#mail_label
+            #change_mail_form(hidden='true')
+                input#mail_input(type='text')
+                button#change_mail_btn(onclick="change_transport(this.id.split('_')[1]);",class='btn btn-success') Valider
+            br
+            button#modify_mail_btn(onclick="$('#change_mail_form').show(); $('#'+this.id).hide();",class='btn btn-primary') Modifier
+            button#delete_mail_btn(onclick="delete_transport('mail');",class='btn btn-danger') Supprimer
+            button#test_mail_btn(onclick="test_transport('mail');",class='btn btn-secondary') Vérifier

@@ -140,3 +140,11 @@ body {
 .method-content{
     margin-bottom: 40px;
 }
+
+button{
+    margin-left: 15px;
+}
+
+.label{
+    margin-left: 10px;
+}

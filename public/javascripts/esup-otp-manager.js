@@ -517,17 +517,17 @@ function admin_generate_totp() {
 }
 
 function check_method(method) {
-    $("#" + method + "_activate").addClass("glyphicon-check");
-    $("#" + method + "_activate").removeClass("glyphicon-unchecked");
-    $("#" + method + "_deactivate").addClass("glyphicon-unchecked");
-    $("#" + method + "_deactivate").removeClass("glyphicon-check");
+    $("#" + method + "_activate_label").show();
+    $("#" + method + "_deactivate_label").hide();
+    $("#" + method + "_activate").hide();
+    $("#" + method + "_deactivate").show();
 }
 
 function uncheck_method(method) {
-    $("#" + method + "_activate").addClass("glyphicon-unchecked");
-    $("#" + method + "_activate").removeClass("glyphicon-check");
-    $("#" + method + "_deactivate").addClass("glyphicon-check");
-    $("#" + method + "_deactivate").removeClass("glyphicon-unchecked");
+    $("#" + method + "_activate_label").hide();
+    $("#" + method + "_deactivate_label").show();
+    $("#" + method + "_activate").show();
+    $("#" + method + "_deactivate").hide();
 }
 
 function check_method_transport(method, transport) {
@@ -545,6 +545,8 @@ function uncheck_method_transport(method, transport) {
 }
 
 function admin_check_method(method) {
+    $("#" + method + "_activate_label").show();
+    $("#" + method + "_deactivate_label").hide();
     $("#admin_" + method + "_activate").addClass("glyphicon-check");
     $("#admin_" + method + "_activate").removeClass("glyphicon-unchecked");
     $("#admin_" + method + "_deactivate").addClass("glyphicon-unchecked");
@@ -552,6 +554,8 @@ function admin_check_method(method) {
 }
 
 function admin_uncheck_method(method) {
+    $("#" + method + "_activate_label").hide();
+    $("#" + method + "_deactivate_label").show();
     $("#admin_" + method + "_activate").addClass("glyphicon-unchecked");
     $("#admin_" + method + "_activate").removeClass("glyphicon-check");
     $("#admin_" + method + "_deactivate").addClass("glyphicon-check");
@@ -559,15 +563,15 @@ function admin_uncheck_method(method) {
 }
 
 function manager_check_method(method) {
-    $("#manager_" + method + "_activate").addClass("glyphicon-check");
-    $("#manager_" + method + "_activate").removeClass("glyphicon-unchecked");
-    $("#manager_" + method + "_deactivate").addClass("glyphicon-unchecked");
-    $("#manager_" + method + "_deactivate").removeClass("glyphicon-check");
+    $("#" + method + "_activate_label").show();
+    $("#" + method + "_deactivate_label").hide();
+    $("#manager_" + method + "_activate").hide();
+    $("#manager_" + method + "_deactivate").show();
 }
 
 function manager_uncheck_method(method) {
-    $("#manager_" + method + "_activate").addClass("glyphicon-unchecked");
-    $("#manager_" + method + "_activate").removeClass("glyphicon-check");
-    $("#manager_" + method + "_deactivate").addClass("glyphicon-check");
-    $("#manager_" + method + "_deactivate").removeClass("glyphicon-unchecked");
+    $("#" + method + "_activate_label").hide();
+    $("#" + method + "_deactivate_label").show();
+    $("#manager_" + method + "_activate").show();
+    $("#manager_" + method + "_deactivate").hide();
 }

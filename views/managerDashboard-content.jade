@@ -1,55 +1,55 @@
 #users.content-unit(hidden='true')
-  | Nom d'utilisateur:
-  input#userInput(type='text')
-  button(onclick='get_user();') Valider
-  #userInfo(hidden='true')
-    #totp_manager
-      .method-content
-       h1.page-header #{messages.api.totp}
-       p
-       | Méthode permettant de générer des codes uniques de 6 chiffres
-       p
-       | Activer cette méthode d'authentification : oui
-       span#manager_totp_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_manager(this);')
-       |  non
-       span#manager_totp_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
-       #totp_qrCode
-       #totp_secret
-       button(onclick='admin_generate_totp();') Générer nouveau QrCode
-       button(onclick='admin_delete_totp_secret();') Supprimer le QrCode
-    #random_code_manager
-      .method-content
-       h1.page-header #{messages.api.random_code}
-       p
-       | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
-       p
-       | Activer cette méthode d'authentification : oui
-       span#manager_random_code_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_manager(this);')
-       |  non
-       span#manager_random_code_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
-    #bypass_manager
-      .method-content
-       h1.page-header #{messages.api.bypass}
-       p
-       | Méthode permettant de générer une liste de codes aléatoire à usage unique
-       p
-       | Activer cette méthode d'authentification : oui
-       span#manager_bypass_activate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_user_manager(this);')
-       |  non
-       span#manager_bypass_deactivate.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_user_manager(this);')
-       p#available_code
-       p#used_code
-       p#bypass_codes
-       button(onclick='admin_generate_bypass();') Générer nouveaux codes
-       button(onclick='admin_delete_bypass_codes();') Supprimer les codes
-    #matrix_manager
-      .method-content
-       h1.page-header #{messages.api.matrix}
-       p
-       button(onclick='') Générer nouvelle grille
-       button(onclick='') Supprimer la grille
+    | Nom d'utilisateur:
+    input#userInput(type='text')
+    button(onclick='get_user();',class='btn btn-success') Valider
+    #userInfo(hidden='true')
+        #totp_manager
+            .method-content
+                h1.page-header #{messages.api.totp}
+                    span#totp_activate_label.label.label-success(style="display: none;") Activée
+                    span#totp_deactivate_label.label.label-danger(style="display: none;") Désactivée
+                p
+                | Méthode permettant de générer des codes uniques de 6 chiffres
+                button#manager_totp_activate(onclick='activate_method_user_manager(this);',class='btn btn-success') Activer #{messages.api.totp}
+                button#manager_totp_deactivate(onclick='deactivate_method_user_manager(this);',class='btn btn-danger') Désactiver #{messages.api.totp}
+                #totp_qrCode
+                #totp_secret
+                button(onclick='admin_generate_totp();') Générer nouveau QrCode
+                button(onclick='admin_delete_totp_secret();') Supprimer le QrCode
+        #random_code_manager
+            .method-content
+                h1.page-header #{messages.api.random_code}
+                    span#random_code_activate_label.label.label-success(style="display: none;") Activée
+                    span#random_code_deactivate_label.label.label-danger(style="display: none;") Désactivée
+                p
+                | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
+                br
+                button#manager_random_code_activate(onclick='activate_method_user_manager(this);',class='btn btn-success') Activer #{messages.api.random_code}
+                button#manager_random_code_deactivate(onclick='deactivate_method_user_manager(this);',class='btn btn-danger') Désactiver #{messages.api.random_code}
+        #bypass_manager
+            .method-content
+                h1.page-header #{messages.api.bypass}
+                    span#bypass_activate_label.label.label-success(style="display: none;") Activée
+                    span#bypass_deactivate_label.label.label-danger(style="display: none;") Désactivée
+                p
+                | Méthode permettant de générer une liste de codes aléatoire à usage unique
+                button#manager_bypass_activate(onclick='activate_method_user_manager(this);',class='btn btn-success') Activer #{messages.api.bypass}
+                button#manager_bypass_deactivate(onclick='deactivate_method_user_manager(this);',class='btn btn-danger') Désactiver #{messages.api.bypass}
+                p#available_code
+                p#used_code
+                p#bypass_codes
+                button(onclick='admin_generate_bypass();') Générer nouveaux codes
+                button(onclick='admin_delete_bypass_codes();') Supprimer les codes
+        #matrix_manager
+            .method-content
+                h1.page-header #{messages.api.matrix}
+                    span#matrix_activate_label.label.label-success(style="display: none;") Activée
+                    span#matrix_deactivate_label.label.label-danger(style="display: none;") Désactivée
+                p
+                button(onclick='') Générer nouvelle grille
+                button(onclick='') Supprimer la grille
 div(hidden='true')
-  #totp_method.method(hidden='true')
-  #random_code_method.method(hidden='true')
-  #bypass_method.method(hidden='true')
-  #matrix_method.method(hidden='true')
+    #totp_method.method(hidden='true')
+    #random_code_method.method(hidden='true')
+    #bypass_method.method(hidden='true')
+    #matrix_method.method(hidden='true')

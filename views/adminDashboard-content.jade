@@ -1,98 +1,31 @@
 #administration.content-unit(hidden='true')
     #totp_method.method(hidden='true')
         h1.page-header #{messages.api.totp}
-            span#totp_activate_label.label.label-success(style="display: none;") Activée
-            span#totp_deactivate_label.label.label-danger(style="display: none;") Désactivée
-        .method-content
-            button#totp_activate(onclick='activate_method_admin(this);',class='btn btn-success') Activer #{messages.api.totp}
-            button#totp_deactivate(onclick='deactivate_method_admin(this);',class='btn btn-danger') Désactiver #{messages.api.totp}
-        p
-            | Activer le transport SMS : oui
-            span#totp_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-            |  non
-            span#totp_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
-        p
-            | Activer le transport Mail : oui
-            span#totp_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-            |  non
-            span#totp_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+            #totp_switch_admin.Switch.AdminSwitch.Round.Off
+                .Toggle
+        div Activer le transport SMS :
+            #totp_switch_transport_sms.Switch.TransportSwitch.Round.Off
+                .Toggle
+        div Activer le transport Mail :
+            #totp_switch_transport_mail.Switch.TransportSwitch.Round.Off
+                .Toggle
     #random_code_method.method(hidden='true')
         h1.page-header #{messages.api.random_code}
-            span#random_code_activate_label.label.label-success(style="display: none;") Activée
-            span#random_code_deactivate_label.label.label-danger(style="display: none;") Désactivée
-        .method-content
-            button#random_code_activate(onclick='activate_method_admin(this);',class='btn btn-success') Activer #{messages.api.random_code}
-            button#random_code_deactivate(onclick='deactivate_method_admin(this);',class='btn btn-danger') Désactiver #{messages.api.random_code}
-        p
-            | Activer le transport SMS : oui
-            span#random_code_activate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-            |  non
-            span#random_code_deactivate_sms_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
-        p
-            | Activer le transport Mail : oui
-            span#random_code_activate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='activate_method_transport(this);')
-            |  non
-            span#random_code_deactivate_mail_transport.glyphicon.glyphicon-unchecked(aria-hidden='true', onclick='deactivate_method_transport(this);')
+            #random_code_switch_admin.Switch.AdminSwitch.Round.Off
+                .Toggle
+        div Activer le transport SMS :
+            #random_code_switch_transport_sms.Switch.TransportSwitch.Round.Off
+                .Toggle
+        div Activer le transport Mail :
+            #random_code_switch_transport_mail.Switch.TransportSwitch.Round.Off
+                .Toggle
     #bypass_method.method(hidden='true')
         h1.page-header #{messages.api.bypass}
-            span#bypass_activate_label.label.label-success(style="display: none;") Activée
-            span#bypass_deactivate_label.label.label-danger(style="display: none;") Désactivée
-        .method-content
-            button#bypass_activate(onclick='activate_method_admin(this);',class='btn btn-success') Activer #{messages.api.bypass}
-            button#bypass_deactivate(onclick='deactivate_method_admin(this);',class='btn btn-danger') Désactiver #{messages.api.bypass}
+            #bypass_switch_admin.Switch.AdminSwitch.Round.Off
+                .Toggle
     #matrix_method.method(hidden='true')
         h1.page-header #{messages.api.matrix}
-            span#matrix_activate_label.label.label-success(style="display: none;") Activée
-            span#matrix_deactivate_label.label.label-danger(style="display: none;") Désactivée
-        .method-content
-            button#matrix_activate(onclick='activate_method_admin(this);',class='btn btn-success') Activer #{messages.api.matrix}
-            button#matrix_deactivate(onclick='deactivate_method_admin(this);',class='btn btn-danger') Désactiver #{messages.api.matrix}
-#users.content-unit(hidden='true')
-    | Nom d'utilisateur:
-    input#userInput(type='text')
-    button(onclick='get_user();',class='btn btn-success') Valider
-    #userInfo(hidden='true')
-        #totp_admin
-            .method-content
-                h1.page-header #{messages.api.totp}
-                    span#admin_totp_activate_label.label.label-success(style="display: none;") Activée
-                    span#admin_totp_deactivate_label.label.label-danger(style="display: none;") Désactivée
-                p
-                | Méthode permettant de générer des codes uniques de 6 chiffres
-                button#admin_totp_activate(onclick='activate_method_user_admin(this);',class='btn btn-success') Activer #{messages.api.totp}
-                button#admin_totp_deactivate(onclick='deactivate_method_user_admin(this);',class='btn btn-danger') Désactiver #{messages.api.totp}
-                #totp_qrCode
-                #totp_secret
-                button(onclick='admin_generate_totp();') Générer nouveau QrCode
-                button(onclick='admin_delete_totp_secret();') Supprimer le QrCode
-        #random_code_admin
-            .method-content
-                h1.page-header #{messages.api.random_code}
-                    span#admin_random_code_activate_label.label.label-success(style="display: none;") Activée
-                    span#admin_random_code_deactivate_label.label.label-danger(style="display: none;") Désactivée
-                p
-                | Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique
-                button#admin_random_code_activate(onclick='activate_method_user_admin(this);',class='btn btn-success') Activer #{messages.api.random_code}
-                button#admin_random_code_deactivate(onclick='deactivate_method_user_admin(this);',class='btn btn-danger') Désactiver #{messages.api.random_code}
-        #bypass_admin
-            .method-content
-                h1.page-header #{messages.api.bypass}
-                    span#admin_bypass_activate_label.label.label-success(style="display: none;") Activée
-                    span#admin_bypass_deactivate_label.label.label-danger(style="display: none;") Désactivée
-                p
-                | Méthode permettant de générer une liste de codes aléatoire à usage unique
-                button#admin_bypass_activate(onclick='activate_method_user_admin(this);',class='btn btn-success') Activer #{messages.api.bypass}
-                button#admin_bypass_deactivate(onclick='deactivate_method_user_admin(this);',class='btn btn-danger') Désactiver #{messages.api.bypass}
-                p#available_code
-                p#used_code
-                p#bypass_codes
-                button(onclick='admin_generate_bypass();') Générer nouveaux codes
-                button(onclick='admin_delete_bypass_codes();') Supprimer les codes
-        #matrix_admin
-            .method-content
-                h1.page-header #{messages.api.matrix}
-                    span#admin_matrix_activate_label.label.label-success(style="display: none;") Activée
-                    span#admin_matrix_deactivate_label.label.label-danger(style="display: none;") Désactivée
-                p
-                button(onclick='') Générer nouvelle grille
-                button(onclick='') Supprimer la grille
+            #matrix_switch_admin.Switch.AdminSwitch.Round.Off
+                .Toggle
+
+include managerDashboard-content

@@ -122,9 +122,9 @@ function get_methods_admin() {
                     $('#' + this.id.split('_method')[0] + '_manager').remove();
                 } else {
                     if (response.methods[method].activate) {
-                        check_method(method);
+                        admin_check_method(method);
                     } else {
-                        uncheck_method(method);
+                        admin_uncheck_method(method);
                     }
                     if (response.methods[method].transports.indexOf("sms") >= 0) {
                         check_method_transport(method, 'sms');
@@ -211,33 +211,27 @@ function show_user(user) {
 
 function show_totp_infos(data) {
     if (data.active) {
-        admin_check_method("totp");
-        manager_check_method("totp");
+        check_method("totp");
     } else {
-        admin_uncheck_method("totp");
-        manager_uncheck_method("totp");
+        uncheck_method("totp");
     }
 }
 
 function show_random_code_infos(data) {
     if (data.active) {
-        admin_check_method("random_code");
-        manager_check_method("random_code");
+        check_method("random_code");
     } else {
-        admin_uncheck_method("random_code");
-        manager_uncheck_method("random_code");
+        uncheck_method("random_code");
     }
 }
 
 function show_bypass_infos(data) {
     if (data.active) {
-        admin_check_method("bypass");
-        manager_check_method("bypass");
+        check_method("bypass");
         $("#available_code").html("Code restants : " + JSON.stringify(data.available_code));
         $("#used_code").html("Code utilisés : " + JSON.stringify(data.used_code));
     } else {
-        admin_uncheck_method("bypass");
-        manager_uncheck_method("bypass");
+        uncheck_method("bypass");
     }
 }
 
@@ -274,10 +268,10 @@ function get_qrCode() {
     });
 }
 
-function activate_method_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
+function activate_method_admin(method) {
+    request({ method: 'PUT', url: '/api/admin/' + method + '/activate' }, function(response) {
         if (response.code == "Ok") {
-            check_method(element.id.split('_activate')[0]);
+            admin_check_method(method);
         } else {
             console.log(response.message);
         }
@@ -285,21 +279,31 @@ function activate_method_admin(element) {
 }
 
 
-function deactivate_method_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_deactivate')[0] + '/deactivate' }, function(response) {
+function deactivate_method_admin(method) {
+    request({ method: 'PUT', url: '/api/admin/' + method + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
-            uncheck_method(element.id.split('_deactivate')[0]);
+            admin_uncheck_method(method);
         } else {
             console.log(response.message);
         }
     });
 }
 
-function activate_method_user_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_activate')[0].split('admin_')[1] + '/activate' }, function(response) {
+function deactivate_method_user_manager(method) {
+    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + method + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             get_user();
-            switch (element.id.split('_activate')[0].split('admin_')[1]) {
+        } else {
+            console.log(response.message);
+        }
+    });
+}
+
+function activate_method_user_manager(method) {
+    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + method + '/activate' }, function(response) {
+        if (response.code == "Ok") {
+            get_user();
+            switch (method) {
                 case 'totp':
                     admin_generate_totp();
                     break;
@@ -313,48 +317,10 @@ function activate_method_user_admin(element) {
     });
 }
 
-function deactivate_method_user_admin(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_deactivate')[0].split('admin_')[1] + '/deactivate' }, function(response) {
+function activate_method_transport(method, transport) {
+    request({ method: 'PUT', url: '/api/admin/' + method + '/transport/' + transport + '/activate' }, function(response) {
         if (response.code == "Ok") {
-            get_user();
-        } else {
-            console.log(response.message);
-        }
-    });
-}
-
-function deactivate_method_user_manager(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_deactivate')[0].split('manager_')[1] + '/deactivate' }, function(response) {
-        if (response.code == "Ok") {
-            get_user();
-        } else {
-            console.log(response.message);
-        }
-    });
-}
-
-function activate_method_user_manager(element) {
-    request({ method: 'PUT', url: '/api/admin/' + uid + '/' + element.id.split('_activate')[0].split('manager_')[1] + '/activate' }, function(response) {
-        if (response.code == "Ok") {
-            get_user();
-            switch (element.id.split('_activate')[0].split('manager_')[1]) {
-                case 'totp':
-                    admin_generate_totp();
-                    break;
-                case 'bypass':
-                    admin_generate_bypass();
-                    break;
-            }
-        } else {
-            console.log(response.message);
-        }
-    });
-}
-
-function activate_method_transport(element) {
-    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_activate')[0] + '/transport/' + element.id.split('_activate_')[1].split('_transport')[0] + '/activate' }, function(response) {
-        if (response.code == "Ok") {
-            check_method_transport(element.id.split('_activate')[0], element.id.split('_activate_')[1].split('_transport')[0]);
+            check_method_transport(method, transport);
         } else {
             console.log(response.message);
         }
@@ -362,10 +328,10 @@ function activate_method_transport(element) {
 }
 
 
-function deactivate_method_transport(element) {
-    request({ method: 'PUT', url: '/api/admin/' + element.id.split('_deactivate')[0] + '/transport/' + element.id.split('_deactivate_')[1].split('_transport')[0] + '/deactivate' }, function(response) {
+function deactivate_method_transport(method, transport) {
+    request({ method: 'PUT', url: '/api/admin/' + method + '/transport/' + transport + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
-            uncheck_method_transport(element.id.split('_deactivate')[0], element.id.split('_deactivate_')[1].split('_transport')[0]);
+            uncheck_method_transport(method, transport);
         } else {
             console.log(response.message);
         }
@@ -373,11 +339,11 @@ function deactivate_method_transport(element) {
 }
 
 
-function activate_method(element) {
-    request({ method: 'PUT', url: '/api/' + element.id.split('_activate')[0] + '/activate' }, function(response) {
+function activate_method(method) {
+    request({ method: 'PUT', url: '/api/' + method + '/activate' }, function(response) {
         if (response.code == "Ok") {
             get_user_infos();
-            switch (element.id.split('_activate')[0]) {
+            switch (method) {
                 case 'totp':
                     generate_totp();
                     break;
@@ -393,8 +359,8 @@ function activate_method(element) {
 }
 
 
-function deactivate_method(element) {
-    request({ method: 'PUT', url: '/api/' + element.id.split('_deactivate')[0] + '/deactivate' }, function(response) {
+function deactivate_method(method) {
+    request({ method: 'PUT', url: '/api/' + method + '/deactivate' }, function(response) {
         if (response.code == "Ok") {
             get_user_infos();
             $("#bypass_codes").hide();
@@ -517,57 +483,49 @@ function admin_generate_totp() {
 }
 
 function check_method(method) {
-    $("#" + method + "_activate_label").show();
-    $("#" + method + "_deactivate_label").hide();
-    $("#" + method + "_activate").hide();
-    $("#" + method + "_deactivate").show();
+    $("#" + method + "_switch").addClass('On').removeClass('Off');
 }
 
 function uncheck_method(method) {
-    $("#" + method + "_activate_label").hide();
-    $("#" + method + "_deactivate_label").show();
-    $("#" + method + "_activate").show();
-    $("#" + method + "_deactivate").hide();
+    $("#" + method + "_switch").removeClass('On').addClass('Off');
 }
 
 function check_method_transport(method, transport) {
-    $("#" + method + "_activate_" + transport + '_transport').addClass("glyphicon-check");
-    $("#" + method + "_activate_" + transport + '_transport').removeClass("glyphicon-unchecked");
-    $("#" + method + "_deactivate_" + transport + '_transport').addClass("glyphicon-unchecked");
-    $("#" + method + "_deactivate_" + transport + '_transport').removeClass("glyphicon-check");
+    $("#" + method + "_switch_transport_"+transport).addClass('On').removeClass('Off');
 }
 
 function uncheck_method_transport(method, transport) {
-    $("#" + method + "_activate_" + transport + '_transport').addClass("glyphicon-unchecked");
-    $("#" + method + "_activate_" + transport + '_transport').removeClass("glyphicon-check");
-    $("#" + method + "_deactivate_" + transport + '_transport').addClass("glyphicon-check");
-    $("#" + method + "_deactivate_" + transport + '_transport').removeClass("glyphicon-unchecked");
+    $("#" + method + "_switch_transport_"+transport).removeClass('On').addClass('Off');;
 }
 
 function admin_check_method(method) {
-    $("#admin_" + method + "_activate_label").show();
-    $("#admin_" + method + "_deactivate_label").hide();
-    $("#admin_" + method + "_activate").hide();
-    $("#admin_" + method + "_deactivate").show();
+    $("#" + method + "_switch_admin").addClass('On').removeClass('Off');
 }
 
 function admin_uncheck_method(method) {
-    $("#admin_" + method + "_activate_label").hide();
-    $("#admin_" + method + "_deactivate_label").show();
-    $("#admin_" + method + "_activate").show();
-    $("#admin_" + method + "_deactivate").hide();
+    $("#" + method + "_switch_admin").removeClass('On').addClass('Off');
 }
 
-function manager_check_method(method) {
-    $("#" + method + "_activate_label").show();
-    $("#" + method + "_deactivate_label").hide();
-    $("#manager_" + method + "_activate").hide();
-    $("#manager_" + method + "_deactivate").show();
-}
+$(document).ready(function() {
+    // UserSwitch toggle
+    $('.UserSwitch').click(function() {
+        if($('#'+this.id).hasClass('On'))deactivate_method(this.id.split("_switch")[0]);
+        else activate_method(this.id.split("_switch")[0])
+    });
 
-function manager_uncheck_method(method) {
-    $("#" + method + "_activate_label").hide();
-    $("#" + method + "_deactivate_label").show();
-    $("#manager_" + method + "_activate").show();
-    $("#manager_" + method + "_deactivate").hide();
-}
+    $('.ManagerSwitch').click(function() {
+        if($('#'+this.id).hasClass('On'))deactivate_method_user_manager(this.id.split("_switch")[0]);
+        else activate_method_user_manager(this.id.split("_switch")[0])
+    });
+
+    $('.AdminSwitch').click(function() {
+        if($('#'+this.id).hasClass('On'))deactivate_method_admin(this.id.split("_switch_admin")[0]);
+        else activate_method_admin(this.id.split("_switch_admin")[0])
+    });
+
+    $('.TransportSwitch').click(function() {
+        if($('#'+this.id).hasClass('On'))deactivate_method_transport(this.id.split("_switch_transport_")[0],this.id.split("_switch_transport_")[1]);
+        else activate_method_transport(this.id.split("_switch_transport_")[0],this.id.split("_switch_transport_")[1])
+    });
+
+});

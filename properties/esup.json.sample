@@ -5,8 +5,8 @@
         "serverBaseURL": "http://url_manager/"
     },
     "api_url": "http://url_api",
-    "api_password":"XXXXXXXXXXXXXXXXXXXXXXXX",
-    "users_secret":"XXXXXXXXXXXXXXXXXXXXXXXX",
+    "api_password":"changeit",
+    "users_secret":"changeit",
     "session_secret_key": "dev-otp",
     "admins": ["barrywhite"],
     "managers": ["milesdavis","louisarmstrong"],

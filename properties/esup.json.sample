@@ -4,7 +4,7 @@
         "ssoBaseURL": "https://localhost:8443/cas",
         "serverBaseURL": "http://localhost:4000/"
     },
-    "api_url": "http://url_api",
+    "api_url": "http://localhost:3000/",
     "api_password":"changeit",
     "users_secret":"changeit",
     "session_secret_key": "dev-otp",

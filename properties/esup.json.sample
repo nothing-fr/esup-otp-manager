@@ -1,12 +1,12 @@
 {
     "CAS": {
         "version": "CAS1.0",
-        "ssoBaseURL": "https://cas.org/cas",
-        "serverBaseURL": "http://url_manager/"
+        "ssoBaseURL": "https://localhost:8443/cas",
+        "serverBaseURL": "http://localhost:4000/"
     },
     "api_url": "http://url_api",
-    "api_password":"XXXXXXXXXXXXXXXXXXXXXXXX",
-    "users_secret":"XXXXXXXXXXXXXXXXXXXXXXXX",
+    "api_password":"changeit",
+    "users_secret":"changeit",
     "session_secret_key": "dev-otp",
     "admins": ["barrywhite"],
     "managers": ["milesdavis","louisarmstrong"],

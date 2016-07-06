@@ -83,9 +83,10 @@ function request(opts, callback, next) {
 function test_transport(transport) {
     request({ method: 'GET', url: '/api/transport/' + transport + '/test' }, function(response) {
         if (response.code == "Ok") {
-
+            success_message(response.message);
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     });
 }
@@ -263,6 +264,7 @@ function get_qrCode() {
             $('#qrCode').html(response.qrCode);
             $('#secret').html(response.message);
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -274,6 +276,7 @@ function activate_method_admin(method) {
             admin_check_method(method);
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     });
 }
@@ -285,6 +288,7 @@ function deactivate_method_admin(method) {
             admin_uncheck_method(method);
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     });
 }
@@ -294,6 +298,7 @@ function deactivate_method_user_manager(method) {
         if (response.code == "Ok") {
             get_user();
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -312,6 +317,7 @@ function activate_method_user_manager(method) {
                     break;
             }
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -323,6 +329,7 @@ function activate_method_transport(method, transport) {
             check_method_transport(method, transport);
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     });
 }
@@ -334,6 +341,7 @@ function deactivate_method_transport(method, transport) {
             uncheck_method_transport(method, transport);
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     });
 }
@@ -354,6 +362,7 @@ function activate_method(method) {
             }
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     });
 }
@@ -366,6 +375,7 @@ function deactivate_method(method) {
             $("#bypass_codes").hide();
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     });
 }
@@ -381,6 +391,7 @@ function change_transport(transport) {
                 $('#change_' + transport + '_form').hide();
                 $('#modify_' + transport + '_btn').show();
             } else {
+                errors_message(response.message);
                 console.log(response.message);
             }
         }, get_user_infos);
@@ -393,6 +404,7 @@ function delete_transport(transport) {
 
         } else {
             console.log(response.message);
+            errors_message(response.message);
         }
     }, get_user_infos);
 }
@@ -404,6 +416,7 @@ function generate_bypass() {
             show_bypass_codes(response);
         } else {
             $("#bypass_codes").hide();
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -427,6 +440,7 @@ function admin_generate_bypass() {
             codes = codes.replace('"]', '</li></ul>');
             $("#bypass_codes").html("Codes : " + codes);
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -438,6 +452,7 @@ function admin_delete_bypass_codes() {
             get_user();
             console.log(response.message);
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -449,6 +464,7 @@ function admin_delete_totp_secret() {
             get_user();
             console.log(response.message);
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -464,6 +480,7 @@ function generate_totp() {
             $('#qrCode').show();
             $('#secret').show();
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -477,6 +494,7 @@ function admin_generate_totp() {
             $('#totp_qrCode').append(response.qrCode);
             $('#totp_secret').append(response.message);
         } else {
+            errors_message(response.message);
             console.log(response.message);
         }
     });
@@ -529,3 +547,27 @@ $(document).ready(function() {
     });
 
 });
+
+function success_message(message) {
+    $('#msg2').attr('class', 'alert alert-success');
+    $('#msg2').html(message);
+    $('#msg2').show();
+    $("#msg2").fadeTo(3500, 500).slideUp(300, function(){
+        $("#msg2").hide();
+    });
+    $('.close').hide()
+}
+
+function errors_message(message) {
+    $('#msg2').attr('class', 'alert alert-danger');
+    $('#msg2').html(message);
+    $("#msg2").fadeTo(3500, 500).slideUp(300, function(){
+        $("#msg2").hide();
+    });
+    $('.close').hide()
+}
+
+function reset_message() {
+    $('#msg2').html('');
+    $('#msg2').hide();
+}

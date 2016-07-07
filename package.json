@@ -1,9 +1,14 @@
 {
   "name": "esup-otp-manager",
-  "version": "0.0.0",
+  "version": "0.9.0",
   "private": true,
+  "repository": {
+      "type": "git",
+        "url": "git://github.com/EsupPortail/esup-otp-manager.git"
+  },
+  "license": "MIT",
   "scripts": {
-    "start": "node ./server/server"
+    "start": "nohup node run &"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

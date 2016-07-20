@@ -352,6 +352,9 @@ function activate_method(method) {
         if (response.code == "Ok") {
             get_user_infos();
             switch (method) {
+                case 'push':
+                    $('#activation_code').html(response.message+response.activation_code);
+                    break;
                 case 'totp':
                     generate_totp();
                     break;

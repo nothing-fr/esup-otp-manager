@@ -27,5 +27,9 @@
         h1.page-header #{messages.api.matrix}
             #matrix_switch_admin.Switch.AdminSwitch.Round.Off
                 .Toggle
+    #push_method.method(hidden='true')
+        h1.page-header #{messages.api.push}
+            #push_switch_admin.Switch.AdminSwitch.Round.Off
+                .Toggle
 
 include managerDashboard-content

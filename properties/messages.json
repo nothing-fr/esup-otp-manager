@@ -18,6 +18,7 @@
         "random_code":"Code à usage unique",
         "bypass": "Code de secours",
         "matrix": "Grille d'authentification",
+        "push": "Notification sur Smartphone",
         "home":"ESUP-OTP vous permez d'ajouter un deuxième niveau de protection à votre compte. Vous pouvez, par exemple, définir qu'un code à usage unique vous soit envoyé par SMS en plus de votre identifiant et votre mot de passe. Ainsi, un tiers ne pourra pas accèder à votre compte même avec votre mot de passe."
     }
 }

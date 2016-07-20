@@ -41,8 +41,15 @@
                 p
                 button(onclick='') Générer nouvelle grille
                 button(onclick='') Supprimer la grille
+        #push_manager
+            .method-content
+                h1.page-header #{messages.api.push}
+                    #push_switch.Switch.ManagerSwitch.Round.Off
+                        .Toggle
+                p
 div(hidden='true')
     #totp_method.method(hidden='true')
     #random_code_method.method(hidden='true')
     #bypass_method.method(hidden='true')
     #matrix_method.method(hidden='true')
+    #push_method.method(hidden='true')

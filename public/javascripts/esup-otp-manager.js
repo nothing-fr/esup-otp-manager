@@ -174,15 +174,19 @@ function get_user_infos(callback) {
                     uncheck_method(method);
                 }
             }
-            if (response.user.methods.bypass.active) {
-                $("#available_code").html("Code restants : " + JSON.stringify(response.user.methods.bypass.available_code));
-                $("#used_code").html("Code utilisés : " + JSON.stringify(response.user.methods.bypass.used_code));
+            if (response.user.methods.bypass){
+                if (response.user.methods.bypass.active) {
+                    $("#available_code").html("Code restants : " + JSON.stringify(response.user.methods.bypass.available_code));
+                    $("#used_code").html("Code utilisés : " + JSON.stringify(response.user.methods.bypass.used_code));
+                }
             }
-            if (response.user.methods.push.active) {
-                $("#device").html("Appareil associé : " + JSON.stringify(response.user.methods.push.device));
-                $("#activation_code").empty();
-                loop = false;
-            }else $("#device").empty();
+            if (response.user.methods.push){
+                if (response.user.methods.push.active) {
+                    $("#device").html("Appareil associé : " + JSON.stringify(response.user.methods.push.device));
+                    $("#activation_code").empty();
+                    loop = false;
+                }else $("#device").empty();
+            }
             $('#sms_label').empty();
             $('#mail_label').empty();
             $('#sms_label').text(response.user.transports.sms);

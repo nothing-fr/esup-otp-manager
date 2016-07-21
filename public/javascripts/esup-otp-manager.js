@@ -1,5 +1,6 @@
 uid = "";
 methods = {};
+loop = false;
 
 var uids;
 
@@ -30,6 +31,8 @@ function init() {
 }
 
 function navClick(link) {
+    loop =false;
+    get_user_infos();
     reset();
     refresh_transports(link);
     $(link).addClass('active');
@@ -175,10 +178,16 @@ function get_user_infos(callback) {
                 $("#available_code").html("Code restants : " + JSON.stringify(response.user.methods.bypass.available_code));
                 $("#used_code").html("Code utilisés : " + JSON.stringify(response.user.methods.bypass.used_code));
             }
+            if (response.user.methods.push.active) {
+                $("#device").html("Appareil associé : " + JSON.stringify(response.user.methods.push.device));
+                $("#activation_code").empty();
+                loop = false;
+            }else $("#device").empty();
             $('#sms_label').empty();
             $('#mail_label').empty();
             $('#sms_label').text(response.user.transports.sms);
             $('#mail_label').text(response.user.transports.mail);
+            if(loop)setTimeout(get_user_infos, 3000);
             if(typeof(callback)==="function")callback();
         } else {
             console.log(response.message);
@@ -208,6 +217,7 @@ function show_user(user) {
     show_totp_infos(user.totp);
     show_random_code_infos(user.random_code);
     show_bypass_infos(user.bypass);
+    show_push_infos(user.push);
 }
 
 function show_totp_infos(data) {
@@ -233,6 +243,15 @@ function show_bypass_infos(data) {
         $("#used_code").html("Code utilisés : " + JSON.stringify(data.used_code));
     } else {
         uncheck_method("bypass");
+    }
+}
+
+function show_push_infos(data) {
+    if (data.active) {
+        check_method("push");
+        $("#device").html("Appareil associé : " + JSON.stringify(data.device));
+    } else {
+        uncheck_method("push");
     }
 }
 
@@ -353,6 +372,7 @@ function activate_method(method) {
             get_user_infos();
             switch (method) {
                 case 'push':
+                    loop = true;
                     $('#activation_code').html(response.message+response.activation_code);
                     break;
                 case 'totp':

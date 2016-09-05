@@ -182,7 +182,7 @@ function get_user_infos(callback) {
             }
             if (response.user.methods.push){
                 if (response.user.methods.push.active) {
-                    $("#device").html("Appareil associé : " + JSON.stringify(response.user.methods.push.device));
+                    $("#device").html("Appareil associé : " + JSON.stringify(response.user.methods.push.device.model) + ' du constructeur ' +JSON.stringify(response.user.methods.push.device.manufacturer) +' fonctionnant sous ' +JSON.stringify(response.user.methods.push.device.platform));
                     $("#activation_code").empty();
                     loop = false;
                 }else $("#device").empty();
@@ -253,7 +253,7 @@ function show_bypass_infos(data) {
 function show_push_infos(data) {
     if (data.active) {
         check_method("push");
-        $("#device").html("Appareil associé : " + JSON.stringify(data.device));
+        $("#device").html("Appareil associé : " + JSON.stringify(data.device.model) + ' du constructeur ' +JSON.stringify(data.device.manufacturer) +' fonctionnant sous ' +JSON.stringify(data.device.platform));
     } else {
         uncheck_method("push");
     }
@@ -377,7 +377,7 @@ function activate_method(method) {
             switch (method) {
                 case 'push':
                     loop = true;
-                    $('#activation_code').html(response.message+response.activation_code);
+                    $('#activation_code').html(response.message);
                     break;
                 case 'totp':
                     generate_totp();

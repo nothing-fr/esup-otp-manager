@@ -27,6 +27,10 @@ var server = http.createServer(app);
  */
 
 server.listen(port);
+var api_sockets = require('../client/sockets');
+var sockets = require('./sockets');
+sockets.attach(server);
+
 server.on('error', onError);
 server.on('listening', onListening);
 

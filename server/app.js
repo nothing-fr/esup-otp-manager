@@ -1,14 +1,19 @@
+var properties = require(__dirname + '/../properties/properties');
 var express = require('express');
-var expressSession = require('express-session');
+var expressSession = require('express-session')({
+    secret: properties.esup.session_secret_key,
+    resave: true,
+    saveUninitialized: true
+});
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var properties = require(__dirname + '/../properties/properties');
 
 var app = express();
+var sockets = require('./sockets');
 
 // view engine setup
 app.set('views', path.join(__dirname + '/..', 'views'));
@@ -22,13 +27,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname + '/..', 'public')));
 
-app.use(expressSession({
-    secret: properties.esup.session_secret_key,
-    resave: true,
-    saveUninitialized: true
-}));
+app.use(expressSession);
 app.use(passport.initialize());
 app.use(passport.session());
+sockets.sharedSession(expressSession);
 
 app.use(function(req, res, next) {
     res.locals.session = req.session;

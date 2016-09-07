@@ -1,7 +1,6 @@
 uid = "";
 methods = {};
-loop = false;
-
+var socket;
 var uids;
 
 var uid_complete;
@@ -31,7 +30,6 @@ function init() {
 }
 
 function navClick(link) {
-    loop =false;
     get_user_infos();
     reset();
     refresh_transports(link);
@@ -184,14 +182,16 @@ function get_user_infos(callback) {
                 if (response.user.methods.push.active) {
                     $("#device").html("Appareil associé : " + JSON.stringify(response.user.methods.push.device.model) + ' du constructeur ' +JSON.stringify(response.user.methods.push.device.manufacturer) +' fonctionnant sous ' +JSON.stringify(response.user.methods.push.device.platform));
                     $("#activation_code").empty();
-                    loop = false;
                 }else $("#device").empty();
             }
             $('#sms_label').empty();
             $('#mail_label').empty();
             $('#sms_label').text(response.user.transports.sms);
             $('#mail_label').text(response.user.transports.mail);
-            if(loop)setTimeout(get_user_infos, 3000);
+            var arr = window.location.href.split('/');
+            var urlSockets = arr[0] + "//" + arr[2];
+            socket = io.connect(urlSockets, {reconnect: true, path: "/sockets"});
+            initialize_socket();
             if(typeof(callback)==="function")callback();
         } else {
             console.log(response.message);
@@ -376,7 +376,6 @@ function activate_method(method) {
             get_user_infos();
             switch (method) {
                 case 'push':
-                    loop = true;
                     $('#activation_code').html(response.message);
                     break;
                 case 'totp':
@@ -597,4 +596,13 @@ function errors_message(message) {
 function reset_message() {
     $('#msg2').html('');
     $('#msg2').hide();
+}
+
+function initialize_socket() {
+    socket.on('connect', function () {
+    });
+
+    socket.on('userUpdate', function () {
+        get_user_infos();
+    });
 }

@@ -376,7 +376,7 @@ function activate_method(method) {
             get_user_infos();
             switch (method) {
                 case 'push':
-                    $('#activation_code').html(response.message);
+                    $('#activation_code').html(response.message1+response.qrCode+response.message2+response.uid+response.message3+response.activationCode+response.message4+response.api_url+response.message5);
                     break;
                 case 'totp':
                     generate_totp();

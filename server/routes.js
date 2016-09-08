@@ -12,7 +12,10 @@ function requesting(req, res, opts) {
     console.log(req.session.passport);
     request(opts, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            res.send(body);
+            var infos = JSON.parse(body);
+            if(req.session.passport.user.uid)infos.uid = req.session.passport.user.uid;
+            infos.api_url = properties.esup.api_url;
+            res.send(infos);
         } else res.send({
             "code": "Error",
             "message": error

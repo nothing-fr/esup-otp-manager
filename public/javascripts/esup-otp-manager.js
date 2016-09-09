@@ -180,7 +180,7 @@ function get_user_infos(callback) {
             }
             if (response.user.methods.push){
                 if (response.user.methods.push.active) {
-                    $("#device").html("Appareil associé : " + JSON.stringify(response.user.methods.push.device.model) + ' du constructeur ' +JSON.stringify(response.user.methods.push.device.manufacturer) +' fonctionnant sous ' +JSON.stringify(response.user.methods.push.device.platform));
+                    $("#device").html("<ul><li><b>Modèle</b> : " + JSON.stringify(response.user.methods.push.device.model) + '</li><li><b>Constructeur</b> : ' +JSON.stringify(response.user.methods.push.device.manufacturer) +'</li><li><b>OS</b> : ' +JSON.stringify(response.user.methods.push.device.platform)+'</li></ul>');
                     $("#activation_code").empty();
                 }else $("#device").empty();
             }
@@ -253,7 +253,7 @@ function show_bypass_infos(data) {
 function show_push_infos(data) {
     if (data.active) {
         check_method("push");
-        $("#device").html("Appareil associé : " + JSON.stringify(data.device.model) + ' du constructeur ' +JSON.stringify(data.device.manufacturer) +' fonctionnant sous ' +JSON.stringify(data.device.platform));
+        $("#device").html("<ul><li><b>Modèle</b> : " + JSON.stringify(data.device.model) + '</li><li><b>Constructeur</b> : ' +JSON.stringify(data.device.manufacturer) +'</li><li><b>OS</b> : ' +JSON.stringify(data.device.platform)+'</li></ul>');
     } else {
         uncheck_method("push");
     }

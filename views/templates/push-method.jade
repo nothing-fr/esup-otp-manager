@@ -1,0 +1,16 @@
+script#push-method(type='text/x-template').
+    <div>
+    <div v-if="!user.methods.push.active && user.methods.push.activationCode">
+    <ul>
+    <li v-html="user.methods.push.qrCode"></li>
+    <li>{{user.uid}}</li>
+    <li>{{user.methods.push.activationCode}}</li>
+    <li>{{user.methods.push.api_url}}</li>
+    </ul>
+    </div>
+    <ul v-if="user.methods.push.active">
+    <li>{{user.methods.push.device.platform}}</li>
+    <li>{{user.methods.push.device.manufacturer}}</li>
+    <li>{{user.methods.push.device.model}}</li>
+    </ul>
+    </div>

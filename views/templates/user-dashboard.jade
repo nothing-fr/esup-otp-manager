@@ -1,0 +1,36 @@
+script#user-dashboard(type='text/x-template').
+    <div>
+    <div class="section" v-for="method in methods" v-show="method.activate && currentmethod==method.name">
+    <h4>{{method.label || method.name}}</h4>
+    <div class='switch'>
+    <label>
+    Deactivate
+    <input type='checkbox' v-if="user.methods[method.name].active" v-on:click="deactivate" v-bind:name=method.name checked>
+    <input type='checkbox' v-on:click="activate" v-bind:name=method.name v-else>
+    <span class='lever'></span> Activate
+    </label>
+    </div>
+    <br>
+    <div class="divider"></div>
+    <p>
+    {{messages.api.methods[method.name].description}}
+    </p>
+    <div v-show="user.methods[method.name].active || typeof(user.methods[method.name].activationCode)=='string'">
+    <div class="divider"></div>
+    <component :is=currentmethod v-bind:methods=methods v-bind:generate_totp=generateTotp v-bind:generate_bypass=generateBypass ik v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></component>
+    <div v-if="methods[currentmethod]">
+    <div class="section" v-show="methods[currentmethod].transports.length>0 && currentmethod!=='push' ">
+    <div class="divider"></div>
+    <h5>Transports</h5>
+    <div v-if="user.transports.sms">
+    Sms : {{user.transports.sms}}
+    </div>
+    <div v-if="user.transports.mail">
+    Mail : {{user.transports.mail}}
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+

@@ -92,6 +92,14 @@ function routing() {
         });
     });
 
+    router.get('/test', isUser, function(req, res) {
+        res.render('testAdminDashboard', {
+            title: 'Esup Otp Manager : Test',
+            user: req.session.passport.user,
+            messages:properties.messages
+        });
+    });
+
 
     router.get('/login', function(req, res, next) {
         passport.authenticate('cas', function(err, user, info) {
@@ -126,6 +134,10 @@ function routing() {
         var opts = {};
         opts.url = properties.esup.api_url+'users/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid);
         requesting(req, res, opts);
+    });
+
+    router.get('/api/messages', isUser, function(req, res) {
+        res.json(properties.messages);
     });
 
     router.get('/api/transport/:transport/test', isUser, function(req, res) {

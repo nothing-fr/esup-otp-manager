@@ -1,0 +1,38 @@
+script#admin-dashboard(type='text/x-template').
+    <div>
+    <div>
+    <div class="section" v-for="method in methods">
+    <h4>{{method.label || method.name}}</h4>
+    <div class='switch'>
+    <label>
+    Deactivate
+    <input type='checkbox' v-if="methods[method.name].activate" v-on:click="deactivate" v-bind:name=method.name checked>
+    <input type='checkbox' v-on:click="activate" v-bind:name=method.name v-else>
+    <span class='lever'></span> Activate
+    </label>
+    </div>
+    <div class="divider"></div>
+    <div class="section" v-show="method.name=='totp' || method.name=='random_code' ">
+    <h5>Transports</h5> Sms :
+    <div class='switch'>
+    <label>
+    Deactivate
+    <input type='checkbox' v-if="methods[method.name].transports.includes('sms')" v-on:click="deactivateTransport(method.name,'sms')" v-bind:name=method.name checked>
+    <input type='checkbox' v-on:click="activateTransport(method.name,'sms')" v-bind:name=method.name v-else>
+    <span class='lever'></span> Activate
+    </label>
+    </div>
+    Mail :
+    <div class='switch'>
+    <label>
+    Deactivate
+    <input type='checkbox' v-if="methods[method.name].transports.includes('mail')" v-on:click="deactivateTransport(method.name,'mail')" v-bind:name=method.name checked>
+    <input type='checkbox' v-on:click="activateTransport(method.name,'mail')" v-bind:name=method.name v-else>
+    <span class='lever'></span> Activate
+    </label>
+    </div>
+    </div>
+    <div class="divider"></div>
+    </div>
+    </div>
+    </div>

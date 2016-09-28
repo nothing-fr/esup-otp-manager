@@ -1,0 +1,48 @@
+extends testLayout
+
+block content
+    include templates/user-dashboard
+    include templates/push-method
+    include templates/bypass-method
+    include templates/totp-method
+    include templates/random_code-method
+    include templates/manager-dashboard
+    include templates/user-view
+    include templates/admin-dashboard
+    include templates/home
+    #app.container
+        header
+            nav.top-nav
+                .container
+                    a#navButton.button-collapse.top-nav.full.hide-on-large-only(href='#', data-activates='slide-out')
+                        i.material-icons menu
+                    .nav-wrapper
+                        a.page-title {{pageTitle}}
+            ul#slide-out.side-nav.fixed
+                .no-padding.sidenav-header
+                    .flex
+                        i.material-icons.medium account_circle
+                        p {{user.uid}}
+                li.bold
+                    a#home(href='#', v-on:click='navigate', name = 'home') Accueil
+                    li.no-padding
+                    ul.collapsible.collapsible-accordion(data-collapsible='accordion')
+                        li
+                            .collapsible-header Préférences
+                            .collapsible-body
+                                ul
+                                    li.bold(v-for='method in methods', v-show='method.activate')
+                                        a(href='#', v-on:click='navigate', v-bind:id='method.name', v-bind:name='method.name') {{method.label || method.name}}
+                    li.bold
+                        a#manager(href='#', v-on:click='navigate', name='manager') Manager
+                    li.bold
+                        a#admin(href='#', v-on:click='navigate', name='admin') Admin
+                    .divider
+                    li.bold.flex.waves-effect(style='display: flex !important;')
+                        i.material-icons.prefix exit_to_app
+                        a(href='/logout') Se déconnecter
+        main
+            .container
+                component(:is='currentView', v-bind:methods='methods', v-bind:messages='messages', v-bind:current_view.sync='currentView', v-bind:currentmethod='currentMethod', v-bind:user='user' v-bind:get_user='getUser')
+        footer
+block script

@@ -1,0 +1,9 @@
+script#bypass-method(type='text/x-template').
+    <div>
+    <ul>
+    <li>Code restants : {{user.methods.bypass.available_code}}</li>
+    <li>Code utilisés : {{user.methods.bypass.used_code}}</li>
+    <li v-for="code in user.methods.bypass.codes">{{code}}</li>
+    </ul>
+    <a class="waves-effect waves-light btn" v-on:click=generate_bypass>Générer des nouveaux codes</a>
+    </div>

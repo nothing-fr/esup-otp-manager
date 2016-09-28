@@ -1,0 +1,9 @@
+script#totp-method(type='text/x-template').
+    <div>
+    {{messages.api.methods.totp.howTo}}
+    <ul>
+    <li v-html="user.methods.totp.qrCode"></li>
+    <li>{{user.methods.totp.message}}</li>
+    </ul>
+    <a class="waves-effect waves-light btn" v-on:click=generate_totp>Générer un nouveau QrCode</a>
+    </div>

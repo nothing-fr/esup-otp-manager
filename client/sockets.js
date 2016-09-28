@@ -9,10 +9,27 @@ var users = {};
 
 apiSockets.on('connect', function () {
     console.log("Api Sockets connected");
+    apiSockets.emit('managers',properties.esup.admins.concat(properties.esup.managers));
 });
 
 apiSockets.on('userUpdate', function (data) {
     if(users[data.uid])sockets.emit(users[data.uid], 'userUpdate');
+});
+
+apiSockets.on('userPushActivate', function (data) {
+    if(users[data.uid])sockets.emit(users[data.uid], 'userPushActivate');
+});
+
+apiSockets.on('userPushDeactivate', function (data) {
+    if(users[data.uid])sockets.emit(users[data.uid], 'userPushDectivate');
+});
+
+apiSockets.on('userPushActivateManager', function (data) {
+    if(users[data.uid])sockets.emit(users[data.uid], 'userPushActivateManager', {uid : data.target});
+});
+
+apiSockets.on('userPushDeactivateManager', function (data) {
+    if(users[data.uid])sockets.emit(users[data.uid], 'userPushDectivateManager', {uid : data.target});
 });
 
 exports.userConnection = function(uid, idSocket){

@@ -3,7 +3,7 @@ script#bypass-method(type='text/x-template').
     <ul>
     <li>Code restants : {{user.methods.bypass.available_code}}</li>
     <li>Code utilisés : {{user.methods.bypass.used_code}}</li>
-    <table class="striped">
+    <table class="striped" v-if="user.methods.bypass.codes.length >0">
     <thead>
     <tr>
     <th data-field="code">Codes générés</th>
@@ -16,5 +16,7 @@ script#bypass-method(type='text/x-template').
     </tbody>
     </table>
     </ul>
-    <a class="waves-effect waves-light btn" v-on:click=generate_bypass>Générer des nouveaux codes</a>
+    <div class="row" style="text-align:center;">
+    <a class="waves-effect waves-light btn" v-on:click=generate_bypass>Générer des codes<i class="material-icons right">sync</i></a>
+    </div>
     </div>

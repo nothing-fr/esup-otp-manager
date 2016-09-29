@@ -2,7 +2,6 @@ script#totp-method(type='text/x-template').
     <div>
     <div class="card">
     <div class="card-image">
-    <br>
     <div class="row" style="margin-bottom: 0 ;">
     <div class="col s1"><span class="white-text">a</span></div>
     <div class="col s10" style="text-align: justify;">{{messages.api.methods.totp.howTo}}
@@ -19,11 +18,8 @@ script#totp-method(type='text/x-template').
     </div>
     </div>
     <div class="card-action">
-    <div class="row" style="margin-bottom: 0;">
-    <div class="col s1 m3"><span class="white-text">a</span></div>
-    <div class="col s10 m6" style="text-align: center;">
-    <a class="waves-effect waves-light btn" v-on:click=generate_totp>Générer un nouveau QrCode</a>
-    </div>
+    <div class="row" style="margin-bottom: 0;text-align: center;">
+    <a class="waves-effect waves-light btn" v-on:click=generate_totp>Générer un QrCode<i class="material-icons right">sync</i></a>
     </div>
     </div>
     </div>

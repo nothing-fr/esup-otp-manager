@@ -93,10 +93,13 @@ function routing() {
     });
 
     router.get('/test', isUser, function(req, res) {
+        var right = "user";
+        if (utils.is_manager(req.session.passport.user.uid))right = "manager";
+        if (utils.is_admin(req.session.passport.user.uid))right = "admin";
         res.render('testAdminDashboard', {
             title: 'Esup Otp Manager : Test',
             user: req.session.passport.user,
-            messages:properties.messages
+            right : right
         });
     });
 

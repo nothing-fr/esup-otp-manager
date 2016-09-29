@@ -33,10 +33,12 @@ block content
                                 ul
                                     li.bold(v-for='method in methods', v-show='method.activate')
                                         a(href='#', v-on:click='navigate', v-bind:id='method.name', v-bind:name='method.name') {{method.label || method.name}}
-                    li.bold
-                        a#manager(href='#', v-on:click='navigate', name='manager') Manager
-                    li.bold
-                        a#admin(href='#', v-on:click='navigate', name='admin') Admin
+                    if right == "manager" || right == "admin"
+                        li.bold
+                            a#manager(href='#', v-on:click='navigate', name='manager') Manager
+                    if right == "admin"
+                        li.bold
+                            a#admin(href='#', v-on:click='navigate', name='admin') Admin
                     .divider
                     li.bold.flex.waves-effect(style='display: flex !important;')
                         i.material-icons.prefix exit_to_app

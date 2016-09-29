@@ -68,41 +68,15 @@ function routing() {
     });
 
     router.get('/preferences', isUser, function(req, res) {
-        console.log(req.session.passport.user);
-        res.render('dashboard', {
-            title: 'Esup Otp Manager : Preferences',
-            user: req.session.passport.user,
-            messages:properties.messages
-        });
-    });
-
-    router.get('/admin', isAdmin, function(req, res) {
-        res.render('adminDashboard', {
-            title: 'Esup Otp Manager : Admin',
-            user: req.session.passport.user,
-            messages:properties.messages
-        });
-    });
-
-    router.get('/manager', isManager, function(req, res) {
-        res.render('managerDashboard', {
-            title: 'Esup Otp Manager : Manager',
-            user: req.session.passport.user,
-            messages:properties.messages
-        });
-    });
-
-    router.get('/test', isUser, function(req, res) {
         var right = "user";
         if (utils.is_manager(req.session.passport.user.uid))right = "manager";
         if (utils.is_admin(req.session.passport.user.uid))right = "admin";
-        res.render('testAdminDashboard', {
+        res.render('dashboard', {
             title: 'Esup Otp Manager : Test',
             user: req.session.passport.user,
             right : right
         });
     });
-
 
     router.get('/login', function(req, res, next) {
         passport.authenticate('cas', function(err, user, info) {

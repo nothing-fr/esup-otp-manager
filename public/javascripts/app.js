@@ -141,7 +141,7 @@ var UserDashboard = Vue.extend({
                         this.user.methods.push.activationCode = data.activationCode;
                         this.user.methods.push.qrCode = data.qrCode;
                         this.user.methods.push.api_url = data.api_url;
-                    }
+                    }else Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                 }.bind(this),
                 error: function (xhr, status, err) {
                     console.error("/api/push/activate", status, err.toString());
@@ -158,6 +158,7 @@ var UserDashboard = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         event.target.checked = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                     } else {
                         this.user.methods.bypass.active = true;
                         this.generateBypass(function () {
@@ -181,6 +182,7 @@ var UserDashboard = Vue.extend({
                 cache: false,
                 success: function (data) {
                     if (data.code != "Ok") {
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                         event.target.checked = false;
                     } else {
                         this.user.methods.totp.active = true;
@@ -206,6 +208,7 @@ var UserDashboard = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         event.target.checked = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                     } else this.user.methods.random_code.active = true;
                 }.bind(this),
                 error: function (xhr, status, err) {
@@ -222,11 +225,15 @@ var UserDashboard = Vue.extend({
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
-                    if (data.code != "Ok") event.target.checked = true;
+                    if (data.code != "Ok") {
+                        event.target.checked = true;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
+                    }
                     else this.user.methods[event.target.name].active = false;
                 }.bind(this),
                 error: function (xhr, status, err) {
                     event.target.checked = true;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/" + event.target.name + "/deactivate", status, err.toString());
                 }.bind(this)
             });
@@ -243,6 +250,7 @@ var UserDashboard = Vue.extend({
                 }.bind(this),
                 error: function (xhr, status, err) {
                     if (typeof(onError) === "function") onError();
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/generate/bypass", status, err.toString());
                 }.bind(this)
             });
@@ -262,7 +270,71 @@ var UserDashboard = Vue.extend({
                 }.bind(this),
                 error: function (xhr, status, err) {
                     if (typeof(onError) === "function") onError();
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/generate/totp", status, err.toString());
+                }.bind(this)
+            });
+        },
+        saveTransport: function(transport) {
+            var new_transport = document.getElementById(transport + '-input').value;
+            var reg;
+            if (transport == 'sms') reg = new RegExp("^0[6-7]([-. ]?[0-9]{2}){4}$");
+            else reg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            if (reg.test(new_transport)) {
+                var oldTransport = this.user.transports[transport];
+                this.user.transports[transport]= new_transport;
+                document.getElementById(transport + '-input').value = '';
+                $.ajax({
+                    method: 'PUT',
+                    url: '/api/transport/' + transport + '/' + new_transport,
+                    dataType: 'json',
+                    cache: false,
+                    success: function(data) {
+                        if (data.code != "Ok") {
+                            this.user.transports[transport]= oldTransport;
+                            document.getElementById(transport + '-input').value = oldTransport;
+                            Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
+                        }else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                        this.user.transports[transport]= oldTransport;
+                        document.getElementById(transport + '-input').value = oldTransport;
+                        Materialize.toast(err, 3000, 'red darken-1');
+                        console.error('/api/transport/' + transport + '/' + new_transport, status, err.toString());
+                    }.bind(this)
+                });
+            }else Materialize.toast('Format invalide.', 3000, 'red darken-1');
+        },
+        deleteTransport: function(transport) {
+            var oldTransport = this.user.transports[transport];
+            this.user.transports[transport]= null;
+            $.ajax({
+                method: 'DELETE',
+                url: '/api/transport/' + transport,
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    if (data.code != "Ok") this.user.transports[transport]= oldTransport;
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    this.user.transports[transport]= oldTransport;
+                    Materialize.toast(err, 3000, 'red darken-1');
+                    console.error("/data/deactivate.json", status, err.toString());
+                }.bind(this)
+            });
+        },
+        testTransport: function(transport) {
+            $.ajax({
+                url: '/api/transport/' + transport + '/test',
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    if (data.code != "Ok") Materialize.toast(data.message, 3000, 'red darken-1');
+                    else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
+                    console.error('/api/transport/' + transport + '/test', status, err.toString());
                 }.bind(this)
             });
         },
@@ -322,9 +394,10 @@ var UserView = Vue.extend({
                         this.user.methods.push.activationCode = data.activationCode;
                         this.user.methods.push.qrCode = data.qrCode;
                         this.user.methods.push.api_url = data.api_url;
-                    }
+                    }else Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
                 }.bind(this),
                 error: function (xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + this.user.uid + "/push/activate", status, err.toString());
                 }.bind(this)
             });
@@ -341,10 +414,14 @@ var UserView = Vue.extend({
                         this.generateBypass(function () {
                             this.user.methods.bypass.active = false;
                         })
-                    } else this.user.methods.bypass.active = false;
+                    } else {
+                        this.user.methods.bypass.active = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
+                    }
                 }.bind(this),
                 error: function (xhr, status, err) {
                     this.user.methods.bypass.active = false;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + this.user.uid + "/bypass/activate", status, err.toString());
                 }.bind(this)
             });
@@ -361,10 +438,14 @@ var UserView = Vue.extend({
                         this.generateTotp(function () {
                             this.user.methods.totp.active = false;
                         })
-                    } else this.user.methods.totp.active = false;
+                    } else {
+                        this.user.methods.totp.active = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
+                    }
                 }.bind(this),
                 error: function (xhr, status, err) {
                     this.user.methods.totp.active = false;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + this.user.uid + "/totp/activate", status, err.toString());
                 }.bind(this)
             });
@@ -379,10 +460,12 @@ var UserView = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         this.user.methods.random_code.active = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
                     }
                 }.bind(this),
                 error: function (xhr, status, err) {
                     this.user.methods.random_code.active = false;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + this.user.uid + "/random_code/activate", status, err.toString());
                 }.bind(this)
             });
@@ -395,10 +478,14 @@ var UserView = Vue.extend({
                 cache: false,
                 success: function (data) {
                     if (data.code == "Ok") this.user.methods[method].active = false;
-                    else this.user.methods[method].active = true;
+                    else {
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
+                        this.user.methods[method].active = true;
+                    }
                 }.bind(this),
                 error: function (xhr, status, err) {
                     this.user.methods[method].active = true;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + this.user.uid + "/" + method + "/activate", status, err.toString());
                 }.bind(this)
             });
@@ -415,6 +502,7 @@ var UserView = Vue.extend({
                 }.bind(this),
                 error: function (xhr, status, err) {
                     if (typeof(onError) === "function") onError();
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/generate/bypass/" + this.user.uid, status, err.toString());
                 }.bind(this)
             });
@@ -434,6 +522,7 @@ var UserView = Vue.extend({
                 }.bind(this),
                 error: function (xhr, status, err) {
                     if (typeof(onError) === "function") onError();
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/generate/bypass/" + this.user.uid, status, err.toString());
                 }.bind(this)
             });
@@ -489,6 +578,7 @@ var ManagerDashboard = Vue.extend({
                     this.setUsers(data);
                 }.bind(this),
                 error: function (xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/users", status, err.toString());
                 }.bind(this)
             });
@@ -508,6 +598,7 @@ var ManagerDashboard = Vue.extend({
                     this.setUser(data);
                 }.bind(this),
                 error: function (xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/user/" + uid, status, err.toString());
                 }.bind(this)
             });
@@ -546,12 +637,14 @@ var AdminDashboard = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         event.target.checked = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                     } else {
                         this.methods[event.target.name].activate = true;
                     }
                 }.bind(this),
                 error: function (xhr, status, err) {
                     event.target.checked = false;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + event.target.name + "/activate", status, err.toString());
                 }.bind(this)
             });
@@ -566,10 +659,12 @@ var AdminDashboard = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         this.methods[event.target.name].activate = true;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                     } else this.methods[event.target.name].activate = false;
                 }.bind(this),
                 error: function (xhr, status, err) {
                     event.target.checked = true;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + event.target.name + "/deactivate", status, err.toString());
                 }.bind(this)
             });
@@ -584,12 +679,14 @@ var AdminDashboard = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         event.target.checked = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                     } else {
                         this.methods[method].transports.push(transport);
                     }
                 }.bind(this),
                 error: function (xhr, status, err) {
                     event.target.checked = false;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + method + "/transport/" + transport + "/activate", status, err.toString());
                 }.bind(this)
             });
@@ -604,6 +701,7 @@ var AdminDashboard = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         event.target.checked = true;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
                     } else {
                         var index = this.methods[method].transports.indexOf(transport);
                         if (index > (-1)) this.methods[method].transports.splice(index, 1);
@@ -611,6 +709,7 @@ var AdminDashboard = Vue.extend({
                 }.bind(this),
                 error: function (xhr, status, err) {
                     event.target.checked = true;
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + method + "/transport/" + transport + "/deactivate", status, err.toString());
                 }.bind(this)
             });
@@ -697,6 +796,7 @@ var app = new Vue({
                     this.setUser(data);
                 }.bind(this),
                 error: function (xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/user", status, err.toString());
                 }.bind(this)
             });
@@ -717,6 +817,7 @@ var app = new Vue({
                     this.setMethods(data);
                 }.bind(this),
                 error: function (xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/methods", status, err.toString());
                 }.bind(this)
             });
@@ -734,6 +835,7 @@ var app = new Vue({
                     this.setMessages(data);
                 }.bind(this),
                 error: function (xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/messages", status, err.toString());
                 }.bind(this)
             });

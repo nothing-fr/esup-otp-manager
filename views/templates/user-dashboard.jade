@@ -1,6 +1,6 @@
 script#user-dashboard(type='text/x-template').
     <div>
-    <div class="section" v-for="method in methods" v-show="method.activate && currentmethod==method.name">
+    <div class="section" v-for="method in methods" v-if="method.activate && currentmethod==method.name">
     <h4>{{method.label || method.name}}</h4>
     <div class='switch'>
     <label>
@@ -15,18 +15,65 @@ script#user-dashboard(type='text/x-template').
     <p>
     {{messages.api.methods[method.name].description}}
     </p>
-    <div v-show="user.methods[method.name].active || typeof(user.methods[method.name].activationCode)=='string'">
+    <div v-if="user.methods[method.name].active || typeof(user.methods[method.name].activationCode)=='string'">
     <div class="divider"></div>
-    <component :is=currentmethod v-bind:methods=methods v-bind:generate_totp=generateTotp v-bind:generate_bypass=generateBypass ik v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></component>
+    <component :is=currentmethod v-bind:methods=methods v-bind:generate_totp=generateTotp v-bind:generate_bypass=generateBypass v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></component>
     <div v-if="methods[currentmethod]">
-    <div class="section" v-show="methods[currentmethod].transports.length>0 && currentmethod!=='push' ">
+    <div class="section" v-if="methods[currentmethod].transports.length>0 && currentmethod!=='push' ">
     <div class="divider"></div>
     <h5>Transports</h5>
-    <div v-if="user.transports.sms">
-    Sms : {{user.transports.sms}}
+    <div class="card" v-if="methods[currentmethod].transports.indexOf('sms')>-1">
+    <div class="card-content">
+    <div class="row" style="margin-bottom: 0;">
+    <div class="col s2 m3">
+    <img src="http://image.flaticon.com/icons/svg/176/176685.svg">
     </div>
-    <div v-if="user.transports.mail">
-    Mail : {{user.transports.mail}}
+    <div class="col s10 m9" style="text-align: justify;">
+    <div class="row" style="margin-bottom: 0;" v-if="user.transports.sms">
+    <p class="col s7">{{user.transports.sms}}</p>
+    <a class="waves-effect waves-light btn col s5 teal darken-1" v-on:click="testTransport('sms')">Vérifier<i class="material-icons right">sms</i></a>
+    </div>
+    <div class="row input-field" style="margin-bottom: 0;">
+    <div class="col s7">
+    <input type="text" id="sms-input">
+    <label for="sms-input">Sms</label>
+    </div>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('sms')" v-if="user.transports.sms">Modifier<i class="material-icons right">mode_edit</i></a>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('sms')" v-else>Enregistrer<i class="material-icons right">save</i></a>
+    </div>
+    <div class="row" style="margin-bottom: 0;" v-if="user.transports.sms">
+    <a class="waves-effect waves-light btn col s12  red darken-1" v-on:click="deleteTransport('sms')">Supprimer<i class="material-icons right">cancel</i></a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="card" v-if="methods[currentmethod].transports.indexOf('mail')>-1">
+    <div class="card-content">
+    <div class="row" style="margin-bottom: 0;">
+    <div class="col s2 m3">
+    <img src="http://image.flaticon.com/icons/svg/129/129517.svg">
+    </div>
+    <div class="col s10 m9" style="text-align: justify;">
+    <div class="row" style="margin-bottom: 0;" v-if="user.transports.mail">
+    <p class="col s7">{{user.transports.mail}}</p>
+    <a class="waves-effect waves-light btn col s5 teal darken-1" v-on:click="testTransport('mail')">Vérifier<i class="material-icons right">email</i></a>
+    </div>
+    <div class="row input-field" style="margin-bottom: 0;">
+    <div class="col s7">
+    <input type="text" id="mail-input">
+    <label for="mail-input">Email</label>
+    </div>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('mail')" v-if="user.transports.mail">Modifier<i class="material-icons right">mode_edit</i></a>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('mail')" v-else>Enregistrer<i class="material-icons right">save</i></a>
+    </div>
+    <div class="row" style="margin-bottom: 0;" v-if="user.transports.mail">
+    <a class="waves-effect waves-light btn col s12  red darken-1" v-on:click="deleteTransport('mail')">Supprimer<i class="material-icons right">cancel</i></a>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
     </div>
     </div>

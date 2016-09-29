@@ -129,7 +129,7 @@ function routing() {
 
     router.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/');
+        res.redirect(properties.esup.CAS.ssoBaseURL+'/logout');
     });
 
     //API

@@ -1,10 +1,12 @@
 extends layout
 
 block content
-  .container-fluid
-   .jumbotron.text-center
-     h1
-       span.fa.fa-lock
-       |  Manager for esup-otp-api
-       h2 Welcome, #{name}
-       p Welcome to #{title}.
+  .grey.lighten-4(style='display: flex;align-items: center;justify-content: center; height: 100%;')
+    .row(style='text-align:center;')
+      h2 ESUP OTP Manager
+      .divider
+      h5 Interface de configuration de l'authentification multi facteurs
+      br
+      a.waves-effect.waves-light.btn.teal.darken-1(href='/preferences')
+        | Se connecter
+        i.material-icons.right lock_open

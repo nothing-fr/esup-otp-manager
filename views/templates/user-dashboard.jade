@@ -20,7 +20,6 @@ script#user-dashboard(type='text/x-template').
     <component :is=currentmethod v-bind:methods=methods v-bind:generate_totp=generateTotp v-bind:generate_bypass=generateBypass v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></component>
     <div v-if="methods[currentmethod]">
     <div class="section" v-if="methods[currentmethod].transports.length>0 && currentmethod!=='push' ">
-    <div class="divider"></div>
     <h5>Transports</h5>
     <div class="card" v-if="methods[currentmethod].transports.indexOf('sms')>-1" style="max-width: 500px;margin: auto;margin-bottom: 15px;">
     <div class="card-content">

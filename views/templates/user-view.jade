@@ -1,7 +1,7 @@
 script#user-view(type='text/x-template').
     <div>
     <ul>
-    <h4 v-if="user.uid != 'function String() { [native code] }'">{{user.uid}}</h4>
+    <h4 v-if="user.uid && typeOf(user.uid)!== 'function'">{{user.uid}}</h4>
     <li v-for="method in methods" v-if="user.methods[method.name] && methods[method.name].activate">
     <h5>{{method.label}}</h5>
     <div v-if="user.methods[method.name].active" v-on:click="deactivate(method.name)" v-bind:name=method.name :id="method.name+'_switch'" class="Switch UserSwitch Round On">

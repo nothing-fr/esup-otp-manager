@@ -11,40 +11,52 @@ block content
     include templates/admin-dashboard
     include templates/home
     #app.container
-        header
+        header(v-if="messages.api")
             nav.top-nav
                 .container
                     a#navButton.button-collapse.top-nav.full.hide-on-large-only(href='#', data-activates='slide-out')
                         i.material-icons menu
                     .nav-wrapper
-                        a.page-title {{pageTitle}}
+                        a.page-title {{messages.api.menu[currentView]}}
             ul#slide-out.side-nav.fixed
                 .no-padding.sidenav-header
                     .flex
                         i.material-icons.medium account_circle
                         p {{user.uid}}
                 li.bold
-                    a#home(href='#', v-on:click='navigate', name = 'home') Accueil
+                    a#home(href='#', v-on:click='navigate', name = 'home') {{messages.api.menu.home}}
                     li.no-padding
                     ul.collapsible.collapsible-accordion(data-collapsible='accordion')
                         li
-                            .collapsible-header Préférences
+                            .collapsible-header {{messages.api.menu.preferences}}
                             .collapsible-body
                                 ul
                                     li.bold(v-for='method in methods', v-show='method.activate')
                                         a(href='#', v-on:click='navigate', v-bind:id='method.name', v-bind:name='method.name') {{method.label || method.name}}
                     if right == "manager" || right == "admin"
                         li.bold
-                            a#manager(href='#', v-on:click='navigate', name='manager') Manager
+                            a#manager(href='#', v-on:click='navigate', name='manager') {{messages.api.menu.manager}}
                     if right == "admin"
                         li.bold
-                            a#admin(href='#', v-on:click='navigate', name='admin') Admin
+                            a#admin(href='#', v-on:click='navigate', name='admin') {{messages.api.menu.admin}}
                     .divider
                     li.bold.flex.waves-effect(style='display: flex !important;')
                         i.material-icons.prefix exit_to_app
-                        a(href='/logout') Se déconnecter
+                        a(href='/logout') {{messages.api.action.logout}}
+                    .divider
+                    li.no-padding
+                        ul.collapsible.collapsible-accordion(data-collapsible='accordion')
+                            li
+                                .collapsible-header
+                                    a(href='#')
+                                        i.material-icons language
+                                .collapsible-body
+                                    ul
+                                        li.bold
+                                            a(href='#', v-on:click="getMessages('français')") Français
+                                        li.bold
+                                            a(href='#', v-on:click="getMessages('english')") English
         main
             .container
                 component(:is='currentView', v-bind:methods='methods', v-bind:messages='messages', v-bind:current_view.sync='currentView', v-bind:currentmethod='currentMethod', v-bind:user='user' v-bind:get_user='getUser')
-        footer
 block script

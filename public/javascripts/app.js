@@ -730,9 +730,9 @@ var app = new Vue({
     el: '#app',
     components: {
         "home": Home,
-        "user-dashboard": UserDashboard,
-        "manager-dashboard": ManagerDashboard,
-        "admin-dashboard": AdminDashboard
+        "preferences": UserDashboard,
+        "manager": ManagerDashboard,
+        "admin": AdminDashboard
     },
     data: {
         pageTitle: 'Accueil',
@@ -769,9 +769,9 @@ var app = new Vue({
         navigate: function (event) {
             if (event.target.name == "manager") {
                 this.pageTitle = event.target.text;
-                this.currentView = 'manager-dashboard';
+                this.currentView = 'manager';
             } else if (event.target.name == "admin") {
-                this.currentView = 'admin-dashboard';
+                this.currentView = 'admin';
                 this.pageTitle = event.target.text;
             } else if (event.target.name == "home") {
                 this.currentView = 'home';
@@ -779,7 +779,7 @@ var app = new Vue({
             } else {
                 this.pageTitle = "Préférences";
                 this.currentMethod = event.target.name;
-                this.currentView = 'user-dashboard';
+                this.currentView = 'preferences';
             }
             $('a').parent().removeClass('active');
             $('#' + event.target.name).parent().addClass('active');
@@ -826,9 +826,11 @@ var app = new Vue({
             this.methods = data.methods;
             this.cleanMethods();
         },
-        getMessages: function () {
+        getMessages: function (language) {
+            var query = '';
+            if(language)query="/"+language;
             $.ajax({
-                url: "/api/messages",
+                url: "/api/messages"+query,
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
@@ -843,6 +845,6 @@ var app = new Vue({
         setMessages: function (data) {
             this.messages = data;
             this.cleanMethods();
-        }
+        },
     }
 })

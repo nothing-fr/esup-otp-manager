@@ -56,7 +56,8 @@ function isAdmin(req, res, next) {
 function routing() {
     router.get('/', function(req, res) {
         res.render('index', {
-            title: 'Esup Otp Manager'
+            title: 'Esup Otp Manager',
+            messages : properties.messages
         });
     });
 
@@ -114,7 +115,24 @@ function routing() {
     });
 
     router.get('/api/messages', isUser, function(req, res) {
-        res.json(properties.messages);
+        var languages = req.acceptsLanguages();
+        for(language in languages){
+            switch (languages[language]){
+                case "fr":
+                case "fr-FR": res.json(require("../properties/messages_fr.json"));break;
+                case "en":
+                case "en-US": res.json(require("../properties/messages_en.json")); break;
+                default : res.json(require("../properties/messages.json")); break;
+            }
+        }
+    });
+
+    router.get('/api/messages/:language', isUser, function(req, res) {
+            switch (req.params.language){
+                case "français": res.json(require("../properties/messages_fr.json"));break;
+                case "english": res.json(require("../properties/messages_en.json")); break;
+                default : res.json(require("../properties/messages.json")); break;
+            }
     });
 
     router.get('/api/transport/:transport/test', isUser, function(req, res) {

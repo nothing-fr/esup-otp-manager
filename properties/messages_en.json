@@ -1,0 +1,82 @@
+{
+  "success": {
+    "valid_credentials": "Invalids login infos",
+    "transports_found": "Transports not found",
+    "methods_found": "Methods found",
+    "update": "Succesful update"
+  },
+  "error": {
+    "invalid_credentials": "Invalids login infos",
+    "user_not_found": "User not found",
+    "transport_not_found": "Transport not found",
+    "method_not_found": "Method not found",
+    "unvailable_method_operation": "Unvailable operation for this method",
+    "unvailable_method_transport": "Invalid transport for this method"
+  },
+  "api": {
+    "methods": {
+      "totp": {
+        "name": "Timed password",
+        "description": "This method generate 6 numerals codes",
+        "howTo": "Push 'Generate QrCode ', then scan the code using your Google Authenticator app (iOS and Android) or + Authenticator (Windows Phone) or enter the code directly into the application"
+      },
+      "random_code": {
+        "name": "One time password",
+        "description": "Method to generate random codes valid for some time"
+      },
+      "bypass": {
+        "name": "Backup codes",
+        "description": "Method for generating a random codes list",
+        "generated_codes": "Generated codes",
+        "available_codes": "Available codes",
+        "used_codes": "Used codes"
+      },
+      "matrix": {
+        "name": "Authentication Grid",
+        "description": "Method to connect via a grid"
+      },
+      "push": {
+        "name": "Notification",
+        "description": "Method for connecting via smartphone notifications",
+        "push_confirmation1": "Please scan this code in the smartphone application",
+        "push_confirmation2": "If your smartphone does not have a functional picture appreil or you are having difficulties to scan the code above. Go to the menu \"Settings \" then click \"Activate without scan \".",
+        "push_confirmation3": "Enter you login :",
+        "push_confirmation4": "Enter your activation code :",
+        "push_confirmation5": "Enter this hostname :",
+        "push_confirmation6": "Then press 'Ok'"
+      }
+    },
+    "app": {
+      "home": "ESUP-OTP permits you to add a second level of protection to your account. You can, for example, set a single-use code sent to you by SMS in addition to your username and password. Thus, a third can not access your account with the same password."
+    },
+    "home": "ESUP-OTP permez you to add a second level of protection to your account. You can, for example, set a single-use code sent to you by SMS in addition to your username and password. Thus, a third can not access your account with the same password.",
+    "index": "Single use passwords management interface",
+    "action":{
+      "connection" : "Login",
+      "activate" : "Activate",
+      "deactivate" : "Deactivate",
+      "verify" : "Verify",
+      "save" : "Save",
+      "modify" : "Modify",
+      "remove" : "Remove",
+      "search" : "Search",
+      "generate_codes" : "Generate codes",
+      "generate_qrcode" : "Generate QRCode",
+      "logout" : "Logout"
+    },
+    "title":"ESUP OTP Manager",
+    "menu":{
+      "home": "Home",
+      "preferences": "Preferences",
+      "manager" : "Manager",
+      "admin": "Administration"
+    },
+    "transports":{
+      "sms" : "Sms",
+      "mail" : "Mail"
+    },
+    "label":{
+      "user" : "User"
+    }
+  }
+}

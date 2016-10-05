@@ -3,10 +3,10 @@ extends layout
 block content
   .grey.lighten-4(style='display: flex;align-items: center;justify-content: center; height: 100%;')
     .row(style='text-align:center;')
-      h2 ESUP OTP Manager
+      h2 #{messages.api.title}
       .divider
-      h5 Interface de gestion de mots de passe à usage unique
+      h5 #{messages.api.index}
       br
       a.waves-effect.waves-light.btn.teal.darken-1(href='/preferences')
-        | Se connecter
+        | #{messages.api.action.connection}
         i.material-icons.right lock_open

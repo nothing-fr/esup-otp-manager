@@ -1,12 +1,12 @@
 script#bypass-method(type='text/x-template').
     <div>
     <ul>
-    <li>Code restants : {{user.methods.bypass.available_code}}</li>
-    <li>Code utilisés : {{user.methods.bypass.used_code}}</li>
+    <li>{{messages.api.methods.bypass.available_codes}} : {{user.methods.bypass.available_code}}</li>
+    <li>{{messages.api.methods.bypass.used_codes}} : {{user.methods.bypass.used_code}}</li>
     <table class="striped" v-if="user.methods.bypass.codes.length >0">
     <thead>
     <tr>
-    <th data-field="code">Codes générés</th>
+    <th data-field="code">{{messages.api.methods.bypass.generated_codes}}</th>
     </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@ script#bypass-method(type='text/x-template').
     </table>
     </ul>
     <div class="row" style="text-align:center;">
-    <a class="waves-effect waves-light btn" v-on:click=generate_bypass>Générer des codes<i class="material-icons right">sync</i></a>
+    <a class="waves-effect waves-light btn" v-on:click=generate_bypass>{{messages.api.action.generate_codes}}<i class="material-icons right">sync</i></a>
     </div>
     <div class="divider"></div>
     </div>

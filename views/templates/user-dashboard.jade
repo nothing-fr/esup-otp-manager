@@ -4,10 +4,10 @@ script#user-dashboard(type='text/x-template').
     <h4>{{method.label || method.name}}</h4>
     <div class='switch'>
     <label>
-    Deactivate
+    {{messages.api.action.deactivate}}
     <input type='checkbox' v-if="user.methods[method.name].active" v-on:click="deactivate" v-bind:name=method.name checked>
     <input type='checkbox' v-on:click="activate" v-bind:name=method.name v-else>
-    <span class='lever'></span> Activate
+    <span class='lever'></span> {{messages.api.action.activate}}
     </label>
     </div>
     <br>
@@ -30,18 +30,18 @@ script#user-dashboard(type='text/x-template').
     <div class="col s10 m9" style="text-align: justify;">
     <div class="row" style="margin-bottom: 0;" v-if="user.transports.sms">
     <p class="col s7">{{user.transports.sms}}</p>
-    <a class="waves-effect waves-light btn col s5 teal darken-1" v-on:click="testTransport('sms')">Vérifier<i class="material-icons right">sms</i></a>
+    <a class="waves-effect waves-light btn col s5 teal darken-1" v-on:click="testTransport('sms')">{{messages.api.action.verify}}<i class="material-icons right">sms</i></a>
     </div>
     <div class="row input-field" style="margin-bottom: 0;">
     <div class="col s7">
     <input type="text" id="sms-input">
-    <label for="sms-input">Sms</label>
+    <label for="sms-input">{{messages.api.transports.sms}}</label>
     </div>
-    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('sms')" v-if="user.transports.sms">Modifier<i class="material-icons right">mode_edit</i></a>
-    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('sms')" v-else>Enregistrer<i class="material-icons right">save</i></a>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('sms')" v-if="user.transports.sms">{{messages.api.action.modify}}<i class="material-icons right">mode_edit</i></a>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('sms')" v-else>{{messages.api.action.save}}<i class="material-icons right">save</i></a>
     </div>
     <div class="row" style="margin-bottom: 0;" v-if="user.transports.sms">
-    <a class="waves-effect waves-light btn col s12  red darken-1" v-on:click="deleteTransport('sms')">Supprimer<i class="material-icons right">cancel</i></a>
+    <a class="waves-effect waves-light btn col s12  red darken-1" v-on:click="deleteTransport('sms')">{{messages.api.action.remove}}<i class="material-icons right">cancel</i></a>
     </div>
     </div>
     </div>
@@ -57,18 +57,18 @@ script#user-dashboard(type='text/x-template').
     <div class="col s10 m9" style="text-align: justify;">
     <div class="row" style="margin-bottom: 0;" v-if="user.transports.mail">
     <p class="col s7">{{user.transports.mail}}</p>
-    <a class="waves-effect waves-light btn col s5 teal darken-1" v-on:click="testTransport('mail')">Vérifier<i class="material-icons right">email</i></a>
+    <a class="waves-effect waves-light btn col s5 teal darken-1" v-on:click="testTransport('mail')">{{messages.api.action.verify}}<i class="material-icons right">email</i></a>
     </div>
     <div class="row input-field" style="margin-bottom: 0;">
     <div class="col s7">
     <input type="text" id="mail-input">
-    <label for="mail-input">Email</label>
+    <label for="mail-input">{{messages.api.transports.mail}}</label>
     </div>
-    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('mail')" v-if="user.transports.mail">Modifier<i class="material-icons right">mode_edit</i></a>
-    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('mail')" v-else>Enregistrer<i class="material-icons right">save</i></a>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('mail')" v-if="user.transports.mail">{{messages.api.action.modify}}<i class="material-icons right">mode_edit</i></a>
+    <a class="waves-effect waves-light btn col s5" v-on:click="saveTransport('mail')" v-else>{{messages.api.action.save}}<i class="material-icons right">save</i></a>
     </div>
     <div class="row" style="margin-bottom: 0;" v-if="user.transports.mail">
-    <a class="waves-effect waves-light btn col s12  red darken-1" v-on:click="deleteTransport('mail')">Supprimer<i class="material-icons right">cancel</i></a>
+    <a class="waves-effect waves-light btn col s12  red darken-1" v-on:click="deleteTransport('mail')">{{messages.api.action.remove}}<i class="material-icons right">cancel</i></a>
     </div>
     </div>
     </div>

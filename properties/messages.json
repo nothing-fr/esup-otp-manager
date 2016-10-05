@@ -1,56 +1,82 @@
 {
     "success": {
-        "valid_credentials": "Identifiants valides",
-        "transports_found": "Liste de rtansports trouvée",
-        "methods_found": "Méthodes trouvées",
-        "update": "Mis à jour réussie"
+        "valid_credentials": "Invalids login infos",
+        "transports_found": "Transports not found",
+        "methods_found": "Methods found",
+        "update": "Succesful update"
     },
     "error": {
-        "invalid_credentials": "Identifiants invalides",
-        "user_not_found": "Utilisateur non trouvé",
-        "transport_not_found": "Transport non trouvé",
-        "method_not_found": "Méthode non trouvée",
-        "unvailable_method_operation": "Cette opération est invalide pour la méthode sélectionnée",
-        "unvailable_method_transport": "Ce transport est invalide pour la méthode sélectionnée"
+        "invalid_credentials": "Invalids login infos",
+        "user_not_found": "User not found",
+        "transport_not_found": "Transport not found",
+        "method_not_found": "Method not found",
+        "unvailable_method_operation": "Unvailable operation for this method",
+        "unvailable_method_transport": "Invalid transport for this method"
     },
     "api": {
         "methods": {
             "totp": {
-                "name": "Code temporaire",
-                "description": "Méthode permettant de générer des codes uniques de 6 chiffres",
-                "howTo": "Appuyez sur le bouton 'Générer un QrCode', puis scannez le code à l'aide de votre application Google Authenticator (iOS et Android) ou Authenticator+ (Windows Phone) ou entrez le code directement dans l'application"
+                "name": "Timed password",
+                "description": "This method generate 6 numerals codes",
+                "howTo": "Push 'Generate QrCode ', then scan the code using your Google Authenticator app (iOS and Android) or + Authenticator (Windows Phone) or enter the code directly into the application"
             },
             "random_code": {
-                "name": "Code à usage unique",
-                "description": "Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique"
+                "name": "One time password",
+                "description": "Method to generate random codes valid for some time"
             },
             "bypass": {
-                "name": "Codes de secours",
-                "description": "Méthode permettant de générer une liste de codes aléatoire à usage unique"
+                "name": "Backup codes",
+                "description": "Method for generating a random codes list",
+                "generated_codes": "Generated codes",
+                "available_codes": "Available codes",
+                "used_codes": "Used codes"
             },
             "matrix": {
-                "name": "Grille d'authentification",
-                "description": "Méthode permettant de se connecter via une grille"
+                "name": "Authentication Grid",
+                "description": "Method to connect via a grid"
             },
             "push": {
                 "name": "Notification",
-                "description": "Méthode permettant de se connecter via les notifications de son smartphone",
-                "push_confirmation1": "Veuillez scannez ce code dans l'application smartphone",
-                "push_confirmation2": "Si votre smartphone ne dispose pas d'un appreil photo fonctionnel ou que vous épprouvez des difficultés à scanner le code précédent. Allez dans le menu \"Paramètres\" puis cliquer sur \"Activation sans scan\".",
-                "push_confirmation3": "Entrez votre nom de compte :",
-                "push_confirmation4": "Entrez le code d'activation :",
-                "push_confirmation5": "Entrez l'adresse :",
-                "push_confirmation6": "Puis cliquez sur 'Ok'"
+                "description": "Method for connecting via smartphone notifications",
+                "push_confirmation1": "Please scan this code in the smartphone application",
+                "push_confirmation2": "If your smartphone does not have a functional picture appreil or you are having difficulties to scan the code above. Go to the menu \"Settings \" then click \"Activate without scan \".",
+                "push_confirmation3": "Enter you login :",
+                "push_confirmation4": "Enter your activation code :",
+                "push_confirmation5": "Enter this hostname :",
+                "push_confirmation6": "Then press 'Ok'"
             }
         },
         "app": {
-            "home": "ESUP-OTP vous permez d'ajouter un deuxième niveau de protection à votre compte. Vous pouvez, par exemple, définir qu'un code à usage unique vous soit envoyé par SMS en plus de votre identifiant et votre mot de passe. Ainsi, un tiers ne pourra pas accèder à votre compte même avec votre mot de passe."
+            "home": "ESUP-OTP permits you to add a second level of protection to your account. You can, for example, set a single-use code sent to you by SMS in addition to your username and password. Thus, a third can not access your account with the same password."
         },
-        "totp": "Code temporaire",
-        "random_code": "Code à usage unique",
-        "bypass": "Code de secours",
-        "matrix": "Grille d'authentification",
-        "push": "Notification sur Smartphone",
-        "home": "ESUP-OTP vous permez d'ajouter un deuxième niveau de protection à votre compte. Vous pouvez, par exemple, définir qu'un code à usage unique vous soit envoyé par SMS en plus de votre identifiant et votre mot de passe. Ainsi, un tiers ne pourra pas accèder à votre compte même avec votre mot de passe."
+        "home": "ESUP-OTP permez you to add a second level of protection to your account. You can, for example, set a single-use code sent to you by SMS in addition to your username and password. Thus, a third can not access your account with the same password.",
+        "index": "Single use passwords management interface",
+        "action":{
+            "connection" : "Login",
+            "activate" : "Activate",
+            "deactivate" : "Deactivate",
+            "verify" : "Verify",
+            "save" : "Save",
+            "modify" : "Modify",
+            "remove" : "Remove",
+            "search" : "Search",
+            "generate_codes" : "Generate codes",
+            "generate_qrcode" : "Generate QRCode",
+            "logout" : "Logout"
+        },
+        "title":"ESUP OTP Manager",
+        "menu":{
+            "home": "Home",
+            "preferences": "Preferences",
+            "manager" : "Manager",
+            "admin": "Administration"
+        },
+        "transports":{
+            "sms" : "Sms",
+            "mail" : "Mail"
+        },
+        "label":{
+            "user" : "User"
+        }
     }
 }

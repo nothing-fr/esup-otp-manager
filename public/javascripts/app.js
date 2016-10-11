@@ -1,10 +1,12 @@
 /** jQuery Initialisation **/
 (function ($) {
     $(function () {
-        $('.button-collapse').sideNav({'edge': 'left'});
-        $('.collapsible').collapsible({
-            accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-        });
+        setTimeout(function(){
+            $('.button-collapse').sideNav({'edge': 'left'});
+            $('.collapsible').collapsible({
+                accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+            });
+        },1);
 
     }); // end of document ready
 })(jQuery); // end of jQuery name space

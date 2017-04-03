@@ -4,6 +4,9 @@ Manager for the esup-otp-api. Allow users to edit theirs preferences and admins 
 ### Version
 0.9.0
 
+### Requirements
+- [esup-otp-api](https://github.com/EsupPortail/esup-otp-api)
+
 ### Installation
 - git clone https://github.com/EsupPortail/esup-otp-manager.git
 - npm install

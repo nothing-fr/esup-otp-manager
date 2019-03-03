@@ -10,13 +10,13 @@ script#user-view(type='text/x-template').
     <div v-else v-on:click="activate(method.name)" v-bind:name=method.name :id="method.name+'_switch'" class="Switch UserSwitch Round Off">
     <div class="Toggle"></div>
     </div>
-    <div class="divider"></div>
     <div v-if="user.methods[method.name].active || user.methods[method.name].activationCode">
     <push v-if="method.name == 'push'" v-bind:methods=methods v-bind:switch_push_event=switchPushEvent v-bind:get_user=get_user v-bind:messages=messages v-bind:user.sync=user></push>
     <totp v-if="method.name == 'totp'" v-bind:methods=methods v-bind:generate_totp=generateTotp v-bind:messages=messages v-bind:user.sync=user></totp>
     <bypass v-if="method.name == 'bypass'" v-bind:methods=methods v-bind:generate_bypass=generateBypass v-bind:messages=messages v-bind:user.sync=user></bypass>
-    <random_code v-if="method.name == 'random_code'" v-bind:methods=methods v-bind:messages=messages v-bind:user.sync=user></random_code>
+    <random_code v-if="method.name == 'random_code'" v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></random_code>
     </div>
+    <div class="divider"></div>
     </li>
     </ul>
     </div>

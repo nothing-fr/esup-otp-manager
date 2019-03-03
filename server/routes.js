@@ -197,7 +197,7 @@ function routing() {
 
     router.get('/api/admin/user/:uid', isManager, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'admin/users/' + req.params.uid + '/' + properties.esup.api_password;
+        opts.url = properties.esup.api_url+'users/' + req.params.uid + '/' + utils.get_hash(req.params.uid);
         requesting(req, res, opts);
     });
 

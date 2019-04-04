@@ -90,7 +90,7 @@ var RandomCodeMethod = Vue.extend({
                 document.getElementById(transport + '-input').value = '';
                 $.ajax({
                     method: 'PUT',
-                    url: '/api/transport/' + transport + '/' + new_transport,
+                    url: '/api/transport/' + transport + '/' + new_transport + '/' + this.user.uid,
                     dataType: 'json',
                     cache: false,
                     success: function(data) {
@@ -114,7 +114,7 @@ var RandomCodeMethod = Vue.extend({
             this.user.transports[transport]= null;
             $.ajax({
                 method: 'DELETE',
-                url: '/api/transport/' + transport,
+                url: '/api/transport/' + transport + '/' + this.user.uid,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
@@ -129,7 +129,7 @@ var RandomCodeMethod = Vue.extend({
         },
         testTransport: function(transport) {
             $.ajax({
-                url: '/api/transport/' + transport + '/test',
+                url: '/api/transport/' + transport + '/test/' + this.user.uid,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {

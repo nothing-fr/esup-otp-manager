@@ -136,9 +136,9 @@ function routing() {
             }
     });
 
-    router.get('/api/transport/:transport/test', isUser, function(req, res) {
+    router.get('/api/transport/:transport/test/:uid', isUser, function(req, res) {
         var opts = {};
-        opts.url = properties.esup.api_url+'protected/users/' + req.session.passport.user.uid + '/transports/'+ req.params.transport+'/test/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/' + req.params.uid + '/transports/'+ req.params.transport+'/test/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
@@ -168,17 +168,17 @@ function routing() {
         requesting(req, res, opts);
     });
 
-    router.put('/api/transport/:transport/:new_transport', isUser, function(req, res) {
+    router.put('/api/transport/:transport/:new_transport/:uid', isUser, function(req, res) {
         var opts = {};
         opts.method = 'PUT';
-        opts.url = properties.esup.api_url+'protected/users/'+req.session.passport.user.uid+'/transports/'+req.params.transport+'/'+req.params.new_transport+'/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 
-    router.delete('/api/transport/:transport', isUser, function(req, res) {
+    router.delete('/api/transport/:transport/:uid', isUser, function(req, res) {
         var opts = {};
         opts.method = 'DELETE';
-        opts.url = properties.esup.api_url+'protected/users/'+req.session.passport.user.uid+'/transports/'+req.params.transport+'/'+ properties.esup.api_password;
+        opts.url = properties.esup.api_url+'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/'+ properties.esup.api_password;
         requesting(req, res, opts);
     });
 

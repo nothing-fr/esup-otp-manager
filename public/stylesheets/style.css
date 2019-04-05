@@ -72,6 +72,15 @@ nav,
     height: initial !important;
     line-height: initial !important;
 }
+.sidenav-header #closebtn {
+    background-color: rgba(76, 175, 80, 0) !important;
+    color: white !important;
+    height: initial !important;
+    text-align: right;
+    font-size: 21px;
+    line-height: initial !important;
+    margin: 0px 0 32px 74px;
+}
 
 .flex {
     display: flex;
@@ -168,4 +177,8 @@ body.IE7 .Switch.Round {
 
 .TransportSwitch.Round.Off {
     background-color: #818181;
+}
+
+#closebtn{
+    float: right;
 }

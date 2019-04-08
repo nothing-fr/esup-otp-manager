@@ -559,7 +559,8 @@ var UserView = Vue.extend({
 var ManagerDashboard = Vue.extend({
     props: {
         'methods': Object,
-        'messages': Object
+        'messages': Object,
+        //'show':Boolean,
     },
     components: {
         "user-view": UserView
@@ -573,25 +574,60 @@ var ManagerDashboard = Vue.extend({
                 transports: Object
             },
             uids: Array,
+            isHidden: true,
+            textButton: String,
         }
     },
     created: function () {
         this.getUsers();
     },
+    updated: function () {
+        this.getUsers();
+    },
     methods: {
+        isInArray: function(value, array) {
+            return array.indexOf(value) > -1;
+        },
+
         suggest: function (event) {
             this.suggestions = [];
             if (event.target.value !== "") {
                 for (uid in this.uids) {
-                    if (this.uids[uid].includes(event.target.value)) this.suggestions.push(this.uids[uid]);
+                    this.isHidden= true;
+                    
+                    if (this.uids[uid].includes(event.target.value)) {
+                        this.suggestions.push(this.uids[uid]);
+                    }
                 }
             }
+            if(this.isInArray($('#autocomplete-input').val(), this.suggestions)){
+                this.isHidden= false;
+                this.textButton = "chercher";
+            }
+            else{
+                this.textButton = "ajouter";
+                this.isHidden= false;
+            }
+            if ($('#autocomplete-input').val() === "")
+                this.isHidden = true;
         },
 
         search: function (event) {
             if ($('#autocomplete-input').val() !== "" && this.suggestions.includes($('#autocomplete-input').val())) {
                 this.getUser($('#autocomplete-input').val());
                 $('#autocomplete-input').val('');
+                this.isHidden = true;
+                this.show = false;//
+            }
+        },
+
+        addUser: function (event) {
+            if ($('#autocomplete-input').val() !== "") {
+                this.getUser($('#autocomplete-input').val());
+                $('#autocomplete-input').val('');
+                this.isHidden = true;
+                this.getUsers();
+                Materialize.toast('utilisateur '+$('#autocomplete-input').val()+' ajouté avec succès', 3000, 'green darken-1');
             }
         },
 

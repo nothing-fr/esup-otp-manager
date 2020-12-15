@@ -115,7 +115,7 @@ function routing() {
         requesting(req, res, opts);
     });
 
-    router.get('/api/messages', isUser, function(req, res) {
+    router.get('/api/messages', function(req, res) {
         var languages = req.acceptsLanguages();
         for(language in languages){
             switch (languages[language]){

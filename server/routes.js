@@ -116,15 +116,11 @@ function routing() {
     });
 
     router.get('/api/messages', function(req, res) {
-        var languages = req.acceptsLanguages();
-        for(language in languages){
-            switch (languages[language]){
-                case "fr":
-                case "fr-FR": res.json(require("../properties/messages_fr.json"));break;
-                case "en":
-                case "en-US": res.json(require("../properties/messages_en.json")); break;
-                default : res.json(require("../properties/messages.json")); break;
-            }
+        var lang = req.acceptsLanguages('fr', 'en');
+        if(lang) {
+            res.json(require("../properties/messages_" + lang + ".json")); 
+        } else {
+            res.json(require("../properties/messages.json"));
         }
     });
 

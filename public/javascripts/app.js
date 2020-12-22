@@ -7,6 +7,32 @@
     }); // end of document ready
 })(jQuery); // end of jQuery name space
 
+function toggle_visibility(id) {
+    var e = document.getElementById(id);
+        e.style.width = "240px";
+        e.style.left = "0";
+}
+
+function hide(id) {
+    var e = document.getElementById(id);
+    if(document.documentElement.clientWidth >= 992)
+        e.style.width = "240px";
+    else
+        e.style.width = "0";
+}
+
+$(window).resize(function() {
+    var window_width = $(window).width();
+    if(window_width >= 992) {
+        $("#slide-out").width(240);
+        $("#closebtn").css('visibility','hidden');
+    }
+    else{
+        $("#slide-out").width(0);
+        $("#closebtn").css('visibility','visible');
+    }
+});
+
 /** WebSockets init**/
 var arr = window.location.href.split('/');
 var urlSockets = arr[0] + "//" + arr[2];
@@ -68,16 +94,6 @@ var TotpMethod = Vue.extend({
         'deactivate': Function,
         'messages': Object,
     },
-    template: '#totp-method'
-});
-
-var RandomCodeMethod = Vue.extend({
-    props: {
-        'user': Object,
-        'messages': Object,
-        'activate': Function,
-        'deactivate': Function,
-    },
     methods: {
         saveTransport: function(transport) {
             var new_transport = document.getElementById(transport + '-input').value;
@@ -90,7 +106,7 @@ var RandomCodeMethod = Vue.extend({
                 document.getElementById(transport + '-input').value = '';
                 $.ajax({
                     method: 'PUT',
-                    url: '/api/transport/' + transport + '/' + new_transport,
+                    url: '/api/transport/' + transport + '/' + new_transport + '/' + this.user.uid,
                     dataType: 'json',
                     cache: false,
                     success: function(data) {
@@ -114,7 +130,7 @@ var RandomCodeMethod = Vue.extend({
             this.user.transports[transport]= null;
             $.ajax({
                 method: 'DELETE',
-                url: '/api/transport/' + transport,
+                url: '/api/transport/' + transport + '/' + this.user.uid,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
@@ -129,7 +145,82 @@ var RandomCodeMethod = Vue.extend({
         },
         testTransport: function(transport) {
             $.ajax({
-                url: '/api/transport/' + transport + '/test',
+                url: '/api/transport/' + transport + '/test/' + this.user.uid,
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    if (data.code != "Ok") Materialize.toast(data.message, 3000, 'red darken-1');
+                    else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    Materialize.toast(err, 3000, 'red darken-1');
+                    console.error('/api/transport/' + transport + '/test', status, err.toString());
+                }.bind(this)
+            });
+        },
+    },
+    template: '#totp-method'
+});
+
+var RandomCodeMethod = Vue.extend({
+    props: {
+        'user': Object,
+        'messages': Object,
+        'activate': Function,
+        'deactivate': Function,
+    },
+    methods: {
+        saveTransport: function(transport) {
+            var new_transport = document.getElementById(transport + '-input').value;
+            var reg;
+            if (transport == 'sms') reg = new RegExp("^0[6-7]([-. ]?[0-9]{2}){4}$");
+            else reg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            if (reg.test(new_transport)) {
+                var oldTransport = this.user.transports[transport];
+                this.user.transports[transport]= new_transport;
+                document.getElementById(transport + '-input').value = '';
+                $.ajax({
+                    method: 'PUT',
+                    url: '/api/transport/' + transport + '/' + new_transport + '/' + this.user.uid,
+                    dataType: 'json',
+                    cache: false,
+                    success: function(data) {
+                        if (data.code != "Ok") {
+                            this.user.transports[transport]= oldTransport;
+                            document.getElementById(transport + '-input').value = oldTransport;
+                            Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
+                        }else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                        this.user.transports[transport]= oldTransport;
+                        document.getElementById(transport + '-input').value = oldTransport;
+                        Materialize.toast(err, 3000, 'red darken-1');
+                        console.error('/api/transport/' + transport + '/' + new_transport, status, err.toString());
+                    }.bind(this)
+                });
+            }else Materialize.toast('Format invalide.', 3000, 'red darken-1');
+        },
+        deleteTransport: function(transport) {
+            var oldTransport = this.user.transports[transport];
+            this.user.transports[transport]= null;
+            $.ajax({
+                method: 'DELETE',
+                url: '/api/transport/' + transport + '/' + this.user.uid,
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    if (data.code != "Ok") this.user.transports[transport]= oldTransport;
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    this.user.transports[transport]= oldTransport;
+                    Materialize.toast(err, 3000, 'red darken-1');
+                    console.error("/data/deactivate.json", status, err.toString());
+                }.bind(this)
+            });
+        },
+        testTransport: function(transport) {
+            $.ajax({
+                url: '/api/transport/' + transport + '/test/' + this.user.uid,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
@@ -533,7 +624,8 @@ var UserView = Vue.extend({
 var ManagerDashboard = Vue.extend({
     props: {
         'methods': Object,
-        'messages': Object
+        'messages': Object,
+        //'show':Boolean,
     },
     components: {
         "user-view": UserView
@@ -547,25 +639,60 @@ var ManagerDashboard = Vue.extend({
                 transports: Object
             },
             uids: Array,
+            isHidden: true,
+            textButton: String,
         }
     },
     created: function () {
         this.getUsers();
     },
+    updated: function () {
+        this.getUsers();
+    },
     methods: {
+        isInArray: function(value, array) {
+            return array.indexOf(value) > -1;
+        },
+
         suggest: function (event) {
             this.suggestions = [];
             if (event.target.value !== "") {
                 for (uid in this.uids) {
-                    if (this.uids[uid].includes(event.target.value)) this.suggestions.push(this.uids[uid]);
+                    this.isHidden= true;
+                    
+                    if (this.uids[uid].includes(event.target.value)) {
+                        this.suggestions.push(this.uids[uid]);
+                    }
                 }
             }
+            if(this.isInArray($('#autocomplete-input').val(), this.suggestions)){
+                this.isHidden= false;
+                this.textButton = "chercher";
+            }
+            else{
+                this.textButton = "ajouter";
+                this.isHidden= false;
+            }
+            if ($('#autocomplete-input').val() === "")
+                this.isHidden = true;
         },
 
         search: function (event) {
             if ($('#autocomplete-input').val() !== "" && this.suggestions.includes($('#autocomplete-input').val())) {
                 this.getUser($('#autocomplete-input').val());
                 $('#autocomplete-input').val('');
+                this.isHidden = true;
+                this.show = false;//
+            }
+        },
+
+        addUser: function (event) {
+            if ($('#autocomplete-input').val() !== "") {
+                this.getUser($('#autocomplete-input').val());
+                $('#autocomplete-input').val('');
+                this.isHidden = true;
+                this.getUsers();
+                Materialize.toast('utilisateur '+$('#autocomplete-input').val()+' ajouté avec succès', 3000, 'green darken-1');
             }
         },
 

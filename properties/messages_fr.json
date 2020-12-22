@@ -60,6 +60,8 @@
       "modify" : "Modifier",
       "remove" : "Supprimer",
       "search" : "Chercher",
+      "select" : "Sélectionner",
+      "add" : "Ajouter",
       "generate_codes" : "Générer des codes",
       "generate_qrcode" : "Générer QRCode",
       "logout" : "Se déconnecter"

@@ -44,6 +44,10 @@
         "push_confirmation4": "Enter your activation code :",
         "push_confirmation5": "Enter this hostname :",
         "push_confirmation6": "Then press 'Ok'"
+      },
+      "esupnfc": {
+          "name": "EsupNFC",
+          "description": "Method for connecting via NFC swipe"
       }
     },
     "app": {

@@ -274,6 +274,9 @@ var UserDashboard = Vue.extend({
                 case 'totp':
                     this.activateTotp(event);
                     break;
+                case 'esupnfc':
+                    this.activateEsupnfc(event);
+                    break;
                 default:
                     /** **/
                     event.target.checked = true;
@@ -368,6 +371,25 @@ var UserDashboard = Vue.extend({
                 error: function (xhr, status, err) {
                     event.target.checked = false;
                     console.error("/api/random_code/activate", status, err.toString());
+                }.bind(this)
+            });
+        },
+        activateEsupnfc: function (event) {
+            event.target.checked = true;
+            $.ajax({
+                method: "PUT",
+                url: "/api/esupnfc/activate",
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code != "Ok") {
+                        event.target.checked = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
+                    } else this.user.methods.esupnfc.active = true;
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    event.target.checked = false;
+                    console.error("/api/esupnfc/activate", status, err.toString());
                 }.bind(this)
             });
         },
@@ -467,6 +489,9 @@ var UserView = Vue.extend({
                 case 'totp':
                     this.activateTotp(method);
                     break;
+                case 'esupnfc':
+                    this.activateEsupnfc(method);
+                    break;
                 default:
                     /** **/
                     this.user.methods[method].active = true;
@@ -558,6 +583,26 @@ var UserView = Vue.extend({
                     this.user.methods.random_code.active = false;
                     Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + this.user.uid + "/random_code/activate", status, err.toString());
+                }.bind(this)
+            });
+        },
+        activateEsupnfc: function () {
+            this.user.methods.esupnfc.active = true;
+            $.ajax({
+                method: "PUT",
+                url: "/api/admin/" + this.user.uid + "/esupnfc/activate",
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code != "Ok") {
+                        this.user.methods.esupnfc.active = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    this.user.methods.esupnfc.active = false;
+                    Materialize.toast(err, 3000, 'red darken-1');
+                    console.error("/api/admin/" + this.user.uid + "/esupnfc/activate", status, err.toString());
                 }.bind(this)
             });
         },

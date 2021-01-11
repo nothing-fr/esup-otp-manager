@@ -44,6 +44,10 @@
         "push_confirmation4": "Entrez le code d'activation :",
         "push_confirmation5": "Entrez l'adresse :",
         "push_confirmation6": "Puis cliquez sur 'Ok'"
+      },
+      "esupnfc": {
+          "name": "EsupNFC",
+          "description": "Méthode permettant de récupérer un code en badgeant la carte"
       }
     },
     "app": {

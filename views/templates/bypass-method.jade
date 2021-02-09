@@ -9,7 +9,9 @@ script#bypass-method(type='text/x-template').
     <th data-field="code">{{messages.api.methods.bypass.generated_codes}}</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="bypass-method-codes">
+    <a href="javascript:if(window.print)window.print()"><i class="material-icons md-48">print</i></a>
+    <link rel="stylesheet" href="/stylesheets/style-print-bypass-method-codes.css" media="print"/>
     <tr v-for="code in user.methods.bypass.codes">
     <td>{{code}}</td>
     </tr>

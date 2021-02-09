@@ -27,9 +27,9 @@
       "bypass": {
         "name": "Codes de secours",
         "description": "Méthode permettant de générer une liste de codes aléatoire à usage unique",
-        "generated_codes": "Code générés",
-        "available_codes": "Code restants",
-        "used_codes": "Code utilisés"
+        "generated_codes": "Codes générés",
+        "available_codes": "Codes restants",
+        "used_codes": "Codes utilisés"
       },
       "matrix": {
         "name": "Grille d'authentification",

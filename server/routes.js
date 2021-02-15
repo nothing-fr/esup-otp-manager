@@ -40,7 +40,7 @@ function isUser(req, res, next) {
 
 function isManager(req, res, next) {
     if (isAuthenticated(req, res)) {
-        if (utils.is_manager(req.session.passport.user.uid) || utils.is_admin(req.session.passport.user.uid))return next();
+        if (utils.is_manager(req.session.passport.user) || utils.is_admin(req.session.passport.user))return next();
         res.redirect('/forbidden');
     }
     res.redirect('/login');
@@ -48,7 +48,7 @@ function isManager(req, res, next) {
 
 function isAdmin(req, res, next) {
     if (isAuthenticated(req, res)) {
-        if(utils.is_admin(req.session.passport.user.uid))return next();
+        if(utils.is_admin(req.session.passport.user))return next();
         res.redirect('/forbidden');
     }
     res.redirect('/login');
@@ -71,8 +71,8 @@ function routing() {
 
     router.get('/preferences', isUser, function(req, res) {
         var right = "user";
-        if (utils.is_manager(req.session.passport.user.uid))right = "manager";
-        if (utils.is_admin(req.session.passport.user.uid))right = "admin";
+        if (utils.is_manager(req.session.passport.user))right = "manager";
+        if (utils.is_admin(req.session.passport.user))right = "admin";
         res.render('dashboard', {
             title: 'Esup Otp Manager : Test',
             user: req.session.passport.user,
@@ -261,8 +261,9 @@ module.exports = function(_passport) {
     passport.serializeUser(function(user, done) {
         var _user = {};
         _user.uid=user.uid;
-        if(utils.is_admin(user.uid))_user.role="admin";
-        else if(utils.is_manager(user.uid))_user.role="manager";
+        _user.attributes=user.attributes;
+        if(utils.is_admin(user))_user.role="admin";
+        else if(utils.is_manager(user))_user.role="manager";
         else _user.role="user";
         done(null, _user);
     });
@@ -272,8 +273,9 @@ module.exports = function(_passport) {
             done(null, user);
     });
 
-    passport.use(new(require('passport-cas').Strategy)(properties.esup.CAS, function(login, done) {
-        return done(null, {uid:login});
+    passport.use(new(require('passport-apereo-cas').Strategy)(properties.esup.CAS, function(profile, done) {
+	// console.log("profile : " + JSON.stringify(profile, null ,2));
+        return done(null, {uid:profile.user, attributes:profile.attributes});
     }));
 
     routing();

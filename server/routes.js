@@ -105,7 +105,7 @@ function routing() {
 
     router.get('/logout', function(req, res) {
         req.logout();
-        res.redirect(properties.esup.CAS.ssoBaseURL+'/logout');
+        res.redirect(properties.esup.CAS.casBaseURL+'/logout');
     });
 
     //API

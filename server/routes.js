@@ -6,6 +6,7 @@ var utils = require(__dirname+'/../services/utils');
 
 var passport;
 
+/** @param {{ url: string; method?: 'POST'|'PUT'|'DELETE' }} opts */
 function requesting(req, res, opts) {
     console.log("requesting api");
     //console.log(opts.method +':'+ opts.url);

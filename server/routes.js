@@ -6,12 +6,13 @@ var utils = require(__dirname+'/../services/utils');
 
 var passport;
 
-/** @param {{ relUrl: string; method?: 'POST'|'PUT'|'DELETE' }} opts_ */
+/** @param {{ relUrl: string; bearerAuth?: true, method?: 'POST'|'PUT'|'DELETE' }} opts_ */
 function request_otp_api(req, res, opts_) {
     console.log("requesting api");
     const opts = {
         method: opts_.method,
         url: properties.esup.api_url + opts_.relUrl,
+        ...(opts_.bearerAuth ? { auth: { 'bearer': properties.esup.api_password } } : {}),
     }
     //console.log(opts.method +':'+ opts.url);
     //console.log(req.session.passport);
@@ -139,60 +140,60 @@ function routing() {
 
     router.get('/api/transport/:transport/test/:uid', isUser, function(req, res) {
         request_otp_api(req, res, {
-            relUrl: 'protected/users/' + req.params.uid + '/transports/'+ req.params.transport+'/test/'+ properties.esup.api_password,
+            relUrl: 'protected/users/' + req.params.uid + '/transports/'+ req.params.transport+'/test/', bearerAuth: true,
         });
     });
 
     router.get('/api/methods', isUser, function(req, res) {
         request_otp_api(req, res, {
-            relUrl: 'protected/methods/' + properties.esup.api_password
+            relUrl: 'protected/methods/', bearerAuth: true,
         });
     });
 
     router.get('/api/secret/:method', isUser, function(req, res) {
         request_otp_api(req, res, {
-            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/secret/'+ properties.esup.api_password,
+            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/secret/', bearerAuth: true,
         });
     });
 
     router.put('/api/:method/activate', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/activate/'+ properties.esup.api_password,
+            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/activate/', bearerAuth: true,
         });
     });
 
     router.put('/api/:method/deactivate', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/deactivate/'+ properties.esup.api_password,
+            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/deactivate/', bearerAuth: true,
         });
     });
 
     router.put('/api/transport/:transport/:new_transport/:uid', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/'+ properties.esup.api_password,
+            relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/', bearerAuth: true,
         });
     });
 
     router.delete('/api/transport/:transport/:uid', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'DELETE',
-            relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/'+ properties.esup.api_password,
+            relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/', bearerAuth: true,
         });
     });
 
     router.post('/api/generate/:method', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'POST',
-            relUrl: 'protected/users/'+ req.session.passport.user.uid + '/methods/' + req.params.method + '/secret/'  + properties.esup.api_password,
+            relUrl: 'protected/users/'+ req.session.passport.user.uid + '/methods/' + req.params.method + '/secret/', bearerAuth: true,
         });
     });
 
     router.get('/api/admin/users', isManager, function(req, res) {
         request_otp_api(req, res, {
-            relUrl: 'admin/users/' + properties.esup.api_password,
+            relUrl: 'admin/users/', bearerAuth: true,
         });
     });
 
@@ -205,56 +206,56 @@ function routing() {
     router.put('/api/admin/:uid/:method/activate', isManager, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/activate/'  + properties.esup.api_password,
+            relUrl: 'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/activate/', bearerAuth: true,
         });
     });
 
     router.put('/api/admin/:uid/:method/deactivate', isManager, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/deactivate/'  + properties.esup.api_password,
+            relUrl: 'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/deactivate/', bearerAuth: true,
         });
     });
 
     router.put('/api/admin/:method/activate', isAdmin, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'admin/methods/' + req.params.method + '/activate/'  + properties.esup.api_password,
+            relUrl: 'admin/methods/' + req.params.method + '/activate/', bearerAuth: true,
         });
     });
 
     router.put('/api/admin/:method/deactivate', isAdmin, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'admin/methods/' + req.params.method + '/deactivate/'  + properties.esup.api_password,
+            relUrl: 'admin/methods/' + req.params.method + '/deactivate/', bearerAuth: true,
         });
     });
 
     router.put('/api/admin/:method/transport/:transport/activate', isAdmin, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'admin/methods/' + req.params.method + '/transports/'+req.params.transport+'/activate/'  + properties.esup.api_password,
+            relUrl: 'admin/methods/' + req.params.method + '/transports/'+req.params.transport+'/activate/', bearerAuth: true,
         });
     });
 
     router.put('/api/admin/:method/transport/:transport/deactivate', isAdmin, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'admin/methods/' + req.params.method + '/transports/'+req.params.transport+'/deactivate/'  + properties.esup.api_password,
+            relUrl: 'admin/methods/' + req.params.method + '/transports/'+req.params.transport+'/deactivate/', bearerAuth: true,
         });
     });
 
     router.post('/api/admin/generate/:method/:uid', isManager, function(req, res) {
         request_otp_api(req, res, {
             method: 'POST',
-            relUrl: 'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/secret/'  + properties.esup.api_password,
+            relUrl: 'protected/users/'+ req.params.uid + '/methods/' + req.params.method + '/secret/', bearerAuth: true,
         });
     });
 
     router.delete('/api/admin/delete_method_secret/:method/:uid', isManager, function(req, res) {
         request_otp_api(req, res, {
             method: 'DELETE',
-            relUrl: 'admin/users/'+req.params.uid +'/methods/' + req.params.method+ '/secret/' + properties.esup.api_password,
+            relUrl: 'admin/users/'+req.params.uid +'/methods/' + req.params.method+ '/secret/', bearerAuth: true,
         });
     });
 }

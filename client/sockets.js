@@ -3,7 +3,9 @@
  */
 var properties = require(__dirname+'/../properties/properties');
 
-var apiSockets = require("socket.io-client").connect(properties.esup.api_url, {reconnect: true, path: "/sockets",query: 'secret='+properties.esup.api_password+'&app=manager'});
+var apiSockets = require("socket.io-client").connect(properties.esup.api_url, {reconnect: true, path: "/sockets", query: 'app=manager', extraHeaders: {
+    Authorization: "Bearer " + properties.esup.api_password,
+}});
 var sockets = require('../server/sockets');
 var users = {};
 

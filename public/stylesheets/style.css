@@ -28,6 +28,10 @@ footer {
     -webkit-font-smoothing: antialiased;
 }
 
+#slide-out{
+    -webkit-transform: none;
+}
+
 @media only screen and (max-width: 992px) {
     header,
     main,

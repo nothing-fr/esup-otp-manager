@@ -9,10 +9,12 @@ var passport;
 /** @param {{ relUrl: string; bearerAuth?: true, method?: 'POST'|'PUT'|'DELETE' }} opts_ */
 function request_otp_api(req, res, opts_) {
     console.log("requesting api");
-    const opts = {
+    let opts = {
         method: opts_.method,
         url: properties.esup.api_url + opts_.relUrl,
-        ...(opts_.bearerAuth ? { auth: { 'bearer': properties.esup.api_password } } : {}),
+    }
+    if (opts_.bearerAuth) {
+        opts.auth = { 'bearer': properties.esup.api_password }
     }
     //console.log(opts.method +':'+ opts.url);
     //console.log(req.session.passport);

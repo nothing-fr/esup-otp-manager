@@ -22,11 +22,11 @@
       },
       "random_code": {
         "name": "Code à usage unique",
-        "description": "Méthode permettant de générer des codes aléatoire valides pour un certain temps et à usage unique"
+        "description": "Méthode permettant de générer des codes aléatoires valides pour un certain temps et à usage unique"
       },
       "bypass": {
         "name": "Codes de secours",
-        "description": "Méthode permettant de générer une liste de codes aléatoire à usage unique",
+        "description": "Méthode permettant de générer une liste de codes aléatoires à usage unique",
         "generated_codes": "Codes générés",
         "available_codes": "Codes restants",
         "used_codes": "Codes utilisés"

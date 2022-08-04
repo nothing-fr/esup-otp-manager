@@ -16,7 +16,7 @@
   "api": {
     "methods": {
       "totp": {
-        "name": "Code temporaire",
+        "name": "Code temporel",
         "description": "Méthode permettant de générer des codes uniques de 6 chiffres",
         "howTo": "Appuyez sur le bouton 'Générer un QrCode', puis scannez le code à l'aide de votre application Google Authenticator (iOS et Android) ou entrez le code directement dans l'application"
       },

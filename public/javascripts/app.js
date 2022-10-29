@@ -285,7 +285,7 @@ var UserDashboard = Vue.extend({
             }
         },
         askPushActivation: function (event) {
-            event.target.checked = false;
+            event.target.checked = true;
             this.switchPushEvent = event;
             //ajax
             $.ajax({

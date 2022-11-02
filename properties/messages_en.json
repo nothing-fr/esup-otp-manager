@@ -36,7 +36,7 @@
         "description": "Method to connect via a grid"
       },
       "push": {
-        "name": "Notification",
+        "name": "Notification (Esup Auth)",
         "description": "Method for connecting via smartphone notifications with Esup Auth",
         "push_confirmation1": "Please scan this code in the smartphone application",
         "push_confirmation2": "If your smartphone does not have a functional picture appreil or you are having difficulties to scan the code above. Go to the menu \"Settings \" then click \"Activate without scan \".",

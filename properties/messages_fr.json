@@ -36,7 +36,7 @@
         "description": "Méthode permettant de se connecter via une grille"
       },
       "push": {
-        "name": "Notification",
+        "name": "Notification (Esup Auth)",
         "description": "Méthode permettant de se connecter via les notifications de son smartphone avec l'application Esup Auth",
         "push_confirmation1": "Veuillez scannez ce code dans l'application smartphone Esup Auth",
         "push_confirmation2": "Si votre smartphone ne dispose pas d'un appreil photo fonctionnel ou que vous épprouvez des difficultés à scanner le code précédent. Allez dans le menu \"Paramètres\" puis cliquer sur \"Activation sans scan\".",

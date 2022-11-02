@@ -16,7 +16,7 @@
   "api": {
     "methods": {
       "totp": {
-        "name": "Timed password",
+        "name": "Timed password (TOTP)",
         "description": "This method generate 6 numerals codes",
         "howTo": "Push 'Generate QrCode ', then scan the code using your Google Authenticator app (iOS and Android) or enter the code directly into the application"
       },

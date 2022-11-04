@@ -2,7 +2,7 @@
 Manager for the esup-otp-api. Allow users to edit theirs preferences and admins to administrate ;)
 
 ### Version
-0.9.0
+1.0.1
 
 ### Requirements
 - [esup-otp-api](https://github.com/EsupPortail/esup-otp-api)

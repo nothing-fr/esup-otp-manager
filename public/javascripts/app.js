@@ -61,6 +61,10 @@ var PushMethod = Vue.extend({
         socket.on('userPushActivateManager', function (data) {
             self.activatePush();
         });
+  	
+	socket.on('userPushDeactivate', function () {
+            self.deActivatePush();
+        });
     },
     methods: {
         activatePush: function () {
@@ -70,6 +74,9 @@ var PushMethod = Vue.extend({
                     this.switch_push_event.target.checked = true;
                 }
             }
+        },
+	deActivatePush: function () {
+            this.get_user(this.user.uid);		
         }
     },
     template: '#push-method'

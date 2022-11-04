@@ -23,7 +23,7 @@ apiSockets.on('userPushActivate', function (data) {
 });
 
 apiSockets.on('userPushDeactivate', function (data) {
-    if(users[data.uid])sockets.emit(users[data.uid], 'userPushDectivate');
+    if(users[data.uid])sockets.emit(users[data.uid], 'userPushDeactivate');
 });
 
 apiSockets.on('userPushActivateManager', function (data) {

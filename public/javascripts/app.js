@@ -69,11 +69,6 @@ var PushMethod = Vue.extend({
     methods: {
         activatePush: function () {
             this.get_user(this.user.uid);
-            if (this.switch_push_event) {
-                if (this.switch_push_event.target) {
-                    this.switch_push_event.target.checked = true;
-                }
-            }
         },
 	deActivatePush: function () {
             this.get_user(this.user.uid);		

@@ -34,7 +34,7 @@ script#totp-method(type='text/x-template').
 
     <div class="divider"></div>
 
-        <h5>Transports</h5>
+        <h5  v-if="user.methods.totp.transports.indexOf('sms')>-1 || user.methods.totp.transports.indexOf('mail')>-1" >Transports</h5>
     <div class="card" v-if="user.methods.totp.transports.indexOf('sms')>-1" style="max-width: 500px;margin: auto;margin-bottom: 15px;">
     <div class="card-content">
     <div class="row" style="margin-bottom: 0;">

@@ -21,7 +21,10 @@ exports.sharedSession = function(session){
 function initialize(){
     io.on("connection", function(socket) {
         if(socket.handshake.session.passport){
-            if(!socket.handshake.session.passport.user)socket.disconnect('Forbidden');
+            if(!socket.handshake.session.passport.user) {
+                socket.disconnect('Forbidden');
+                return;
+            }
             apiSockets.userConnection(socket.handshake.session.passport.user.uid, socket.id);
 
             socket.on('disconnect', function () {

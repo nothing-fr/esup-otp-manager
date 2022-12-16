@@ -1,20 +1,27 @@
+
+
+/*  OTP manager style commun - 2 déc ******/
+
 html,
 body,
 #app {
     position: relative;
-    height: 100%;
-    min-height: 100%;
     width: 100%;
     min-width: 100%;
     padding: 0;
     margin: 0;
+    font-family: "Roboto", arial, sans-serif;
 }
+ 
 
 header,
 main,
 footer {
-    padding-left: 240px;
+    padding-left: 245px;  
 }
+
+.side-nav.fixed { width: 245px; }  
+
 
 .nav-wrapper {
     display: flex;
@@ -48,25 +55,16 @@ footer {
     }
 }
 
-nav,
-.side-nav .collapsible-body li.active {
-    background-color: #424242 !important;
+nav {
+    background-color: #424242 ;
 }
+header { background:#424242; }
 
-.side-nav .collapsible-body li.active,
-.side-nav.fixed .collapsible-body li.active {
-    background-color: #26a69a !important;
-}
-
-.btn,
-.btn-large {
-    background-color: #757575 !important;
-}
 
 .sidenav-header {
-    background-image: url("../images/wallpaper_polygons.jpg") !important;
-    background-size: 150% 500%;
-    background-repeat: no-repeat;
+     background-image: url("../images/wallpaper_polygons.jpg") !important;
+     background-size: 150% 500%;
+     background-repeat: no-repeat;
     color: white !important;
 }
 
@@ -78,7 +76,7 @@ nav,
 }
 .sidenav-header #closebtn {
     background-color: rgba(76, 175, 80, 0) !important;
-    color: white !important;
+    color: white ;
     height: initial !important;
     text-align: right;
     font-size: 21px;
@@ -91,6 +89,13 @@ nav,
     align-items: center;
     padding: 12px;
 }
+
+
+.btn:hover, .btn-large:hover {
+  background-color: #2bbbad;
+   filter: brightness(1.25);
+}
+
 
 /*****************************************
 Switch
@@ -183,6 +188,90 @@ body.IE7 .Switch.Round {
     background-color: #818181;
 }
 
-#closebtn{
+#closebtn {
     float: right;
+}
+
+
+#slide-out { border: 1px solid #ccc; color: #444; } 
+
+#slide-out  li.active { background-color: #26a69a; }
+
+#slide-out  li.active #home { color:white ; }
+
+#slide-out .collapsible-header  {
+    background-color : #eeeef0;  
+    border-bottom: 1px solid #ddd; 
+    border-top: 1px solid #ddd; 
+    margin: 0;
+    text-transform: uppercase;
+}
+
+
+/* Page d'Accueil et les blocs méthodes */ 
+
+.container {width: 86%; max-width: 1200px} 
+
+
+
+.flex-container {
+  display: flex; 
+  flex-wrap: wrap;
+  margin-top: 19px; 
+}
+
+
+.methode { 
+	 margin  : 7px; 
+	 margin-top:9px; 
+	 padding:  4px 11px 18px 14px;   
+	 background : #eeeef0;   
+	 width:31% !important;  
+	 color : #00326e ; 
+}
+
+ 
+.methode:hover { box-shadow: 0px 2px 2px 2px rgba(0,0,0,0.16), 2px 2px 10px 1px rgba(0,0,0,0.22); color : #2055aa}
+.methode p { text-align: center; margin-bottom:0px; margin-top:10px;  }
+.methode img {  padding: 0px; margin:0px; width:88px; }
+.lock-solid { width:160px; margin: 3px 25px 0px ; opacity:0.7; }
+
+.card { padding-top:25px;  background-color: #eeeef0; } 
+.input-field label { top: 2rem; top:1rem; left: 10px; }
+
+ 
+@media only screen and (min-width: 701px) {  
+             .container {width: 86%; max-width: 1200px} 
+}
+
+@media only screen and (max-width: 700px) {
+    .methode {  width:46% !important; }
+    .methode img { width:70px; }
+    .lock-solid { width:130px; margin: 3px 15px 0px ; }
+}
+
+@media only screen and (max-width: 480px) {
+    .methode { width:96% !important ; }
+    .methode img { width:60px; } 
+}
+
+
+@media only screen and (max-width: 992px) {
+    .sidenav-header a#closebtn {
+         --margin: 0 !important;  
+          color: #bbb !important;
+    }
+    .sidenav-header a#closebtn:hover { 
+          color: #000 !important;
+    } 
+}
+
+.methode  {
+
+    border: 1px solid #eee;
+}
+.methode:hover {
+
+    border: 1px solid #aaa;
+    cursor: pointer;
 }

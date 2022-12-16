@@ -889,7 +889,13 @@ var AdminDashboard = Vue.extend({
 /** Admin **/
 var Home = Vue.extend({
     props: {
-        messages: Object
+        messages: Object,
+        'methods': Object,
+    },
+    methods: {
+        navigate: function (name) {
+            document.getElementById(name).click();
+        },
     },
     template: '#home-dashboard'
 });
@@ -951,8 +957,8 @@ var app = new Vue({
                 this.currentView = 'preferences';
             }
             $('a').parent().removeClass('active');
-            $('#' + event.target.name).parent().addClass('active');
-            if (document.getElementById("sidenav-overlay"))$('#navButton').click();
+                $('#' + event.target.name).parent().addClass('active');
+                if (document.getElementById("sidenav-overlay"))$('#navButton').click();
             this.getUser();
         },
 

@@ -4,13 +4,13 @@ script#push-method(type='text/x-template').
     <div class="card-image">
     <br>
     <div class="row" style="margin-bottom: 0;">
-    <div class="col s1 m2"><span class="white-text">a</span></div>
+    <div class="col s1 m2"><span class="white-text"></span></div>
     <div class="col s10 m8" style="text-align: center;">{{messages.api.methods.push.push_confirmation1}}</div>
     </div>
     </div>
     <div class="card-content">
     <div class="row" style="margin-bottom: 0;">
-    <div class="col s1 m3"><span class="white-text">a</span></div>
+    <div class="col s1 m3"><span class="white-text"></span></div>
     <div class="col s10 m6" style="text-align: center;">
     <p v-html="user.methods.push.qrCode"></p>
     </div>
@@ -18,7 +18,7 @@ script#push-method(type='text/x-template').
     </div>
     <div class="card-action">
     <div class="row" style="margin-bottom: 0;">
-    <div class="col s1 m2"><span class="white-text">a</span></div>
+    <div class="col s1 m2"><span class="white-text"></span></div>
     <div class="col s10 m8" style="text-align: justify;">
     <p>{{messages.api.methods.push.push_confirmation2}}</p>
     <p>{{messages.api.methods.push.push_confirmation3}} {{user.uid}}</p>
@@ -31,7 +31,7 @@ script#push-method(type='text/x-template').
     </div>
     <div class="row" style="margin-bottom: 0;" v-if="user.methods.push.active">
     <div class="col s1 m2">
-    <span class="white-text">a</span>
+    <span class="white-text"></span>
     </div>
     <div class="col s10 m8">
     <div class="card-panel grey lighten-3">
@@ -53,7 +53,7 @@ script#push-method(type='text/x-template').
     <div class="divider"></div>
     <div>
       <a href="https://play.google.com/store/apps/details?id=org.esupportail.esupAuth" style="border:2px solid;">
-        <img width="100px" src="images/esup-auth-android.png" label="Android Esup Auth"/>
+        <img width="100px" src="images/esup-auth-android.png" title ="Pour télécharger Esup Auth sur Android" label="Android Esup Auth"/>
       </a>
     </div>
     </div>

@@ -239,6 +239,10 @@ var RandomCodeMethod = Vue.extend({
     template: '#random_code-method'
 });
 
+var RandomCodeMailMethod = RandomCodeMethod.extend({
+    template:'#random_code_mail-method'
+});
+
 var UserDashboard = Vue.extend({
     props: {
         'messages': Object,
@@ -256,7 +260,8 @@ var UserDashboard = Vue.extend({
         "push": PushMethod,
         "totp": TotpMethod,
         "bypass": BypassMethod,
-        "random_code": RandomCodeMethod
+        "random_code": RandomCodeMethod,
+        "random_code_mail":RandomCodeMailMethod
     },
     template: "#user-dashboard",
     created: function () {
@@ -272,6 +277,9 @@ var UserDashboard = Vue.extend({
                     break;
                 case 'random_code':
                     this.activateRandomCode(event);
+                    break;
+		case 'random_code_mail':
+                    this.activateRandomCodeMail(event);
                     break;
                 case 'totp':
                     this.activateTotp(event);
@@ -376,6 +384,25 @@ var UserDashboard = Vue.extend({
                 }.bind(this)
             });
         },
+        activateRandomCodeMail: function (event) {
+            event.target.checked = true;
+            $.ajax({
+                method: "PUT",
+                url: "/api/random_code_mail/activate",
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code != "Ok") {
+                        event.target.checked = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
+                    } else this.user.methods.random_code_mail.active = true;
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    event.target.checked = false;
+                    console.error("/api/random_code_mail/activate", status, err.toString());
+                }.bind(this)
+            });
+        },
         activateEsupnfc: function (event) {
             event.target.checked = true;
             $.ajax({
@@ -468,7 +495,8 @@ var UserView = Vue.extend({
         "push": PushMethod,
         "totp": TotpMethod,
         "bypass": BypassMethod,
-        "random_code": RandomCodeMethod
+        "random_code": RandomCodeMethod,
+        "random_code_mail": RandomCodeMailMethod
     },
     data: function () {
         return {
@@ -487,6 +515,9 @@ var UserView = Vue.extend({
                     break;
                 case 'random_code':
                     this.activateRandomCode(method);
+                    break;
+		case 'random_code_mail':
+                    this.activateRandomCodeMail(method);
                     break;
                 case 'totp':
                     this.activateTotp(method);
@@ -585,6 +616,26 @@ var UserView = Vue.extend({
                     this.user.methods.random_code.active = false;
                     Materialize.toast(err, 3000, 'red darken-1');
                     console.error("/api/admin/" + this.user.uid + "/random_code/activate", status, err.toString());
+                }.bind(this)
+            });
+        },
+      activateRandomCodeMail: function () {
+            this.user.methods.random_code_mail.active = true;
+            $.ajax({
+                method: "PUT",
+                url: "/api/admin/" + this.user.uid + "/random_code_mail/activate",
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code != "Ok") {
+                        this.user.methods.random_code_mail.active = false;
+                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    this.user.methods.random_code_mail.active = false;
+                    Materialize.toast(err, 3000, 'red darken-1');
+                    console.error("/api/admin/" + this.user.uid + "/random_code_mail/activate", status, err.toString());
                 }.bind(this)
             });
         },

@@ -24,6 +24,10 @@
                 "name": "One time password",
                 "description": "Method to generate random codes valid for some time"
             },
+  	    "random_code_mail": {
+                "name": "One time password by mail",
+                "description": "Method to generate random codes and sent it by mail"
+            },
             "bypass": {
                 "name": "Backup codes",
                 "description": "Method for generating a random codes list",

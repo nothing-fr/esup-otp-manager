@@ -15,6 +15,7 @@ script#user-view(type='text/x-template').
     <totp v-if="method.name == 'totp'" v-bind:methods=methods v-bind:generate_totp=generateTotp v-bind:messages=messages v-bind:user.sync=user></totp>
     <bypass v-if="method.name == 'bypass'" v-bind:methods=methods v-bind:generate_bypass=generateBypass v-bind:messages=messages v-bind:user.sync=user></bypass>
     <random_code v-if="method.name == 'random_code'" v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></random_code>
+    <random_code_mail v-if="method.name == 'random_code_mail'" v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></random_code_mail>
     </div>
     <div class="divider"></div>
     </li>

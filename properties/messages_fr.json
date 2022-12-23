@@ -57,9 +57,9 @@
     "home": {
 	"description": "Vous permet d'ajouter un deuxième niveau de protection à votre compte (authentification double facteur). Ainsi, il sera impossible d'accéder à votre compte même avec votre mot de passe.",
 	"methods":"Vous pouvez définir :",
-	"push":"qu'une notification / push soit envoyée sur l'application Esup Auth (Android, prochainement sur iOS).",
-	"totp":"qu'un code temporel (TOTP) soit généré dans une application de générateur de codes (Esup Auth, Free OTP, Google Authenticator, Microsoft Authenticator, Plugin OTP sur navigateur...).",
-  "bypass":"qu'une liste de code à usage unique soit générée aléatoirement.",
+	"push":"qu'une notification / push soit envoyée sur l'application Esup Auth (Android, iOS bientôt).",
+	"totp":"qu'un code (TOTP) soit généré dans une application (Esup Auth, Authenticator, Plugin OTP...).",
+  "bypass":"qu'une liste de code à usage unique soit générée aléatoirement (Codes de secours).",
   "esupnfc":"une connexion en badgeant avec votre carte d'étudiant ou professionnelle.",
   "random_code":"qu'un code à usage unique vous soit envoyé par SMS.",
   "random_code_mail":"qu'un code à usage unique vous soit envoyé par Courriel.",

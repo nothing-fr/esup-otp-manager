@@ -13,6 +13,12 @@
     "admins_attributes": {"memberof": "cn=esup-otp.admin,ou=groups,dc=univ-ville,dc=fr"},
     "managers": ["paul"],
     "managers_attributes": {"supannentiteaffectation": "DSI"},
+    "#how_to use users_method": "remove '#' in front of methods. You can add others acls",
+    "users_methods" :{
+       "#random_code" : {"deny" : {"edupersonaffiliation" : ["student","alum"],"memberof":["cn=esup-otp.not_random_code,ou=groups,dc=univ-ville,dc=fr"]}},
+       "#random_code_mail" : {"allow" : {"edupersonaffiliation":["student","alum"],"memberof":["cn=esup-otp.random_code_mail,ou=groups,dc=univ-ville,dc=fr"]}},
+       "#bypass" : {"allow" : {"memberof":["cn=esup-otp.bypass,ou=groups,dc=univ-ville,dc=fr"]}}
+    },
     "dev": {},
     "#how_to":"Usually CAS works in Secure mode, so ssBaseURL must be a HTTPS url"
 }

@@ -140,6 +140,13 @@ function routing() {
             }
     });
 
+    router.get('/manager/users_methods', isUser, function(req, res) {
+        var data = new Object();
+        data=properties.esup.users_methods;
+        data.user=req.user;
+        res.send(data);
+    });
+
     router.get('/api/transport/:transport/test/:uid', isUser, function(req, res) {
         request_otp_api(req, res, {
             relUrl: 'protected/users/' + req.params.uid + '/transports/'+ req.params.transport+'/test/', bearerAuth: true,

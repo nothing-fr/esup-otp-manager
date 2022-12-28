@@ -354,19 +354,25 @@ var UserView = Vue.extend({
                     this.askPushActivation(method);
                     break;
                 case 'bypass':
-                    this.activateBypass(method);
+                    this.standardActivate(method);
+		    this.generateBypass(function () {
+                            this.user.methods.bypass.active = false;
+                        })
                     break;
                 case 'random_code':
-                    this.activateRandomCode(method);
+                    this.standardActivate(method);
                     break;
 		case 'random_code_mail':
-                    this.activateRandomCodeMail(method);
+                    this.standardActivate(method);
                     break;
                 case 'totp':
-                    this.activateTotp(method);
+                    this.standardActivate(method);
+		    this.generateTotp(function () {
+                            this.user.methods.totp.active = false;
+                        });
                     break;
                 case 'esupnfc':
-                    this.activateEsupnfc(method);
+                    this.standardActivate(method);
                     break;
                 default:
                     /** **/
@@ -395,115 +401,26 @@ var UserView = Vue.extend({
                     console.error("/api/admin/" + this.user.uid + "/push/activate", status, err.toString());
                 }.bind(this)
             });
-        },
-        activateBypass: function () {
-            this.user.methods.bypass.active = true;
+        },        
+        standardActivate: function (method) {
             $.ajax({
                 method: "PUT",
-                url: "/api/admin/" + this.user.uid + "/bypass/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code == "Ok") {
-                        this.generateBypass(function () {
-                            this.user.methods.bypass.active = false;
-                        })
-                    } else {
-                        this.user.methods.bypass.active = false;
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
-                    }
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    this.user.methods.bypass.active = false;
-                    Materialize.toast(err, 3000, 'red darken-1');
-                    console.error("/api/admin/" + this.user.uid + "/bypass/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
-        activateTotp: function () {
-            this.user.methods.totp.active = true;
-            $.ajax({
-                method: "PUT",
-                url: "/api/admin/" + this.user.uid + "/totp/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code == "Ok") {
-                        this.generateTotp(function () {
-                            this.user.methods.totp.active = false;
-                        })
-                    } else {
-                        this.user.methods.totp.active = false;
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
-                    }
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    this.user.methods.totp.active = false;
-                    Materialize.toast(err, 3000, 'red darken-1');
-                    console.error("/api/admin/" + this.user.uid + "/totp/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
-        activateRandomCode: function () {
-            this.user.methods.random_code.active = true;
-            $.ajax({
-                method: "PUT",
-                url: "/api/admin/" + this.user.uid + "/random_code/activate",
+                url: "/api/admin/" + this.user.uid + "/"+method+"/activate",
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
                     if (data.code != "Ok") {
-                        this.user.methods.random_code.active = false;
+                        this.user.methods[method].active = false;
                         Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
-                    }
+                    }else this.user.methods[method].active = true;
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    this.user.methods.random_code.active = false;
+                    this.user.methods[method].active = false;
                     Materialize.toast(err, 3000, 'red darken-1');
-                    console.error("/api/admin/" + this.user.uid + "/random_code/activate", status, err.toString());
+                    console.error("/api/admin/" + this.user.uid + "/"+method+"/activate", status, err.toString());
                 }.bind(this)
             });
-        },
-      activateRandomCodeMail: function () {
-            this.user.methods.random_code_mail.active = true;
-            $.ajax({
-                method: "PUT",
-                url: "/api/admin/" + this.user.uid + "/random_code_mail/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code != "Ok") {
-                        this.user.methods.random_code_mail.active = false;
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
-                    }
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    this.user.methods.random_code_mail.active = false;
-                    Materialize.toast(err, 3000, 'red darken-1');
-                    console.error("/api/admin/" + this.user.uid + "/random_code_mail/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
-        activateEsupnfc: function () {
-            this.user.methods.esupnfc.active = true;
-            $.ajax({
-                method: "PUT",
-                url: "/api/admin/" + this.user.uid + "/esupnfc/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code != "Ok") {
-                        this.user.methods.esupnfc.active = false;
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard', 3000, 'red darken-1');
-                    }
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    this.user.methods.esupnfc.active = false;
-                    Materialize.toast(err, 3000, 'red darken-1');
-                    console.error("/api/admin/" + this.user.uid + "/esupnfc/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
+        },            
         deactivate: function (method) {
             if(this.user.methods[method].askActivation) this.user.methods[method].askActivation=false;	
             $.ajax({

@@ -203,19 +203,25 @@ var UserDashboard = Vue.extend({
                     this.askPushActivation(method);
                     break;
                 case 'bypass':
-                    this.activateBypass(method);
+                    this.standardActivate(method);
+		    this.generateBypass(function () {
+                            this.user.methods.bypass.active = false;                           
+                        });
                     break;
                 case 'random_code':
-                    this.activateRandomCode(method);
+                    this.standardActivate(method);
                     break;
 		case 'random_code_mail':
-                    this.activateRandomCodeMail(method);
+                    this.standardActivate(method);
                     break;
                 case 'totp':
-                    this.activateTotp(method);
+                    this.standardActivate(method);
+		    this.generateTotp(function () {
+                            this.user.methods.totp.active = false;                           
+                        });
                     break;
                 case 'esupnfc':
-                    this.activateEsupnfc(method);
+                    this.standardActivate(method);
                     break;
                 default:
                     /** **/                    
@@ -243,105 +249,24 @@ var UserDashboard = Vue.extend({
                     console.error("/api/push/activate", status, err.toString());
                 }.bind(this)
             });
-        },
-        activateBypass: function (method) {
-            event.target.checked = true;
+        },       
+        standardActivate: function (method) {
             $.ajax({
                 method: "PUT",
-                url: "/api/bypass/activate",
+                url: "/api/"+method+"/activate",
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
                     if (data.code != "Ok") {
-                        event.target.checked = false;
+			this.user.methods[method].active = false;
                         Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
-                    } else {
-                        this.user.methods.bypass.active = true;
-                        this.generateBypass(function () {
-                            this.user.methods.bypass.active = false;
-                            event.target.checked = false;
-                        })
-                    }
+                    } else this.user.methods[method].active = true;
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    event.target.checked = false;
-                    console.error("/api/bypass/activate", status, err.toString());
+                    console.error("/api/"+method+"/activate", status, err.toString());
                 }.bind(this)
             });
-        },
-        activateTotp: function (method) {
-            event.target.checked = true;
-            $.ajax({
-                method: "PUT",
-                url: "/api/totp/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code != "Ok") {
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
-                    } else {
-                        this.user.methods.totp.active = true;
-                        this.generateTotp(function () {
-                            this.user.methods.totp.active = false;                           
-                        })
-                    }
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    console.error("/api/totp/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
-        activateRandomCode: function (method) {
-            $.ajax({
-                method: "PUT",
-                url: "/api/random_code/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code != "Ok") {
-                        event.target.checked = false;
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
-                    } else this.user.methods.random_code.active = true;
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    console.error("/api/random_code/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
-        activateRandomCodeMail: function (method) {
-            $.ajax({
-                method: "PUT",
-                url: "/api/random_code_mail/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code != "Ok") {
-                        event.target.checked = false;
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
-                    } else this.user.methods.random_code_mail.active = true;
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    console.error("/api/random_code_mail/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
-        activateEsupnfc: function (method) {
-            $.ajax({
-                method: "PUT",
-                url: "/api/esupnfc/activate",
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    if (data.code != "Ok") {
-                        event.target.checked = false;
-                        Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
-                    } else this.user.methods.esupnfc.active = true;
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    console.error("/api/esupnfc/activate", status, err.toString());
-                }.bind(this)
-            });
-        },
+        },     
         deactivate: function (method) {
            if(this.user.methods[method].askActivation) this.user.methods[method].askActivation=false;	
             $.ajax({

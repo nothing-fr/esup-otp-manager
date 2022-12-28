@@ -102,8 +102,8 @@ Switch
 *****************************************/
 .Switch {
     position: relative;
-    margin-left: 15px;
     display: inline-block;
+    vertical-align: middle;
     font-size: 1.6em;
     font-weight: bold;
     color: #ccc;
@@ -150,6 +150,8 @@ body.IE7 .Switch {
 .Switch.Round {
     padding: 0px 20px;
     border-radius: 40px;
+    margin-left:10px;
+    margin-right:10px;
 }
 
 body.IE7 .Switch.Round {

@@ -251,11 +251,6 @@ var UserDashboard = Vue.extend({
         'currentmethod': String,
         'get_user': Function
     },
-    data: function () {
-        return {
-            "switchPushEvent": MouseEvent
-        }
-    },
     components: {
         "push": PushMethod,
         "totp": TotpMethod,
@@ -267,36 +262,35 @@ var UserDashboard = Vue.extend({
     created: function () {
     },
     methods: {
-        activate: function (event) {
-            switch (event.target.name) {
+        activate: function (method) {
+            switch (method) {
                 case 'push':
-                    this.askPushActivation(event);
+                    this.askPushActivation(method);
                     break;
                 case 'bypass':
-                    this.activateBypass(event);
+                    this.activateBypass(method);
                     break;
                 case 'random_code':
-                    this.activateRandomCode(event);
+                    this.activateRandomCode(method);
                     break;
 		case 'random_code_mail':
-                    this.activateRandomCodeMail(event);
+                    this.activateRandomCodeMail(method);
                     break;
                 case 'totp':
-                    this.activateTotp(event);
+                    this.activateTotp(method);
                     break;
                 case 'esupnfc':
-                    this.activateEsupnfc(event);
+                    this.activateEsupnfc(method);
                     break;
                 default:
-                    /** **/
-                    event.target.checked = true;
-                    this.user.methods[event.target.name].active = true;
+                    /** **/                    
+                    this.user.methods[method].active = true;
                     break;
             }
         },
-        askPushActivation: function (event) {
-            event.target.checked = true;
-            this.switchPushEvent = event;
+        askPushActivation: function (method) {
+            this.user.methods.push.askActivation = true;
+	    this.user.methods.push.active = true;
             //ajax
             $.ajax({
                 method: "PUT",
@@ -315,7 +309,7 @@ var UserDashboard = Vue.extend({
                 }.bind(this)
             });
         },
-        activateBypass: function (event) {
+        activateBypass: function (method) {
             event.target.checked = true;
             $.ajax({
                 method: "PUT",
@@ -340,7 +334,7 @@ var UserDashboard = Vue.extend({
                 }.bind(this)
             });
         },
-        activateTotp: function (event) {
+        activateTotp: function (method) {
             event.target.checked = true;
             $.ajax({
                 method: "PUT",
@@ -350,23 +344,19 @@ var UserDashboard = Vue.extend({
                 success: function (data) {
                     if (data.code != "Ok") {
                         Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
-                        event.target.checked = false;
                     } else {
                         this.user.methods.totp.active = true;
                         this.generateTotp(function () {
-                            this.user.methods.totp.active = false;
-                            event.target.checked = false;
+                            this.user.methods.totp.active = false;                           
                         })
                     }
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    event.target.checked = false;
                     console.error("/api/totp/activate", status, err.toString());
                 }.bind(this)
             });
         },
-        activateRandomCode: function (event) {
-            event.target.checked = true;
+        activateRandomCode: function (method) {
             $.ajax({
                 method: "PUT",
                 url: "/api/random_code/activate",
@@ -379,13 +369,11 @@ var UserDashboard = Vue.extend({
                     } else this.user.methods.random_code.active = true;
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    event.target.checked = false;
                     console.error("/api/random_code/activate", status, err.toString());
                 }.bind(this)
             });
         },
-        activateRandomCodeMail: function (event) {
-            event.target.checked = true;
+        activateRandomCodeMail: function (method) {
             $.ajax({
                 method: "PUT",
                 url: "/api/random_code_mail/activate",
@@ -398,13 +386,11 @@ var UserDashboard = Vue.extend({
                     } else this.user.methods.random_code_mail.active = true;
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    event.target.checked = false;
                     console.error("/api/random_code_mail/activate", status, err.toString());
                 }.bind(this)
             });
         },
-        activateEsupnfc: function (event) {
-            event.target.checked = true;
+        activateEsupnfc: function (method) {
             $.ajax({
                 method: "PUT",
                 url: "/api/esupnfc/activate",
@@ -417,29 +403,26 @@ var UserDashboard = Vue.extend({
                     } else this.user.methods.esupnfc.active = true;
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    event.target.checked = false;
                     console.error("/api/esupnfc/activate", status, err.toString());
                 }.bind(this)
             });
         },
-        deactivate: function (event) {
-            event.target.checked = false;
+        deactivate: function (method) {
+           if(this.user.methods[method].askActivation) this.user.methods[method].askActivation=false;	
             $.ajax({
                 method: "PUT",
-                url: "/api/" + event.target.name + "/deactivate",
+                url: "/api/" + method + "/deactivate",
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
                     if (data.code != "Ok") {
-                        event.target.checked = true;
                         Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
                     }
-                    else this.user.methods[event.target.name].active = false;
+                    else this.user.methods[method].active = false;
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    event.target.checked = true;
                     Materialize.toast(err, 3000, 'red darken-1');
-                    console.error("/api/" + event.target.name + "/deactivate", status, err.toString());
+                    console.error("/api/" + method + "/deactivate", status, err.toString());
                 }.bind(this)
             });
         },
@@ -532,6 +515,8 @@ var UserView = Vue.extend({
             }
         },
         askPushActivation: function () {
+            this.user.methods.push.askActivation = true;
+	    this.user.methods.push.active = true;   
             //ajax
             $.ajax({
                 method: "PUT",
@@ -660,6 +645,7 @@ var UserView = Vue.extend({
             });
         },
         deactivate: function (method) {
+            if(this.user.methods[method].askActivation) this.user.methods[method].askActivation=false;	
             $.ajax({
                 method: "PUT",
                 url: "/api/admin/" + this.user.uid + "/" + method + "/deactivate",

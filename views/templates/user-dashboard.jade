@@ -2,12 +2,16 @@ script#user-dashboard(type='text/x-template').
     <div>
     <div class="section" v-for="method in methods" v-if="method.activate && currentmethod==method.name">
     <h4>{{method.label || method.name}}</h4>
-    <div class='switch'>
+    <div>
     <label>
     {{messages.api.action.deactivate}}
-    <input type='checkbox' v-if="user.methods[method.name].active" v-on:click="deactivate" v-bind:name=method.name checked>
-    <input type='checkbox' v-on:click="activate" v-bind:name=method.name v-else>
-    <span class='lever'></span> {{messages.api.action.activate}}
+    <div class="Switch UserSwitch Round On" v-if="user.methods[method.name].active" v-on:click="deactivate(method.name)" v-bind:name="method.name" >
+      <div class="Toggle"></div>
+    </div>
+    <div v-else class="Switch UserSwitch Round Off" v-on:click="activate(method.name)" v-bind:name="method.name" >
+       <div class="Toggle"></div>
+    </div>
+       {{messages.api.action.activate}}
     </label>
     </div>
     <br>

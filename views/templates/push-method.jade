@@ -1,6 +1,6 @@
 script#push-method(type='text/x-template').
     <div>
-    <div class="card" v-if="!user.methods.push.active && user.methods.push.activationCode">
+    <div class="card" v-if="user.methods.push.askActivation">
     <div class="card-image">
     <br>
     <div class="row" style="margin-bottom: 0;">
@@ -29,7 +29,7 @@ script#push-method(type='text/x-template').
     </div>
     </div>
     </div>
-    <div class="row" style="margin-bottom: 0;" v-if="user.methods.push.active">
+    <div class="row" style="margin-bottom: 0;" v-if="user.methods.push.active && !user.methods.push.askActivation">
     <div class="col s1 m2">
     <span class="white-text"></span>
     </div>

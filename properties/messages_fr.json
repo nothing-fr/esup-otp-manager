@@ -80,7 +80,8 @@
       "generate_codes" : "Générer des codes",
       "generate_qrcode" : "Générer QRCode",
       "logout" : "Se déconnecter",
-      "confirm_deactivate" : "Voulez-vous vraiment désactiver ?"
+      "confirm_deactivate" : "Voulez-vous vraiment désactiver ?",
+      "confirm_generate" :"Les anciens codes seront invalidés. Voulez-vous continuer ?"
     },
     "title":"ESUP OTP Manager",
     "menu":{

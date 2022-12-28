@@ -293,7 +293,13 @@ var UserDashboard = Vue.extend({
             });
 	   }
         },
-        generateBypass: function (onError) {
+	generateBypassConfirm : function(){
+	    if (window.confirm(this.messages.api.action.confirm_generate)) this.generateBypass();
+        },
+	generateTotpConfirm : function(){
+	    if (window.confirm(this.messages.api.action.confirm_generate)) this.generateTotp();
+        },
+        generateBypass: function (onError) {   
             $.ajax({
                 method: "POST",
                 url: "/api/generate/bypass",
@@ -451,7 +457,13 @@ var UserView = Vue.extend({
             });
 	  }
         },
-        generateBypass: function (onError) {
+	generateBypassConfirm : function(){
+	    if (window.confirm(this.messages.api.action.confirm_generate)) this.generateBypass();
+        },
+	generateTotpConfirm : function(){
+	    if (window.confirm(this.messages.api.action.confirm_generate)) this.generateTotp();
+        },
+        generateBypass: function (onError) {       
             $.ajax({
                 method: "POST",
                 url: "/api/admin/generate/bypass/" + this.user.uid,

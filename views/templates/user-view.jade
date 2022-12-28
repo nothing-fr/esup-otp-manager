@@ -12,8 +12,8 @@ script#user-view(type='text/x-template').
     </div>
     <div v-if="user.methods[method.name].active || user.methods[method.name].activationCode">
     <push v-if="method.name == 'push'" v-bind:methods=methods v-bind:switch_push_event=switchPushEvent v-bind:get_user=get_user v-bind:messages=messages v-bind:user.sync=user></push>
-    <totp v-if="method.name == 'totp'" v-bind:methods=methods v-bind:generate_totp=generateTotp v-bind:messages=messages v-bind:user.sync=user></totp>
-    <bypass v-if="method.name == 'bypass'" v-bind:methods=methods v-bind:generate_bypass=generateBypass v-bind:messages=messages v-bind:user.sync=user></bypass>
+    <totp v-if="method.name == 'totp'" v-bind:methods=methods v-bind:generate_totp=generateTotpConfirm v-bind:messages=messages v-bind:user.sync=user></totp>
+    <bypass v-if="method.name == 'bypass'" v-bind:methods=methods v-bind:generate_bypass=generateBypassConfirm v-bind:messages=messages v-bind:user.sync=user></bypass>
     <random_code v-if="method.name == 'random_code'" v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></random_code>
     <random_code_mail v-if="method.name == 'random_code_mail'" v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></random_code_mail>
     </div>

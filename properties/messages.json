@@ -73,7 +73,8 @@
             "generate_codes" : "Generate codes",
             "generate_qrcode" : "Generate QRCode",
             "logout" : "Logout",
-            "confirm_deactivate" : "Do you want to deactivate ?"
+            "confirm_deactivate" : "Do you want to deactivate ?",
+	    "confirm_generate" :"Old codes will be erased. Continue ?"
         },
         "title":"ESUP OTP Manager",
         "menu":{

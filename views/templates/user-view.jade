@@ -11,11 +11,7 @@ script#user-view(type='text/x-template').
     <div class="Toggle"></div>
     </div>
     <div v-if="user.methods[method.name].active || user.methods[method.name].activationCode">
-    <push v-if="method.name == 'push'" v-bind:methods=methods v-bind:switch_push_event=switchPushEvent v-bind:get_user=get_user v-bind:messages=messages v-bind:user.sync=user></push>
-    <totp v-if="method.name == 'totp'" v-bind:methods=methods v-bind:generate_totp=generateTotpConfirm v-bind:messages=messages v-bind:user.sync=user></totp>
-    <bypass v-if="method.name == 'bypass'" v-bind:methods=methods v-bind:generate_bypass=generateBypassConfirm v-bind:messages=messages v-bind:user.sync=user></bypass>
-    <random_code v-if="method.name == 'random_code'" v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></random_code>
-    <random_code_mail v-if="method.name == 'random_code_mail'" v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user></random_code_mail>
+    <component :is=method.name v-bind:methods=methods v-bind:generate_totp=generateTotpConfirm v-bind:generate_bypass=generateBypassConfirm v-bind:get_user=get_user v-bind:messages=messages v-bind:user=user v-bind:user.sync=user v-bind:switch_push_event=switchPushEvent></component>
     </div>
     <div class="divider"></div>
     </li>

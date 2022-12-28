@@ -352,7 +352,8 @@ var UserView = Vue.extend({
         "totp": TotpMethod,
         "bypass": BypassMethod,
         "random_code": RandomCodeMethod,
-        "random_code_mail": RandomCodeMailMethod
+        "random_code_mail":RandomCodeMailMethod,
+	"esupnfc":Esupnfc
     },
     data: function () {
         return {

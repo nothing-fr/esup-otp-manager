@@ -178,6 +178,10 @@ var RandomCodeMailMethod = RandomCodeMethod.extend({
     template:'#random_code_mail-method'
 });
 
+var Esupnfc = Vue.extend({
+template:'#esupnfc-method'
+});
+
 var UserDashboard = Vue.extend({
     props: {
         'messages': Object,
@@ -191,7 +195,8 @@ var UserDashboard = Vue.extend({
         "totp": TotpMethod,
         "bypass": BypassMethod,
         "random_code": RandomCodeMethod,
-        "random_code_mail":RandomCodeMailMethod
+        "random_code_mail":RandomCodeMailMethod,
+	"esupnfc":Esupnfc
     },
     template: "#user-dashboard",
     created: function () {

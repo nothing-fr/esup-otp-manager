@@ -273,6 +273,7 @@ var UserDashboard = Vue.extend({
             });
         },     
         deactivate: function (method) {
+	  if (window.confirm(this.messages.api.action.confirm_deactivate)){
            if(this.user.methods[method].askActivation) this.user.methods[method].askActivation=false;	
             $.ajax({
                 method: "PUT",
@@ -290,6 +291,7 @@ var UserDashboard = Vue.extend({
                     console.error("/api/" + method + "/deactivate", status, err.toString());
                 }.bind(this)
             });
+	   }
         },
         generateBypass: function (onError) {
             $.ajax({
@@ -427,6 +429,7 @@ var UserView = Vue.extend({
             });
         },            
         deactivate: function (method) {
+         if (window.confirm(this.messages.api.action.confirm_deactivate)){
             if(this.user.methods[method].askActivation) this.user.methods[method].askActivation=false;	
             $.ajax({
                 method: "PUT",
@@ -446,6 +449,7 @@ var UserView = Vue.extend({
                     console.error("/api/admin/" + this.user.uid + "/" + method + "/activate", status, err.toString());
                 }.bind(this)
             });
+	  }
         },
         generateBypass: function (onError) {
             $.ajax({

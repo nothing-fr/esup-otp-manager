@@ -2,7 +2,7 @@
 Manager for the esup-otp-api. Allow users to edit theirs preferences and admins to administrate ;)
 
 ### Version
-1.1.1
+1.1
 - new homepage
 - methods can be displayed by user profile
 - random code sent by email is defined as a separate method

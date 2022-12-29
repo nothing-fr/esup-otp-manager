@@ -1,7 +1,7 @@
 {
   "success": {
     "valid_credentials": "Identifiants valides",
-    "transports_found": "Liste de rtansports trouvée",
+    "transports_found": "Liste de transports trouvée",
     "methods_found": "Méthodes trouvées",
     "update": "Mis à jour réussie"
   },
@@ -43,7 +43,7 @@
         "name": "Notification (Esup Auth)",
         "description": "Méthode permettant de se connecter via les notifications de son smartphone avec l'application Esup Auth.",
         "push_confirmation1": "Veuillez scannez ce code dans l'application smartphone Esup Auth",
-        "push_confirmation2": "Si votre smartphone ne dispose pas d'un appreil photo fonctionnel ou que vous épprouvez des difficultés à scanner le code précédent. Allez dans le menu \"Paramètres\" puis cliquer sur \"Activation sans scan\".",
+        "push_confirmation2": "Si votre smartphone ne dispose pas d'un appreil photo fonctionnel ou que vous épprouvez des difficultés à scanner le code précédent. Allez dans le menu \"Paramètres\" puis cliquer sur \"Activation manuelle\".",
         "push_confirmation3": "Entrez votre nom de compte :",
         "push_confirmation4": "Entrez le code d'activation :",
         "push_confirmation5": "Entrez l'adresse :",

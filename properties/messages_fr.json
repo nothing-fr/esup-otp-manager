@@ -1,7 +1,7 @@
 {
   "success": {
     "valid_credentials": "Identifiants valides",
-    "transports_found": "Liste de transports trouvée",
+    "transports_found": "Liste de transports trouvés",
     "methods_found": "Méthodes trouvées",
     "update": "Mis à jour réussie"
   },

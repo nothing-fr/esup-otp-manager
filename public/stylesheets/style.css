@@ -236,7 +236,7 @@ body.IE7 .Switch.Round {
 .methode:hover { box-shadow: 0px 2px 2px 2px rgba(0,0,0,0.16), 2px 2px 10px 1px rgba(0,0,0,0.22); color : #2055aa}
 .methode p { text-align: center; margin-bottom:0px; margin-top:10px;  }
 .methode img {  padding: 0px; margin:0px; width:88px; }
-.lock-solid { width:160px; margin: 3px 25px 0px ; opacity:0.7; }
+.lock-solid { width:110px; margin: 0px 30px 0px 30px; }
 
 .card { padding-top:25px;  background-color: #eeeef0; } 
 .input-field label { top: 2rem; top:1rem; left: 10px; }
@@ -277,3 +277,12 @@ body.IE7 .Switch.Round {
     border: 1px solid #aaa;
     cursor: pointer;
 }
+.btn, .btn-large {
+    background-color: #00326e;
+  }
+  
+  .btn:hover, .btn-large:hover {
+    /* background-color: #2bbbad; */
+       background: #00326e;
+       filter: brightness(1.45);
+  }

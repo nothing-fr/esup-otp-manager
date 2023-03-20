@@ -18,7 +18,7 @@
       "totp": {
         "name": "Timed password (TOTP)",
         "description": "This method generate 6 numerals codes",
-        "howTo": "Push 'Generate QrCode ', then scan the code using your Esup Auth app (Android) or Google Authenticator app (iOS and Android) or enter the code directly into your TOTP application"
+        "howTo": "Push 'Generate QrCode ', then scan the code using your Esup Auth app or Google Authenticator app or enter the code directly into your TOTP application"
       },
       "random_code": {
         "name": "One time password",
@@ -56,7 +56,7 @@
     },
     "home":{
 	   "description": "ESUP-OTP permits you to add a second level of protection to your account. You can, for example, set a single-use code sent to you by SMS in addition to your username and password. Thus, a third can not access your account with the same password.",
-	"push":"Notification to Esup Auth (Android, iOS soon).",
+	"push":"Notification to Esup Auth (Android, iOS).",
 	"totp":"TOTP code into an application (Esup Auth, Authenticator...).",
         "bypass":"Display random Codes (Backup codes).",
         "esupnfc":"Connexion with student card or business card",

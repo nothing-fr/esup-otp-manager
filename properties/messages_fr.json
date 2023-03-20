@@ -18,7 +18,7 @@
       "totp": {
         "name": "Code temporel (TOTP)",
         "description": "Méthode permettant de générer des codes uniques de 6 chiffres.",
-        "howTo": "Appuyez sur le bouton 'Générer un QrCode', puis scannez le code à l'aide de votre application Esup Auth (Android) ou Google Authentificator (Android, iOS) ou entrez le code directement dans votre application TOTP"
+        "howTo": "Appuyez sur le bouton 'Générer un QrCode', puis scannez le code à l'aide de votre application mobile Esup Auth ou Google Authentificator ou entrez le code directement dans votre application TOTP favori"
       },
       "random_code": {
         "name": "Code par SMS",
@@ -57,7 +57,7 @@
     "home": {
 	"description": "Vous permet d'ajouter un deuxième niveau de protection à votre compte (authentification double facteur). Ainsi, il sera impossible d'accéder à votre compte même avec votre mot de passe.",
 	"methods":"Vous pouvez définir :",
-	"push":"qu'une notification / push soit envoyée sur l'application Esup Auth (Android, iOS bientôt).",
+	"push":"qu'une notification / push soit envoyée sur l'application Esup Auth (Android, iOS).",
 	"totp":"qu'un code (TOTP) soit généré dans une application (Esup Auth, Authenticator, Plugin OTP...).",
   "bypass":"qu'une liste de code à usage unique soit générée aléatoirement (Codes de secours).",
   "esupnfc":"une connexion en badgeant avec votre carte d'étudiant ou professionnelle.",

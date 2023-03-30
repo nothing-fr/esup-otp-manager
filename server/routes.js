@@ -112,8 +112,10 @@ function routing() {
     });
 
     router.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect(properties.esup.CAS.casBaseURL+'/logout');
+        req.logout(function(err) {
+            if (err) { return next(err); }
+            res.redirect(properties.esup.CAS.casBaseURL+'/logout');
+          });
     });
 
     //API

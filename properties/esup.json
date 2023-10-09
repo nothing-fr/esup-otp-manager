@@ -20,5 +20,6 @@
        "#bypass" : {"allow" : {"memberof":["cn=esup-otp.bypass,ou=groups,dc=univ-ville,dc=fr"]}}
     },
     "dev": {},
-    "#how_to":"Usually CAS works in Secure mode, so ssBaseURL must be a HTTPS url"
+    "#how_to":"Usually CAS works in Secure mode, so ssBaseURL must be a HTTPS url",
+    "trustedProxies": ["127.0.0.1", "loopback", "::1"]
 }

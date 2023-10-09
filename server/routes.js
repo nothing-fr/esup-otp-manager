@@ -9,6 +9,8 @@ var passport;
 /** @param {{ relUrl: string; bearerAuth?: true, method?: 'POST'|'PUT'|'DELETE' }} opts_ */
 function request_otp_api(req, res, opts_) {
     console.log("requesting api");
+    const clientIP = req.ip;
+    const userAgent = req.headers['user-agent'];
     let opts = {
         method: opts_.method,
         url: properties.esup.api_url + opts_.relUrl,
@@ -16,6 +18,10 @@ function request_otp_api(req, res, opts_) {
     if (opts_.bearerAuth) {
         opts.auth = { 'bearer': properties.esup.api_password }
     }
+    opts.headers = {
+        'X-Client-IP': clientIP,
+        'Client-User-Agent': userAgent,
+    };
     //console.log(opts.method +':'+ opts.url);
     //console.log(req.session.passport);
     request(opts, function(error, response, body) {

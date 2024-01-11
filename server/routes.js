@@ -52,6 +52,15 @@ function isUser(req, res, next) {
     res.redirect('/login');
 }
 
+function currentUserCanUpdateUidParam(req, res, next) {
+    const paramUid = req.params.uid;
+    if (paramUid && paramUid != req.session.passport.user.uid) {
+        return isManager(req, res, next);
+    } else {
+        return next();
+    }
+}
+
 function isManager(req, res, next) {
     if (isAuthenticated(req, res)) {
         if (utils.is_manager(req.session.passport.user) || utils.is_admin(req.session.passport.user))return next();
@@ -155,7 +164,7 @@ function routing() {
         res.send(data);
     });
 
-    router.get('/api/transport/:transport/test/:uid', isUser, function(req, res) {
+    router.get('/api/transport/:transport/test/:uid', isUser, currentUserCanUpdateUidParam, function(req, res) {
         request_otp_api(req, res, {
             relUrl: 'protected/users/' + req.params.uid + '/transports/'+ req.params.transport+'/test/', bearerAuth: true,
         });
@@ -187,14 +196,14 @@ function routing() {
         });
     });
 
-    router.put('/api/transport/:transport/:new_transport/:uid', isUser, function(req, res) {
+    router.put('/api/transport/:transport/:new_transport/:uid', isUser, currentUserCanUpdateUidParam, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
             relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/', bearerAuth: true,
         });
     });
 
-    router.delete('/api/transport/:transport/:uid', isUser, function(req, res) {
+    router.delete('/api/transport/:transport/:uid', isUser, currentUserCanUpdateUidParam, function(req, res) {
         request_otp_api(req, res, {
             method: 'DELETE',
             relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/', bearerAuth: true,

@@ -52,15 +52,6 @@ function isUser(req, res, next) {
     res.redirect('/login');
 }
 
-function currentUserCanUpdateUidParam(req, res, next) {
-    const paramUid = req.params.uid;
-    if (paramUid && paramUid != req.session.passport.user.uid) {
-        return isManager(req, res, next);
-    } else {
-        return next();
-    }
-}
-
 function isManager(req, res, next) {
     if (isAuthenticated(req, res)) {
         if (utils.is_manager(req.session.passport.user) || utils.is_admin(req.session.passport.user))return next();
@@ -75,6 +66,13 @@ function isAdmin(req, res, next) {
         res.redirect('/forbidden');
     }
     res.redirect('/login');
+}
+
+/**
+ * @returns hash for current user
+ */
+function getHash(req) {
+    return utils.get_hash(req.session.passport.user.uid);
 }
 
 function routing() {
@@ -126,7 +124,7 @@ function routing() {
         })(req, res, next);
     });
 
-    router.get('/logout', function(req, res) {
+    router.get('/logout', function(req, res, next) {
         req.logout(function(err) {
             if (err) { return next(err); }
             res.redirect(properties.esup.CAS.casBaseURL+'/logout');
@@ -136,7 +134,7 @@ function routing() {
     //API
     router.get('/api/user', isUser, function(req, res) {
         request_otp_api(req, res, {
-            relUrl: 'users/' + req.session.passport.user.uid + '/' + utils.get_hash(req.session.passport.user.uid),
+            relUrl: 'users/' + req.session.passport.user.uid + '/' + getHash(req),
         });
     });
 
@@ -164,7 +162,13 @@ function routing() {
         res.send(data);
     });
 
-    router.get('/api/transport/:transport/test/:uid', isUser, currentUserCanUpdateUidParam, function(req, res) {
+    router.get('/api/transport/:transport/test', isUser, function(req, res) {
+        request_otp_api(req, res, {
+            relUrl: 'users/' + req.session.passport.user.uid + '/transports/'+ req.params.transport+'/test/' + getHash(req),
+        });
+    });
+
+    router.get('/api/admin/transport/:transport/test/:uid', isManager, function(req, res) {
         request_otp_api(req, res, {
             relUrl: 'protected/users/' + req.params.uid + '/transports/'+ req.params.transport+'/test/', bearerAuth: true,
         });
@@ -196,14 +200,28 @@ function routing() {
         });
     });
 
-    router.put('/api/transport/:transport/:new_transport/:uid', isUser, currentUserCanUpdateUidParam, function(req, res) {
+    router.put('/api/transport/:transport/:new_transport', isUser, function(req, res) {
+        request_otp_api(req, res, {
+            method: 'PUT',
+            relUrl: 'users/'+ req.session.passport.user.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/' + getHash(req), bearerAuth: true,
+        });
+    });
+
+    router.put('/api/admin/transport/:transport/:new_transport/:uid', isManager, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
             relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/', bearerAuth: true,
         });
     });
 
-    router.delete('/api/transport/:transport/:uid', isUser, currentUserCanUpdateUidParam, function(req, res) {
+    router.delete('/api/transport/:transport/', isUser, function(req, res) {
+        request_otp_api(req, res, {
+            method: 'DELETE',
+            relUrl: 'users/'+ req.session.passport.user.uid +'/transports/'+req.params.transport+'/' + getHash(req),
+        });
+    });
+
+    router.delete('/api/admin/transport/:transport/:uid', isManager, function(req, res) {
         request_otp_api(req, res, {
             method: 'DELETE',
             relUrl: 'protected/users/'+ req.params.uid +'/transports/'+req.params.transport+'/', bearerAuth: true,
@@ -213,7 +231,7 @@ function routing() {
     router.post('/api/generate/:method', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'POST',
-            relUrl: 'protected/users/'+ req.session.passport.user.uid + '/methods/' + req.params.method + '/secret/', bearerAuth: true,
+            relUrl: 'users/'+ req.session.passport.user.uid + '/methods/' + req.params.method + '/secret/' + getHash(req),
         });
     });
 
@@ -225,7 +243,7 @@ function routing() {
 
     router.get('/api/admin/user/:uid', isManager, function(req, res) {
         request_otp_api(req, res, {
-            relUrl: 'users/' + req.params.uid + '/' + utils.get_hash(req.params.uid),
+            relUrl: 'protected/users/' + req.params.uid, bearerAuth: true,
         });
     });
 

@@ -99,84 +99,92 @@ var TotpMethod = Vue.extend({
     template: '#totp-method'
 });
 
-var RandomCodeMethod = Vue.extend({
-    props: {
-        'user': Object,
-        'messages': Object,
-        'activate': Function,
-        'deactivate': Function,
-    },
-    methods: {
-        saveTransport: function(transport) {
-            var new_transport = document.getElementById(transport + '-input').value;
-            var reg;
-            if (transport == 'sms') reg = new RegExp("^0[6-7]([-. ]?[0-9]{2}){4}$");
-            else reg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-            if (reg.test(new_transport)) {
+function randomCodeMethod(isManagerDashboard) {
+    const urlPrefix = '/api/' + (isManagerDashboard ? 'admin/' : '');
+    function urlSufix(context) {
+        return isManagerDashboard ? '/' + context.user.uid : '';
+    }
+    return Vue.extend({
+        props: {
+            'user': Object,
+            'messages': Object,
+            'activate': Function,
+            'deactivate': Function,
+        },
+        methods: {
+            saveTransport: function(transport) {
+                var new_transport = document.getElementById(transport + '-input').value;
+                var reg;
+                if (transport == 'sms') reg = new RegExp("^0[6-7]([-. ]?[0-9]{2}){4}$");
+                else reg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                if (reg.test(new_transport)) {
+                    var oldTransport = this.user.transports[transport];
+                    this.user.transports[transport]= new_transport;
+                    document.getElementById(transport + '-input').value = '';
+                    $.ajax({
+                        method: 'PUT',
+                        url: urlPrefix + 'transport/' + transport + '/' + new_transport + urlSufix(this),
+                        dataType: 'json',
+                        cache: false,
+                        success: function(data) {
+                            if (data.code != "Ok") {
+                                this.user.transports[transport]= oldTransport;
+                                document.getElementById(transport + '-input').value = oldTransport;
+                                Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
+                            }else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
+                        }.bind(this),
+                        error: function(xhr, status, err) {
+                            this.user.transports[transport]= oldTransport;
+                            document.getElementById(transport + '-input').value = oldTransport;
+                            Materialize.toast(err, 3000, 'red darken-1');
+                            console.error('/api/transport/' + transport + '/' + new_transport, status, err.toString());
+                        }.bind(this)
+                    });
+                }else Materialize.toast('Format invalide.', 3000, 'red darken-1');
+            },
+            deleteTransport: function(transport) {
                 var oldTransport = this.user.transports[transport];
-                this.user.transports[transport]= new_transport;
-                document.getElementById(transport + '-input').value = '';
+                this.user.transports[transport]= null;
                 $.ajax({
-                    method: 'PUT',
-                    url: '/api/transport/' + transport + '/' + new_transport + '/' + this.user.uid,
+                    method: 'DELETE',
+                    url: urlPrefix + 'transport/' + transport + urlSufix(this),
                     dataType: 'json',
                     cache: false,
                     success: function(data) {
-                        if (data.code != "Ok") {
-                            this.user.transports[transport]= oldTransport;
-                            document.getElementById(transport + '-input').value = oldTransport;
-                            Materialize.toast('Erreur interne, veuillez réessayer plus tard.', 3000, 'red darken-1');
-                        }else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
+                        if (data.code != "Ok") this.user.transports[transport]= oldTransport;
                     }.bind(this),
                     error: function(xhr, status, err) {
                         this.user.transports[transport]= oldTransport;
-                        document.getElementById(transport + '-input').value = oldTransport;
                         Materialize.toast(err, 3000, 'red darken-1');
-                        console.error('/api/transport/' + transport + '/' + new_transport, status, err.toString());
+                        console.error("/data/deactivate.json", status, err.toString());
                     }.bind(this)
                 });
-            }else Materialize.toast('Format invalide.', 3000, 'red darken-1');
+            },
+            testTransport: function(transport) {
+                $.ajax({
+                    url: urlPrefix + 'transport/' + transport + '/test' + urlSufix(this),
+                    dataType: 'json',
+                    cache: false,
+                    success: function(data) {
+                        if (data.code != "Ok") Materialize.toast(data.message, 3000, 'red darken-1');
+                        else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                        Materialize.toast(err, 3000, 'red darken-1');
+                        console.error('/api/transport/' + transport + '/test', status, err.toString());
+                    }.bind(this)
+                });
+            },
         },
-        deleteTransport: function(transport) {
-            var oldTransport = this.user.transports[transport];
-            this.user.transports[transport]= null;
-            $.ajax({
-                method: 'DELETE',
-                url: '/api/transport/' + transport + '/' + this.user.uid,
-                dataType: 'json',
-                cache: false,
-                success: function(data) {
-                    if (data.code != "Ok") this.user.transports[transport]= oldTransport;
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    this.user.transports[transport]= oldTransport;
-                    Materialize.toast(err, 3000, 'red darken-1');
-                    console.error("/data/deactivate.json", status, err.toString());
-                }.bind(this)
-            });
-        },
-        testTransport: function(transport) {
-            $.ajax({
-                url: '/api/transport/' + transport + '/test/' + this.user.uid,
-                dataType: 'json',
-                cache: false,
-                success: function(data) {
-                    if (data.code != "Ok") Materialize.toast(data.message, 3000, 'red darken-1');
-                    else Materialize.toast('Transport vérifié', 3000, 'green darken-1');
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    Materialize.toast(err, 3000, 'red darken-1');
-                    console.error('/api/transport/' + transport + '/test', status, err.toString());
-                }.bind(this)
-            });
-        },
-    },
-    template: '#random_code-method'
-});
+        template: '#random_code-method'
+    });
+}
 
-var RandomCodeMailMethod = RandomCodeMethod.extend({
-    template:'#random_code_mail-method'
-});
+function randomCodeMailMethod(isManagerDashboard) {
+    randomCodeMethod(isManagerDashboard).extend({
+        template: '#random_code_mail-method'
+    });
+}
 
 var Esupnfc = Vue.extend({
 template:'#esupnfc-method'
@@ -194,8 +202,8 @@ var UserDashboard = Vue.extend({
         "push": PushMethod,
         "totp": TotpMethod,
         "bypass": BypassMethod,
-        "random_code": RandomCodeMethod,
-        "random_code_mail":RandomCodeMailMethod,
+        "random_code": randomCodeMethod(false),
+        "random_code_mail": randomCodeMailMethod(false),
 	"esupnfc":Esupnfc
     },
     template: "#user-dashboard",
@@ -351,8 +359,8 @@ var UserView = Vue.extend({
         "push": PushMethod,
         "totp": TotpMethod,
         "bypass": BypassMethod,
-        "random_code": RandomCodeMethod,
-        "random_code_mail":RandomCodeMailMethod,
+        "random_code": randomCodeMethod(true),
+        "random_code_mail": randomCodeMailMethod(true),
 	"esupnfc":Esupnfc
     },
     data: function () {

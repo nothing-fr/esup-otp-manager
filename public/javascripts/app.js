@@ -181,7 +181,7 @@ function randomCodeMethod(isManagerDashboard) {
 }
 
 function randomCodeMailMethod(isManagerDashboard) {
-    randomCodeMethod(isManagerDashboard).extend({
+    return randomCodeMethod(isManagerDashboard).extend({
         template: '#random_code_mail-method'
     });
 }

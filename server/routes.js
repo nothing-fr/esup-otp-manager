@@ -180,12 +180,6 @@ function routing() {
         });
     });
 
-    router.get('/api/secret/:method', isUser, function(req, res) {
-        request_otp_api(req, res, {
-            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/secret/', bearerAuth: true,
-        });
-    });
-
     router.put('/api/:method/activate', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',

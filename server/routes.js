@@ -183,21 +183,21 @@ function routing() {
     router.put('/api/:method/activate', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/activate/', bearerAuth: true,
+            relUrl: 'users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/activate/' + getHash(req),
         });
     });
 
     router.put('/api/:method/deactivate', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'protected/users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/deactivate/', bearerAuth: true,
+            relUrl: 'users/'+req.session.passport.user.uid+'/methods/'+req.params.method+'/deactivate/' + getHash(req),
         });
     });
 
     router.put('/api/transport/:transport/:new_transport', isUser, function(req, res) {
         request_otp_api(req, res, {
             method: 'PUT',
-            relUrl: 'users/'+ req.session.passport.user.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/' + getHash(req), bearerAuth: true,
+            relUrl: 'users/'+ req.session.passport.user.uid +'/transports/'+req.params.transport+'/'+req.params.new_transport+'/' + getHash(req),
         });
     });
 

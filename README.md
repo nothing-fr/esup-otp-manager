@@ -2,14 +2,9 @@
 Manager for the esup-otp-api. Allow users to edit theirs preferences and admins to administrate ;)
 
 ### Version
-1.1
-- new homepage
-- methods can be displayed by user profile
-- random code sent by email is defined as a separate method
-- remove transport for TOTP method
-- confirm dialog before generate bypass codes and totp Qrcode
-- confirm dialog before deactivate a method
-- various code cleanup, fix, package update
+1.2
+- validate TOTP and random_code(_mail) transport before activation
+- update some dependencies (requires "npm install")
 
 ### Requirements
 - [esup-otp-api](https://github.com/EsupPortail/esup-otp-api)

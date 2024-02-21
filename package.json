@@ -1,6 +1,6 @@
 {
   "name": "esup-otp-manager",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "repository": {
     "type": "git",
@@ -11,24 +11,36 @@
     "start": "node run"
   },
   "dependencies": {
-    "@types/node": "^16.11.10",
-    "body-parser": "~1.18.3",
-    "cookie-parser": "~1.3.5",
-    "crypto-js": "~3.1.8",
-    "debug": "3.2.7",
-    "express": "^4.17.3",
-    "express-session": "~1.15.5",
-    "express-socket.io-session": "1.3.*",
-    "pug": "^3.0.2",
-    "jquery": "3.6.1",
-    "materialize-css": "0.97.8",
-    "morgan": ">=1.9.1",
-    "passport": "^0.7.0",
+    "body-parser": "~1.20.2",
+    "cookie-parser": "~1.4.6",
+    "crypto-js": "~4.2.0",
+    "debug": "~3.2.7",
+    "express": "~4.18.2",
+    "express-session": "~1.18.0",
+    "express-socket.io-session": "~1.3.5",
+    "jquery": "~3.7.1",
+    "materialize-css": "^0.97.8",
+    "morgan": "~1.10.0",
+    "passport": "~0.7.0",
     "passport-apereo-cas": "0.2.0",
-    "request": "2.88.*",
-    "socket.io": "^4.5.2",
-    "socket.io-client": "^4.5.2",
-    "serve-favicon": "2.5.*",
-    "vue": "2.7.16"
+    "pug": "^3.0.2",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "~4.7.4",
+    "socket.io-client": "~4.7.4",
+    "undici": "^6.6.2",
+    "vue": "~2.7.16"
+  },
+  "overrides": {
+    "passport-apereo-cas": {
+      "axios": "^0.28.0",
+      "xml2js": "^0.6.2"
+    },
+    "materialize-css": {
+      "jquery": "^3.7.1",
+      "node-archiver": "npm:dry-uninstall"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20"
   }
 }

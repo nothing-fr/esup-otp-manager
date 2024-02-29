@@ -1,41 +1,50 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
 var properties = require(__dirname+'/../properties/properties');
 var utils = require(__dirname+'/../services/utils');
+const { request } = require('undici');
 
 var passport;
 
 /** @param {{ relUrl: string; bearerAuth?: true, method?: 'POST'|'PUT'|'DELETE' }} opts_ */
-function request_otp_api(req, res, opts_) {
+async function request_otp_api(req, res, opts_) {
     console.log("requesting api");
     const clientIP = req.ip;
     const userAgent = req.headers['user-agent'];
     let opts = {
         method: opts_.method,
-        url: properties.esup.api_url + opts_.relUrl,
     }
-    if (opts_.bearerAuth) {
-        opts.auth = { 'bearer': properties.esup.api_password }
-    }
+    const url = properties.esup.api_url + opts_.relUrl;
+
     opts.headers = {
         'X-Client-IP': clientIP,
         'Client-User-Agent': userAgent,
+        'Content-Type': 'application/json'
     };
+
+    if (opts_.bearerAuth) {
+        opts.headers.Authorization = 'Bearer ' + properties.esup.api_password;
+    }
+
     //console.log(opts.method +':'+ opts.url);
     //console.log(req.session.passport);
-    request(opts, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var infos = JSON.parse(body);
-            if(req.session.passport.user.uid)infos.uid = req.session.passport.user.uid;
-            infos.api_url = properties.esup.api_url;
-            //console.log(infos)
-            res.send(infos);
-        } else res.send({
+    let response;
+    try {
+        response = await request(url, opts);
+    } catch (error) {
+        return res.send({
             "code": "Error",
-            "message": error
+            "message": error.message
         });
-    });
+    }
+    /**
+     * @type {Object}
+     */
+    const infos = await response.body.json();
+    if (req.session.passport.user.uid) infos.uid = req.session.passport.user.uid;
+    infos.api_url = properties.esup.api_url;
+    //console.log(infos)
+    res.send(infos);
 }
 
 function isAuthenticated(req, res) {

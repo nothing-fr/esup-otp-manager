@@ -27,12 +27,14 @@
         "description": "Méthode permettant de s'authentifier à partir d'un code aléatoire à usage unique envoyé par SMS.",
         "verify_code": {
           "sms": {
-            "pre": "Un code vous a été envoyé par SMS au numéro",
-            "post": "Veuillez indiquer le code reçu pour valider ce numéro"
+            "title": "Code reçu par SMS",
+            "pre": "Un code vous a été envoyé par SMS au numéro <b>",
+            "post": "</b>. <br />Veuillez indiquer le code reçu pour valider ce numéro."
           },
           "mail": {
-            "pre": "Un code vous a été envoyé par email à l'adresse",
-            "post": "Veuillez indiquer le code reçu pour valider cette adresse email"
+            "title": "Code reçu par email",
+            "pre": "Un code vous a été envoyé par email à l'adresse <b>",
+            "post": "</b>. <br />Veuillez indiquer le code reçu pour valider cette adresse email."
           },
           "wrong": "Code incorrect."
         }

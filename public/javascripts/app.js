@@ -152,12 +152,29 @@ const RandomCodeMethod = Vue.extend({
                             const expected = data.otp;
                             
                             const verifyCodeMessages = this.messages.api.methods.random_code.verify_code;
-                            
-                            const defaultPromptMessage = verifyCodeMessages[transport].pre + " " + new_transport + ". " + verifyCodeMessages[transport].post;
 
-                            const verifyRandomCode = promptMessage => {
-                                const input = prompt(promptMessage); // plutôt utiliser modal + input ?
-                                if (input == expected) { // if good code
+                            Swal.fire({ // https://sweetalert2.github.io/#configuration
+                                title: verifyCodeMessages[transport].title,
+                                html: verifyCodeMessages[transport].pre + new_transport + verifyCodeMessages[transport].post,
+                                input: "number",
+                                icon: "question",
+                                // inputLabel: "Code",
+                                inputPlaceholder: "000000",
+                                customClass: { // https://sweetalert2.github.io/#customClass
+                                    popup: "modal",
+                                    container: "modal-content",
+                                    input: "center-align",
+                                    confirmButton: "waves-effect waves-light btn green darken-1",
+                                    cancelButton: "waves-effect waves-light btn red darken-1",
+                                },
+                                showCancelButton: true,
+                                allowOutsideClick: false,
+                                inputValidator: input => {
+                                    if(input != expected) {
+                                        return verifyCodeMessages.wrong;
+                                    }
+                                },
+                                preConfirm: () => {
                                     $.ajax({
                                         method: 'PUT',
                                         url: this.formatApiUrl('transport/' + transport + '/' + new_transport),
@@ -178,12 +195,8 @@ const RandomCodeMethod = Vue.extend({
                                             console.error('/api/transport/' + transport + '/' + new_transport, status, err.toString());
                                         }.bind(this)
                                     });
-                                } else if (input !== null) { // if wrong code
-                                    verifyRandomCode(verifyCodeMessages.wrong + " " + defaultPromptMessage);
                                 }
-                            }
-
-                            verifyRandomCode(defaultPromptMessage);
+                            });
                         }
                     }.bind(this),
                     error: function(xhr, status, err) {

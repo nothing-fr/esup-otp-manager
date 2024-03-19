@@ -27,12 +27,14 @@
         "description": "Method to generate random codes valid for some time",
         "verify_code": {
           "sms": {
-            "pre": "A code has been sent to you by SMS to the number",
-            "post": "Please enter the code received to validate this number"
+            "title": "Code received by SMS",
+            "pre": "A code has been sent to you by SMS to the number <b>",
+            "post": "</b>. <br />Please enter the code received to validate this number"
           },
           "mail": {
-            "pre": "A code has been sent to you by email to the address",
-            "post": "Please enter the code received to validate this email address"
+            "title": "Code received by email",
+            "pre": "A code has been sent to you by email to the address <b>",
+            "post": "</b>. <br />Please enter the code received to validate this email address"
           },
           "wrong": "Incorrect code."
         }
